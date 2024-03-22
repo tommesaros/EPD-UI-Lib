@@ -42,19 +42,29 @@ You can find all components and the design of the example apps here: [Figma EPD 
 
 #### Primary
 
-`draw_primary_button(position_x, position_y)`
+```c
+draw_primary_button(position_x, position_y)
+```
 
 #### Secondary
 
-`draw_primary_button(position_x, position_y)`
+```c
+draw_primary_button(position_x, position_y)
+```
 
 #### Ternary
 
-`draw_primary_button(position_x, position_y)`
+```c
+draw_primary_button(position_x, position_y)
+```
 
 <br/>
 
 ### Icon
+
+
+<br/>
+
 
 ### Card
 
@@ -66,21 +76,51 @@ Picture and desc here
 
 #### Big
 
+
+<br/>
+
+
 ### Slider
+
+
+<br/>
+
 
 ### Toggle
 
+
+<br/>
+
+
 ### Checkbox
+
+<br/>
+
 
 ### Radiobutton
 
+<br/>
+
+
 ### Progressbar
+
+<br/>
+
 
 ### Loading animation
 
+<br/>
+
+
 ### Scrollable list
 
+<br/>
+
+
 ### Notification toast
+
+<br/>
+
 
 ### Status bar
 
