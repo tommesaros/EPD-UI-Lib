@@ -57,3 +57,6 @@ dkms.conf
 .clang_complete
 .gcc-flags.json
 .pio
+
+# Visual Studio Code files
+.vscode/
