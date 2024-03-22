@@ -40,21 +40,31 @@ You can find all components and the design of the example apps here: [Figma EPD 
 
 ### Button
 
-* Primary
-* Secondary
-* Ternary
+#### Primary
+
+`draw_primary_button(position_x, position_y)`
+
+#### Secondary
+
+`draw_primary_button(position_x, position_y)`
+
+#### Ternary
+
+`draw_primary_button(position_x, position_y)`
+
+<br/>
 
 ### Icon
 
 ### Card
 
-**Small**
+#### Small
 
 Picture and desc here
 
-Medium
+#### Medium
 
-Big
+#### Big
 
 ### Slider
 
