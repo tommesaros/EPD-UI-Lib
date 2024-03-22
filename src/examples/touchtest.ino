@@ -7,12 +7,12 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "epd_driver.h"
-#include "../temp/image/logo.h"
-#include "../font/firasans.h"
+#include "../../temp/image/logo.h"
+#include "../../font/firasans.h"
 #include <Wire.h>
 #include <touch.h>
-#include "../temp/image/lilygo.h"
-#include "pins.h"
+#include "../../temp/image/lilygo.h"
+#include "../pins.h"
 
 TouchClass touch;
 uint8_t *framebuffer = NULL;
