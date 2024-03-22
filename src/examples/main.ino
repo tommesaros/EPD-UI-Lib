@@ -9,6 +9,8 @@
 #include "epd_driver.h"
 #include "../../temp/image/logo.h"
 #include "../../font/firasans.h"
+#include "../../font/opensans24b.h"
+#include "../../font/opensans9.h"
 #include <Wire.h>
 #include <touch.h>
 #include "../../temp/image/lilygo.h"
@@ -16,22 +18,22 @@
 
 TouchClass touch;
 uint8_t *framebuffer = NULL;
+uint8_t *framebuffer2 = NULL;
 
 const char overview[] = {
-    "Hello world! <3\n"
+    "Frame 1 +ľščťžýáíéúäô§-.\n"\
+    "➸ 448 KB ROM & External 16MBytes falsh\n"\
+    "➸ 520 KB SRAM & External 16MBytes PSRAM\n"\
 };
 
 const char mcu_features[] = {
-    "➸ Xtensa® dual-core 32-bit LX6 microprocessor\n"\
+    "Frame 2 +ľščťžýáíéúäô§-.\n"\
     "➸ 448 KB ROM & External 16MBytes falsh\n"\
     "➸ 520 KB SRAM & External 16MBytes PSRAM\n"\
-    "➸ 16 KB SRAM in RTC\n"\
-    "➸ Multi-connections in Classic BT and BLE\n"\
-    "➸ 802.11 n (2.4 GHz), up to 150 Mbps\n"\
 };
 
 const char srceen_features[] = {
-    "➸ 16 color grayscale\n"\
+    "Frame 3 +ľščťžýáíéúäô§-.\n"\
     "➸ Use with 4.7\" EPDs\n"\
     "➸ High-quality font rendering\n"\
     "➸ ~630ms for full frame draw\n"\
@@ -51,6 +53,13 @@ Rect_t area1 = {
 };
 uint8_t state = 1;
 uint8_t buf[2] = {0xD1, 0X05};
+
+const FontProperties props = {
+    .fg_color = 15,
+    .bg_color = 0,
+    .fallback_glyph = 0,
+    .flags = 0
+};
 
 void setup()
 {
@@ -76,7 +85,8 @@ void setup()
 
     epd_poweron();
     epd_clear();
-    write_string((GFXfont *)&FiraSans, (char *)overview, &cursor_x, &cursor_y, framebuffer);
+
+    write_string((GFXfont *)&FiraSans, "Initial frame", &cursor_x, &cursor_y, framebuffer);
 
     //Draw Box
     epd_draw_rect(600, 450, 120, 60, 0, framebuffer);
@@ -88,10 +98,7 @@ void setup()
     cursor_x = 755;
     cursor_y = 490;
     writeln((GFXfont *)&FiraSans, "Next", &cursor_x, &cursor_y, framebuffer);
-    epd_draw_rect(340, 450, 120, 60, 0, framebuffer);
-    cursor_x = 755;
-    cursor_y = 490;
-    writeln((GFXfont *)&FiraSans, "Ahoj", &cursor_x, &cursor_y, framebuffer);
+    
 
     Rect_t area = {
         .x = 160,
@@ -99,12 +106,31 @@ void setup()
         .width = lilygo_width,
         .height =  lilygo_height
     };
-    epd_copy_to_framebuffer(area, (uint8_t *) lilygo_data, framebuffer);
+    // epd_copy_to_framebuffer(area, (uint8_t *) lilygo_data, framebuffer);
 
     epd_draw_rect(10, 20, EPD_WIDTH - 20, EPD_HEIGHT / 2 + 80, 0, framebuffer);
-
+    
+    epd_draw_rect(340, 450, 120, 60, 0, framebuffer);
+    cursor_x = 345;
+    cursor_y = 490;
+    writeln((GFXfont *)&OpenSans9, "Ahoj", &cursor_x, &cursor_y, framebuffer);
+    epd_draw_rect(80, 80, 50, 50, 0, framebuffer);
+    epd_fill_rect(0, EPD_HEIGHT - 50, 50, 50, 0, framebuffer);
+    epd_fill_rect(50, EPD_HEIGHT - 50, 50, 50, 50, framebuffer);
+    epd_fill_rect(100, EPD_HEIGHT - 50, 50, 50, 100, framebuffer);
+    epd_fill_rect(150, EPD_HEIGHT - 50, 50, 50, 150, framebuffer);
+    epd_fill_rect(200, EPD_HEIGHT - 50, 50, 50, 200, framebuffer);
+    epd_fill_rect(250, EPD_HEIGHT - 50, 50, 50, 250, framebuffer);
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+
     epd_poweroff();
+
+    framebuffer2 = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
+    if (!framebuffer2) {
+        Serial.println("alloc memory failed !!!");
+        while (1);
+    }
+    memset(framebuffer2, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
 
 }
 
@@ -132,11 +158,11 @@ void loop()
             cursor_y = 60;
             switch (state) {
             case 0:
-                epd_clear_area(area1);
-                epd_draw_rect(340, 250, 120, 60, 0, framebuffer);
-                cursor_x = 755;
-                cursor_y = 490;
-                writeln((GFXfont *)&FiraSans, "Ahoj", &cursor_x, &cursor_y, framebuffer);
+                // epd_clear_area(area1);
+                epd_fill_rect(10, 20, EPD_WIDTH - 20, EPD_HEIGHT / 2 + 80, 150, framebuffer2);
+                // write_string((GFXfont *)&OpenSans9, (char *)overview, &cursor_x, &cursor_y, framebuffer2);
+                write_mode((GFXfont *)&OpenSans9, (char *)overview, &cursor_x, &cursor_y, framebuffer2, WHITE_ON_WHITE, &props);
+                epd_draw_grayscale_image(epd_full_screen(), framebuffer2);
                 break;
             case 1:
                 epd_clear_area(area1);
@@ -148,21 +174,8 @@ void loop()
                 break;
             case 3:
                 epd_clear_area(area1);
-                write_string((GFXfont *)&FiraSans, "DeepSleep", &cursor_x, &cursor_y, NULL);
+                write_string((GFXfont *)&OpenSans24B, "DeepSleep", &cursor_x, &cursor_y, NULL);
                 break;
-
-                /*
-                * After calling sleep, you cannot use touch to wake up, you must call wakeup to wake up
-                * * */
-                //touch.sleep();
-                //delay(5);
-
-                //pinMode(14, INPUT);
-                //pinMode(15, INPUT);
-
-                //epd_poweroff_all();
-
-                // esp_sleep_enable_ext1_wakeup(GPIO_SEL_13, ESP_EXT1_WAKEUP_ANY_HIGH);
 
 #if defined(T5_47)
                 // Set to wake up by GPIO39
