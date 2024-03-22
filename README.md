@@ -13,22 +13,41 @@ CP210x USB to UART Bridge VCP Drivers installed.
 
 ## Components
 
-* Label
-* Button
-  * Primary
-  * Secondary
-  * Ternary
-* Icon
-* Card
-  * SmallHi hello
-  * Medium
-  * Big
-* Slider
-* Toggle
-* Checkbox
-* Radiobutton
-* Progressbar
-* Loading animation
-* Scrollable list
-* Notification toast
-* Status bar
+### Label
+
+### Button
+
+* Primary
+* Secondary
+* Ternary
+
+
+### Icon
+
+### Card
+
+**Small**
+
+Picture and desc here
+
+Medium
+
+Big
+
+### Slider
+
+### Toggle
+
+### Checkbox
+
+### Radiobutton
+
+### Progressbar
+
+### Loading animation
+
+### Scrollable list
+
+### Notification toast
+
+### Status bar
