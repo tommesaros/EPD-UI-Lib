@@ -38,6 +38,9 @@ You can find all components and the design of the example apps here: [Figma EPD 
 
 #TODO pictures, description, attributes to the method, method itself
 
+<br/>
+
+
 ### Button
 
 #### Primary
@@ -60,8 +63,10 @@ draw_primary_button(position_x, position_y)
 
 <br/>
 
+
 ### Icon
 
+#TODO pictures, description, attributes to the method, method itself
 
 <br/>
 
@@ -70,11 +75,15 @@ draw_primary_button(position_x, position_y)
 
 #### Small
 
-Picture and desc here
+#TODO pictures, description, attributes to the method, method itself
 
 #### Medium
 
+#TODO pictures, description, attributes to the method, method itself
+
 #### Big
+
+#TODO pictures, description, attributes to the method, method itself
 
 
 <br/>
@@ -82,47 +91,63 @@ Picture and desc here
 
 ### Slider
 
+#TODO pictures, description, attributes to the method, method itself
 
 <br/>
 
 
 ### Toggle
 
+#TODO pictures, description, attributes to the method, method itself
 
 <br/>
 
 
 ### Checkbox
 
+#TODO pictures, description, attributes to the method, method itself
+
 <br/>
 
 
 ### Radiobutton
+
+#TODO pictures, description, attributes to the method, method itself
 
 <br/>
 
 
 ### Progressbar
 
+#TODO pictures, description, attributes to the method, method itself
+
 <br/>
 
 
 ### Loading animation
+
+#TODO pictures, description, attributes to the method, method itself
 
 <br/>
 
 
 ### Scrollable list
 
+#TODO pictures, description, attributes to the method, method itself
+
 <br/>
 
 
 ### Notification toast
 
+#TODO pictures, description, attributes to the method, method itself
+
 <br/>
 
 
 ### Status bar
+
+#TODO pictures, description, attributes to the method, method itself
 
 ## Examples
 
