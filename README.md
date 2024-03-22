@@ -12,6 +12,7 @@ This project provides a library of User Interface (UI) components designed for r
   * [PCF8563\_Library](https://github.com/lewisxhe/PCF8563_Library)
   * [LilyGoEPD47](https://github.com/Xinyuan-LilyGO/LilyGo-EPD47)
   * [Arduino/Wire](https://github.com/esp8266/Arduino/tree/master/libraries/Wire)
+  * #TODO wifi, html, json, spotifyAPI
 
 ## How to install
 
