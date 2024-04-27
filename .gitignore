@@ -60,3 +60,6 @@ dkms.conf
 
 # Visual Studio Code files
 .vscode/
+
+# Credentials
+.src/constants/credentials.c
