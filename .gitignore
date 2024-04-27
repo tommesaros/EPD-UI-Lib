@@ -62,4 +62,5 @@ dkms.conf
 .vscode/
 
 # Credentials
+.src/constants/credentials.c
 src/constants/credentials.c
