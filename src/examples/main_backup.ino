@@ -7,14 +7,20 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "epd_driver.h"
-#include "../../temp/image/logo.h"
-#include "../../font/firasans.h"
-#include "../../font/opensans24b.h"
-#include "../../font/opensans9.h"
+#include "../temp/image/logo.h"
+#include "../font/firasans.h"
+#include "../font/opensans24b.h"
+#include "../font/opensans9.h"
 #include <Wire.h>
 #include <touch.h>
-#include "../../temp/image/lilygo.h"
-#include "../pins.h"
+#include "../temp/image/lilygo.h"
+#include "pins.h"
+#include "WiFi.h"
+
+// #include "../include/wifi_connection.h"
+#include "../include/time.h"
+#include "include/credentials.h"
+#include "include/wifi_connection.h"
 
 TouchClass touch;
 uint8_t *framebuffer = NULL;
@@ -45,6 +51,9 @@ const char srceen_features[] = {
 int cursor_x = 20;
 int cursor_y = 60;
 
+int cur_x = 20;
+int cur_y = 200;
+
 Rect_t area1 = {
     .x = 10,
     .y = 20,
@@ -61,9 +70,12 @@ const FontProperties props = {
     .flags = 0
 };
 
+
 void setup()
 {
     Serial.begin(115200);
+    Serial.println("Start");
+
     epd_init();
 
     pinMode(TOUCH_INT, INPUT_PULLUP);
@@ -122,6 +134,15 @@ void setup()
     epd_fill_rect(200, EPD_HEIGHT - 50, 50, 50, 200, framebuffer);
     epd_fill_rect(250, EPD_HEIGHT - 50, 50, 50, 250, framebuffer);
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    
+    
+    WiFi.disconnect();
+    delay(100);
+    WiFi.mode(WIFI_STA);
+    // WiFi.onEvent(WiFiEvent);
+    writeln((GFXfont *)&OpenSans9, WIFI_SSID, &cur_x, &cur_y, NULL);
+    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    writeln((GFXfont *)&OpenSans9, WIFI_PASSWORD, &cur_x, &cur_y, NULL);
 
     epd_poweroff();
 
@@ -132,11 +153,17 @@ void setup()
     }
     memset(framebuffer2, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
 
+    if(WiFi.status() == WL_CONNECTED){
+            writeln((GFXfont *)&OpenSans9, "Connected: " + WiFi.localIP(), &cursor_x, &cursor_y, NULL);
+    }
+    
+
 }
 
 
 void loop()
 {
+    Serial.println("Touch detected");
     uint16_t  x, y;
     if (digitalRead(TOUCH_INT)) {
         if (touch.scanPoint()) {
@@ -153,6 +180,7 @@ void loop()
             Serial.print(millis());
             Serial.print(":");
             Serial.println(state);
+            Serial.println("Touch detected");
             epd_poweron();
             cursor_x = 20;
             cursor_y = 60;
@@ -175,6 +203,16 @@ void loop()
             case 3:
                 epd_clear_area(area1);
                 write_string((GFXfont *)&OpenSans24B, "DeepSleep", &cursor_x, &cursor_y, NULL);
+                cur_x = 20;
+                cur_y = 200;
+                if(WiFi.status() != WL_CONNECTED){
+                    writeln((GFXfont *)&OpenSans9, "[WIFI] FAILED", &cur_x, &cur_y, NULL);
+                }
+
+                if(WiFi.status() == WL_CONNECTED){
+                    writeln((GFXfont *)&OpenSans9, "Connected: " + WiFi.localIP(), &cur_x, &cur_x, NULL);
+                }
+            
                 break;
 
 #if defined(T5_47)
