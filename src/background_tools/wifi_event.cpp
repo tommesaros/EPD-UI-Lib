@@ -1,4 +1,4 @@
-// Code inspired by Lilygo example library: wifi_sync.ino, 
+// Code from Lilygo example library: wifi_sync.ino, 
 // https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/tree/esp32s3/examples/wifi_sync
 
 #include <WiFi.h>

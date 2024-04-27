@@ -20,13 +20,13 @@
 
 #include "include/credentials.h"
 #include "include/wifi_event.h"
+#include "include/time.h"
 
 #define DBG_OUTPUT_PORT Serial
 
 uint8_t *framebuffer;
 
-void setup()
-{
+void setup() {
     // Initializing serial port for debugging and monitorin purposes
     Serial.begin(115200);
 
@@ -51,8 +51,7 @@ void setup()
 }
 
 
-void loop()
-{
+void loop() {
     epd_poweron();
     epd_draw_hline(10, random(10, EPD_HEIGHT), EPD_WIDTH - 20, 0, framebuffer);
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);

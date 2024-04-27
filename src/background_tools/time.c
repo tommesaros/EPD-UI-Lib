@@ -1,4 +1,5 @@
-// From ESP32 example codes
+// Code from ESP32 example library: SimpleTime.ino, 
+
 #include <WiFi.h>
 #include "time.h"
 #include "sntp.h"
@@ -14,8 +15,7 @@ const int   daylightOffset_sec = 3600;
 
 const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
 
-void printLocalTime()
-{
+void printLocalTime() {
   struct tm timeinfo;
   if(!getLocalTime(&timeinfo)){
     Serial.println("No time available (yet)");
@@ -25,8 +25,7 @@ void printLocalTime()
 }
 
 // Callback function (get's called when time adjusts via NTP)
-void timeavailable(struct timeval *t)
-{
+void timeavailable(struct timeval *t) {
   Serial.println("Got time adjustment from NTP!");
   printLocalTime();
 }
