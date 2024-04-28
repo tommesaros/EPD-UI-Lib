@@ -25,6 +25,7 @@
 #include "include/time.h"
 #include "include/epd_handler.h"
 #include "include/touch_handler.h"
+#include "include/wifi_init.h"
 
 TouchClass touch;
 uint8_t *framebuffer = NULL;
@@ -77,15 +78,7 @@ void setup()
     framebuffer = EPDSetup();
     touch = TouchSetup();
 
-    int32_t wifi_popup_cursor_x = 150;
-    int32_t wifi_popup_cursor_y = 150;
-    writeln((GFXfont *)&OpenSans26B, "Connecting to WiFi...", &wifi_popup_cursor_x, &wifi_popup_cursor_y, framebuffer);
-    wifi_popup_cursor_x = 150;
-    wifi_popup_cursor_y = 190;
-    writeln((GFXfont *)&OpenSans12, "Please make sure that ", &wifi_popup_cursor_x, &wifi_popup_cursor_y, framebuffer);
-    writeln((GFXfont *)&OpenSans12, WIFI_SSID, &wifi_popup_cursor_x, &wifi_popup_cursor_y, framebuffer);
-    writeln((GFXfont *)&OpenSans12, " network is reachable.", &wifi_popup_cursor_x, &wifi_popup_cursor_y, framebuffer);
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    ScreenWiFiInit();
 
     while (WiFi.status() != WL_CONNECTED) {
         delay(10000);
@@ -106,8 +99,8 @@ void setup()
 
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     
-    wifi_popup_cursor_x = 50;
-    wifi_popup_cursor_y = 450;
+    int32_t wifi_popup_cursor_x = 50;
+    int32_t wifi_popup_cursor_y = 450;
 
     delay(1000);
 
