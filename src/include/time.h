@@ -1,6 +1,8 @@
-#ifndef _TIME_H
-#define _TIME_H
+#ifndef TIME_H
+#define TIME_H
 
+void TimeSetup();
+int TimeGetHour();
+int TimeGetMinute();
 
-
-#endif // _TIME_H
+#endif // TIME_H

@@ -1,6 +1,7 @@
-#ifndef _WIFI_EVENT_H
-#define _WIFI_EVENT_H
+#ifndef WIFI_EVENT_H
+#define WIFI_EVENT_H
 
+void WiFiSetup();
 void WiFiEvent(WiFiEvent_t event);
 
-#endif // _WIFI_EVENT_H
+#endif // WIFI_EVENT_H
