@@ -23,5 +23,9 @@ In the Spotify Developer page, set your "redirect URI" to "http://localhost:8888
 /*
 To get the refresh token, you need to follow the instructions in the README of this repository:
 https://github.com/arnvgh/get-spotify-refresh-token
+In main.py file, change spotipy.SpotifyOAuth scope on line 12 from
+scope="playlist-modify-private" to
+scope="playlist-modify-private user-read-playback-state user-read-currently-playing user-read-playback-position user-modify-playback-state app-remote-control"
+Then copy the "refresh_token" from .cache file and paste it below.
 */
 #define SPOTIFY_REFRESH_TOKEN ""
