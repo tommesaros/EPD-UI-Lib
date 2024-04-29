@@ -2,6 +2,7 @@
 #error "Please enable PSRAM !!!"
 #endif
 
+// External libraries
 #include <Arduino.h>
 #include <esp_task_wdt.h>
 #include "freertos/FreeRTOS.h"
@@ -15,17 +16,23 @@
 #include "pins.h"
 #include <WiFi.h>
 
+// Fonts
 #include "../font/opensans12.h"
 #include "../font/opensans18.h"
 #include "../font/opensans26b.h"
 
+// Handlers
+#include "include/handlers/wifi_handler.h"
+#include "include/handlers/time_handler.h"
+#include "include/handlers/epd_handler.h"
+#include "include/handlers/touch_handler.h"
+#include "include/handlers/framebuffer_handler.h"
 
-#include "include/wifi_event.h"
+// Credentials
 #include "include/credentials.h"
-#include "include/time.h"
-#include "include/epd_handler.h"
-#include "include/touch_handler.h"
-#include "include/wifi_init.h"
+
+// Apps
+#include "include/apps/wifi_init/wifi_init.h"
 
 TouchClass touch;
 uint8_t *framebuffer = NULL;
@@ -70,13 +77,35 @@ Rect_t area1 = {
 uint8_t state = 1;
 uint8_t buf[2] = {0xD1, 0X05};
 
+void updateTimeTask(void *parameter) {
+    //TODO theres no need to update the time everytime from the server
+    int32_t wifi_popup_cursor_x = 50;
+    int32_t wifi_popup_cursor_y = 490;
+    while (true) {
+        // Update the time here
+        epd_poweron();
+        writeln((GFXfont *)&OpenSans12, "Current Time: ", &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
+        char hour_str[2];
+        sprintf(hour_str, "%02d", TimeGetHour());
+        writeln((GFXfont *)&OpenSans12, hour_str, &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
+
+        char minute_str[2];
+        sprintf(minute_str, "%02d", TimeGetMinute());
+        writeln((GFXfont *)&OpenSans12, minute_str, &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
+        epd_poweron();
+
+        vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
+    }
+}
+
 void setup()
 {
     Serial.begin(115200);
     WiFiSetup();
     TimeSetup();
-    framebuffer = EPDSetup();
+    EPDSetup();
     touch = TouchSetup();
+    CreateFramebuffers();
 
     ScreenWiFiInit();
 
@@ -85,6 +114,8 @@ void setup()
     }
 
     epd_clear();
+
+    framebuffer = GetMainFramebuffer();
 
     //Draw Box
     epd_draw_rect(600, 450, 120, 60, 0, framebuffer);
@@ -110,14 +141,15 @@ void setup()
     wifi_popup_cursor_x = 50;
     wifi_popup_cursor_y = 490;
 
-    writeln((GFXfont *)&OpenSans12, "Current Time: ", &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
-    char hour_str[2];
-    sprintf(hour_str, "%02d", TimeGetHour());
-    writeln((GFXfont *)&OpenSans12, hour_str, &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
-
-    char minute_str[2];
-    sprintf(minute_str, "%02d", TimeGetMinute());
-    writeln((GFXfont *)&OpenSans12, minute_str, &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
+    xTaskCreatePinnedToCore(
+        updateTimeTask,    // Task function
+        "UpdateTimeTask",  // Task name
+        4096,              // Stack size (in words)
+        NULL,              // Task parameter
+        1,                 // Task priority
+        NULL,              // Task handle
+        0                  // Core number (0 or 1)
+    );
 
     epd_poweroff();
 }

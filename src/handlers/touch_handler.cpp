@@ -11,7 +11,7 @@
 #include <touch.h>
 #include "pins.h"
 
-#include "../include/touch_handler.h"
+#include "../include/handlers/touch_handler.h"
 
 TouchClass TouchSetup() {
     TouchClass touch;

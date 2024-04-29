@@ -3,10 +3,8 @@
 
 #include <WiFi.h>
 
-#include "../include/wifi_event.h"
+#include "../include/handlers/wifi_handler.h"
 #include "../include/credentials.h"
-
-
 
 void WiFiSetup() {
     WiFi.disconnect();

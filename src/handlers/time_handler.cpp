@@ -4,7 +4,7 @@
 #include "time.h"
 #include "sntp.h"
 
-#include "../include/time.h"
+#include "../include/handlers/time_handler.h"
 
 
 const char* ntpServer1 = "pool.ntp.org";
