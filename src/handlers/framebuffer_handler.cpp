@@ -18,11 +18,15 @@ uint8_t* CreateFramebuffer() {
     return framebuffer;
 }
 
-void CreateFramebuffers() {
+void InitFramebuffers() {
     main_framebuffer = CreateFramebuffer();
     statusbar_framebuffer = CreateFramebuffer();
     notification_framebuffer = CreateFramebuffer();
     popup_framebuffer = CreateFramebuffer();
+}
+
+void CleanFramebuffer(uint8_t *framebuffer) {
+    memset(framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
 }
 
 uint8_t* GetMainFramebuffer() {

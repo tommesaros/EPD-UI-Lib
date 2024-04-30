@@ -1,6 +1,7 @@
-// Code from Lilygo example library: wifi_sync.ino, 
-// https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/tree/esp32s3/examples/wifi_sync
-// TODO edit
+/*******************************************************************
+ * Code based on Lilygo example library: touch.ino, 
+ * https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/blob/esp32s3/examples/touch/touch.ino
+*******************************************************************/
 
 #include <Arduino.h>
 #include <esp_task_wdt.h>

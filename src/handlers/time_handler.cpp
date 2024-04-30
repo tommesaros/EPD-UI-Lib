@@ -1,4 +1,6 @@
-// Code from ESP32 example library: SimpleTime.ino, 
+/*******************************************************************
+ *Code based on ESP32 example library: SimpleTime.ino
+*******************************************************************/
 
 #include <WiFi.h>
 #include "time.h"

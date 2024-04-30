@@ -14,11 +14,11 @@ create a new application (name it whatever you want).
 Copy the "client ID" and "client secret" from Spotify Developer page and paste it below.
 In the Spotify Developer page, set your "redirect URI" to "http://localhost:8888/".
 */
-#define CLIENT_ID  ""
-#define CLIENT_SECRET "" 
+const char* SPOTIFY_CLIENT_ID       = "";
+const char* SPOTIFY_CLIENT_SECRET   = "";
 
 // Country code, including this is advisable
-#define SPOTIFY_MARKET "GB"
+const char* SPOTIFY_MARKET          = "GB";
 
 /*
 To get the refresh token, you need to follow the instructions in the README of this repository:
@@ -28,4 +28,4 @@ scope="playlist-modify-private" to
 scope="playlist-modify-private user-read-playback-state user-read-currently-playing user-read-playback-position user-modify-playback-state app-remote-control"
 Then copy the "refresh_token" from .cache file and paste it below.
 */
-#define SPOTIFY_REFRESH_TOKEN ""
+const char* SPOTIFY_REFRESH_TOKEN   = "";

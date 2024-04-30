@@ -2,37 +2,45 @@
 #error "Please enable PSRAM !!!"
 #endif
 
+// ----------------------------
 // External libraries
+// ----------------------------
 #include <Arduino.h>
 #include <esp_task_wdt.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "epd_driver.h"
-#include "../image/logo.h"
-#include "../font/firasans.h"
 #include <Wire.h>
 #include <touch.h>
-#include "../image/lilygo.h"
 #include "pins.h"
 #include <WiFi.h>
 
+// ----------------------------
 // Fonts
+// ----------------------------
 #include "../font/opensans12.h"
 #include "../font/opensans18.h"
 #include "../font/opensans26b.h"
 
+// ----------------------------
 // Handlers
+// ----------------------------
 #include "include/handlers/wifi_handler.h"
 #include "include/handlers/time_handler.h"
 #include "include/handlers/epd_handler.h"
 #include "include/handlers/touch_handler.h"
 #include "include/handlers/framebuffer_handler.h"
 
+// ----------------------------
 // Credentials
+// ----------------------------
 #include "include/credentials.h"
 
+// ----------------------------
 // Apps
+// ----------------------------
 #include "include/apps/wifi_init/wifi_init.h"
+#include "include/apps/spotify/spotify.h"
 
 TouchClass touch;
 uint8_t *framebuffer = NULL;
@@ -105,7 +113,7 @@ void setup()
     TimeSetup();
     EPDSetup();
     touch = TouchSetup();
-    CreateFramebuffers();
+    InitFramebuffers();
 
     ScreenWiFiInit();
 
@@ -121,12 +129,12 @@ void setup()
     epd_draw_rect(600, 450, 120, 60, 0, framebuffer);
     cursor_x = 615;
     cursor_y = 490;
-    writeln((GFXfont *)&FiraSans, "Prev", &cursor_x, &cursor_y, framebuffer);
+    writeln((GFXfont *)&OpenSans12, "Prev", &cursor_x, &cursor_y, framebuffer);
 
     epd_draw_rect(740, 450, 120, 60, 0, framebuffer);
     cursor_x = 755;
     cursor_y = 490;
-    writeln((GFXfont *)&FiraSans, "Next", &cursor_x, &cursor_y, framebuffer);
+    writeln((GFXfont *)&OpenSans12, "Next", &cursor_x, &cursor_y, framebuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     
@@ -144,13 +152,26 @@ void setup()
     xTaskCreatePinnedToCore(
         updateTimeTask,    // Task function
         "UpdateTimeTask",  // Task name
-        4096,              // Stack size (in words)
+        5000,              // Stack size (in words)
         NULL,              // Task parameter
         1,                 // Task priority
         NULL,              // Task handle
-        0                  // Core number (0 or 1)
+        tskNO_AFFINITY     // Core number (0 or 1)
     );
 
+    delay(1000);
+
+    xTaskCreatePinnedToCore(
+        ScreenSpotify,     // Task function
+        "ScreenSpotify",   // Task name
+        5000,              // Stack size (in words)
+        NULL,              // Task parameter
+        1,                 // Task priority
+        NULL,              // Task handle
+        tskNO_AFFINITY     // Core number (0 or 1)
+    );
+
+    // task handle can be used to delete the task!!
     epd_poweroff();
 }
 
@@ -176,36 +197,7 @@ void loop()
             epd_poweron();
             cursor_x = 20;
             cursor_y = 60;
-            switch (state) {
-            case 0:
-                epd_clear_area(area1);
-                write_string((GFXfont *)&FiraSans, (char *)overview, &cursor_x, &cursor_y, NULL);
-                break;
-            case 1:
-                epd_clear_area(area1);
-                write_string((GFXfont *)&FiraSans, (char *)srceen_features, &cursor_x, &cursor_y, NULL);
-                break;
-            case 2:
-                epd_clear_area(area1);
-                write_string((GFXfont *)&FiraSans, (char *)mcu_features, &cursor_x, &cursor_y, NULL);
-                break;
-            case 3:
-                
-
-#if defined(T5_47)
-                // Set to wake up by GPIO39
-                esp_sleep_enable_ext1_wakeup(GPIO_SEL_39, ESP_EXT1_WAKEUP_ALL_LOW);
-#elif defined(T5_47_PLUS)
-                esp_sleep_enable_ext1_wakeup(GPIO_SEL_21, ESP_EXT1_WAKEUP_ALL_LOW);
-#endif
-                esp_deep_sleep_start();
-                break;
-            case 4:
-                break;
-            default:
-                break;
-            }
-            epd_poweroff();
+            
 
             while (digitalRead(TOUCH_INT)) {
             }
