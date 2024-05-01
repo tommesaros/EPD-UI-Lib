@@ -14,6 +14,7 @@
 #include <touch.h>
 #include "pins.h"
 #include <WiFi.h>
+#include <ArduinoJson.h>
 
 // ----------------------------
 // Fonts
