@@ -18,9 +18,6 @@
 // External libraries
 // ----------------------------
 #include <Arduino.h>
-#include <esp_task_wdt.h>
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
 #include "epd_driver.h"
 #include <Wire.h>
 #include <touch.h>
@@ -28,7 +25,6 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <SpotifyArduino.h>
-#include <SpotifyArduinoCert.h>
 #include <ArduinoJson.h>
 
 // ----------------------------
@@ -44,6 +40,7 @@
 #include "../../include/handlers/epd_handler.h"
 #include "../../include/handlers/touch_handler.h"
 #include "../../include/handlers/framebuffer_handler.h"
+#include "../../include/handlers/spotify_handler.h"
 
 // ----------------------------
 // Credentials
@@ -56,82 +53,20 @@
 // ----------------------------
 #include "../../include/apps/spotify/spotify.h"
 
-WiFiClientSecure client;
-SpotifyArduino spotify(client, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN);
-
-unsigned long delayBetweenRequests = 5000; // Time between requests (1 minute)
-unsigned long requestDueTime;               //time when request due
-
-void printCurrentlyPlaying(CurrentlyPlaying currentlyPlaying);
-
-void checkIfPlaying() {
-    int cursor_x = 20;
-    int cursor_y = 100;
-    writeln((GFXfont *)&OpenSans12, "getting currently playing song:\n", &cursor_x, &cursor_y, NULL);
-    // Market can be excluded if you want e.g. spotify.getCurrentlyPlaying()
-    int status = spotify.getCurrentlyPlaying(printCurrentlyPlaying, SPOTIFY_MARKET);
-    if (status == 200)
-    {
-        writeln((GFXfont *)&OpenSans12, "Successfully got currently playing\n", &cursor_x, &cursor_y, NULL);
-    }
-    else if (status == 204)
-    {
-        writeln((GFXfont *)&OpenSans12, "Doesn't seem to be anything playing\n", &cursor_x, &cursor_y, NULL);
-    }
-    else
-    {
-        writeln((GFXfont *)&OpenSans12, "Error: \n", &cursor_x, &cursor_y, NULL);
-        // writeln((GFXfont *)&OpenSans12, status, &cursor_x, &cursor_y, NULL);
-    }
-
-    char heapSize[10];
-    sprintf(heapSize, "%d", esp_get_free_heap_size());
-    writeln((GFXfont *)&OpenSans12, heapSize, &cursor_x, &cursor_y, NULL);
-}
-
-void ScreenSpotify(void *parameter) {
-    while (true) {
-        Rect_t areaspotify = {
+int lastChangeIndex = 0;
+Rect_t areaspotify = {
             .x = 10,
             .y = 20,
             .width = EPD_WIDTH - 20,
             .height =  EPD_HEIGHT / 2 + 80
         };
-        epd_clear_area(areaspotify);
-        // Handle HTTPS Verification
-        client.setCACert(spotify_server_cert);
 
-        // ... or don't!
-        //client.setInsecure();
-
-        int cursor_x = 20;
-        int cursor_y = 60;
-        char heapSize[10];
-        sprintf(heapSize, "%d", esp_get_free_heap_size());
-        writeln((GFXfont *)&OpenSans12, heapSize, &cursor_x, &cursor_y, NULL);
-
-        if (!spotify.refreshAccessToken())
-        {
-            //TODO cross icon and framebuffer
-            writeln((GFXfont *)&OpenSans12, "Failed to get Spotify access tokens", &cursor_x, &cursor_y, NULL);
-        }
-        
-        checkIfPlaying();
-        vTaskDelay(pdMS_TO_TICKS(30000)); // Delay for 1 minute
-    }
-}
-
-void printCurrentlyPlaying(CurrentlyPlaying currentlyPlaying) {
-    // Use the details in this method or if you want to store them
-    // make sure you copy them (using something like strncpy)
-    // const char* artist =
+void printCurrentlyPlaying() {
+    epd_clear_area(areaspotify);
     int cursor_x = 20;
     int cursor_y = 140;
-    writeln((GFXfont *)&OpenSans12, "--------- Currently Playing ---------\n", &cursor_x, &cursor_y, NULL);
-    cursor_x = 20;
-    cursor_y += 40;
     writeln((GFXfont *)&OpenSans12, "Is Playing: \n", &cursor_x, &cursor_y, NULL);
-    if (currentlyPlaying.isPlaying)
+    if (getIsPlaying())
     {
         writeln((GFXfont *)&OpenSans12, "Yes", &cursor_x, &cursor_y, NULL);
         // display play icon
@@ -144,47 +79,40 @@ void printCurrentlyPlaying(CurrentlyPlaying currentlyPlaying) {
     cursor_x = 20;
     cursor_y += 40;
     writeln((GFXfont *)&OpenSans12, "Track: ", &cursor_x, &cursor_y, NULL);
-    writeln((GFXfont *)&OpenSans12, currentlyPlaying.trackName, &cursor_x, &cursor_y, NULL);
+    writeln((GFXfont *)&OpenSans12, getTrackName(), &cursor_x, &cursor_y, NULL);
 
     cursor_x = 20;
     cursor_y += 40;
     writeln((GFXfont *)&OpenSans12, "Artists: ", &cursor_x, &cursor_y, NULL);
-    for (int i = 0; i < currentlyPlaying.numArtists; i++)
-    {
-        writeln((GFXfont *)&OpenSans12, currentlyPlaying.artists[i].artistName, &cursor_x, &cursor_y, NULL);
-        writeln((GFXfont *)&OpenSans12, ", ", &cursor_x, &cursor_y, NULL);
-    }
+    writeln((GFXfont *)&OpenSans12, getArtists(), &cursor_x, &cursor_y, NULL);
 
     cursor_x = 20;
     cursor_y += 40;
     writeln((GFXfont *)&OpenSans12, "Album: ", &cursor_x, &cursor_y, NULL);
-    writeln((GFXfont *)&OpenSans12, currentlyPlaying.albumName, &cursor_x, &cursor_y, NULL);
+    writeln((GFXfont *)&OpenSans12, getAlbumName(), &cursor_x, &cursor_y, NULL);
+}
 
-    /*
-    long progress = currentlyPlaying.progressMs; // duration passed in the song
-    long duration = currentlyPlaying.durationMs; // Length of Song
-    Serial.print("Elapsed time of song (ms): ");
-    Serial.print(progress);
-    Serial.print(" of ");
-    Serial.println(duration);
-    Serial.println();
-    
+void updateScreenSpotify(void *parameter) {
+    while (true) {
+        
 
-    float percentage = ((float)progress / (float)duration) * 100;
-    int clampedPercentage = (int)percentage;
-    Serial.print("<");
-    for (int j = 0; j < 50; j++)
-    {
-        if (clampedPercentage >= (j * 2))
-        {
-            Serial.print("=");
+        if (lastChangeIndex != getChangeIndex()) {
+            lastChangeIndex = getChangeIndex();
+            printCurrentlyPlaying();
         }
-        else
-        {
-            Serial.print("-");
-        }
+
+        vTaskDelay(pdMS_TO_TICKS(10000)); // Delay for 1 minute
     }
-    Serial.println(">");
-    Serial.println();
-    */
+}
+
+void ScreenSpotify() {
+    xTaskCreatePinnedToCore(
+        updateScreenSpotify,    // Task function
+        "updateScreenSpotify",  // Task name
+        10000,              // Stack size (in words)
+        NULL,              // Task parameter
+        1,                 // Task priority
+        NULL,              // Task handle
+        tskNO_AFFINITY     // Core number (0 or 1)
+    );
 }

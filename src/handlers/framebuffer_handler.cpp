@@ -18,7 +18,7 @@ uint8_t* CreateFramebuffer() {
     return framebuffer;
 }
 
-void InitFramebuffers() {
+void FramebufferSetup() {
     main_framebuffer = CreateFramebuffer();
     statusbar_framebuffer = CreateFramebuffer();
     notification_framebuffer = CreateFramebuffer();

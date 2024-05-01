@@ -1,10 +1,13 @@
+# 1 "C:\\Users\\tomme\\AppData\\Local\\Temp\\tmpdl2_pywu"
+#include <Arduino.h>
+# 1 "C:/Users/tomme/MUNI/Bakalarka/Source/EPD-UI-Lib/EPD-UI-Lib/src/main.ino"
 #ifndef BOARD_HAS_PSRAM
 #error "Please enable PSRAM !!!"
 #endif
 
-// ----------------------------
-// External libraries
-// ----------------------------
+
+
+
 #include <Arduino.h>
 #include <esp_task_wdt.h>
 #include "freertos/FreeRTOS.h"
@@ -15,16 +18,16 @@
 #include "pins.h"
 #include <WiFi.h>
 
-// ----------------------------
-// Fonts
-// ----------------------------
+
+
+
 #include "../font/opensans12.h"
 #include "../font/opensans18.h"
 #include "../font/opensans26b.h"
 
-// ----------------------------
-// Handlers
-// ----------------------------
+
+
+
 #include "include/handlers/wifi_handler.h"
 #include "include/handlers/time_handler.h"
 #include "include/handlers/epd_handler.h"
@@ -32,14 +35,14 @@
 #include "include/handlers/framebuffer_handler.h"
 #include "include/handlers/spotify_handler.h"
 
-// ----------------------------
-// Credentials
-// ----------------------------
+
+
+
 #include "include/credentials.h"
 
-// ----------------------------
-// Apps
-// ----------------------------
+
+
+
 #include "include/apps/wifi_init/wifi_init.h"
 #include "include/apps/spotify/spotify.h"
 
@@ -72,7 +75,7 @@ const char srceen_features[] = {
 };
 
 
-// const char *string_array[] = {overview, mcu_features, srceen_features};
+
 
 int cursor_x = 20;
 int cursor_y = 60;
@@ -81,17 +84,20 @@ Rect_t area1 = {
     .x = 10,
     .y = 20,
     .width = EPD_WIDTH - 20,
-    .height =  EPD_HEIGHT / 2 + 80
+    .height = EPD_HEIGHT / 2 + 80
 };
 uint8_t state = 1;
 uint8_t buf[2] = {0xD1, 0X05};
-
+void updateTimeTask(void *parameter);
+void setup();
+void loop();
+#line 89 "C:/Users/tomme/MUNI/Bakalarka/Source/EPD-UI-Lib/EPD-UI-Lib/src/main.ino"
 void updateTimeTask(void *parameter) {
-    //TODO theres no need to update the time everytime from the server
+
     int32_t wifi_popup_cursor_x = 50;
     int32_t wifi_popup_cursor_y = 490;
     while (true) {
-        // Update the time here
+
         epd_poweron();
         writeln((GFXfont *)&OpenSans12, "Current Time: ", &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
         char hour_str[2];
@@ -103,7 +109,7 @@ void updateTimeTask(void *parameter) {
         writeln((GFXfont *)&OpenSans12, minute_str, &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
         epd_poweron();
 
-        vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
+        vTaskDelay(pdMS_TO_TICKS(60000));
     }
 }
 
@@ -117,7 +123,7 @@ void setup()
     SpotifySetup();
     TimeSetup();
     touch = TouchSetup();
-    
+
     while (WiFi.status() != WL_CONNECTED) {
         delay(5000);
     }
@@ -126,7 +132,7 @@ void setup()
 
     framebuffer = GetMainFramebuffer();
 
-    //Draw Box
+
     epd_draw_rect(600, 450, 120, 60, 0, framebuffer);
     cursor_x = 615;
     cursor_y = 490;
@@ -138,7 +144,7 @@ void setup()
     writeln((GFXfont *)&OpenSans12, "Next", &cursor_x, &cursor_y, framebuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
-    
+
     int32_t wifi_popup_cursor_x = 50;
     int32_t wifi_popup_cursor_y = 450;
 
@@ -151,24 +157,24 @@ void setup()
     wifi_popup_cursor_y = 490;
 
     xTaskCreatePinnedToCore(
-        updateTimeTask,    // Task function
-        "UpdateTimeTask",  // Task name
-        5000,              // Stack size (in words)
-        NULL,              // Task parameter
-        1,                 // Task priority
-        NULL,              // Task handle
-        tskNO_AFFINITY     // Core number (0 or 1)
+        updateTimeTask,
+        "UpdateTimeTask",
+        5000,
+        NULL,
+        1,
+        NULL,
+        tskNO_AFFINITY
     );
 
     delay(1000);
     ScreenSpotify();
-    // task handle can be used to delete the task!!
+
 }
 
 
 void loop()
 {
-    uint16_t  x, y;
+    uint16_t x, y;
     if (digitalRead(TOUCH_INT)) {
         if (touch.scanPoint()) {
             touch.getPoint(x, y, 0);
@@ -190,7 +196,7 @@ void loop()
             epd_poweron();
             cursor_x = 20;
             cursor_y = 60;
-            
+
 
             while (digitalRead(TOUCH_INT)) {
             }
