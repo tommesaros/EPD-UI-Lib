@@ -37,7 +37,7 @@
 // ----------------------------
 // Images
 // ----------------------------
-#include "../../../image/spotify_icon.h"
+#include "../../../image/white_bg/spotify_icon.h"
 
 // ----------------------------
 // Handlers

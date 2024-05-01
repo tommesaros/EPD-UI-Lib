@@ -1,14 +1,34 @@
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <Arduino.h>
 #include "epd_driver.h"
 
+// ----------------------------
+// Fonts
+// ----------------------------
 #include "../../../font/opensans12.h"
 #include "../../../font/opensans26b.h"
 
-#include "../../../image/wifi_icon.h"
+// ----------------------------
+// Images
+// ----------------------------
+#include "../../../image/white_bg/wifi_icon.h"
 
+// ----------------------------
+// Credentials
+// Make sure to import your own credentials to the credentials.h file!
+// ----------------------------
 #include "../../include/credentials.h"
 
+// ----------------------------
+// Handlers
+// ----------------------------
 #include "../../include/handlers/framebuffer_handler.h"
+
+// ----------------------------
+// Apps
+// ----------------------------
 #include "../../include/apps/wifi_init/wifi_init.h"
 
 void ScreenWiFiInit() {
