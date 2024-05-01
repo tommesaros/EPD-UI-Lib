@@ -2,7 +2,7 @@
 #define FRAMEBUFFER_HANDLER_H
 
 void FramebufferSetup();
-void CleanFramebuffer(uint8_t *framebuffer);
+void CleanFramebuffer(uint8_t *framebuffer, Rect_t area);
 uint8_t* GetMainFramebuffer();
 uint8_t* GetStatubarFramebuffer();
 uint8_t* GetNotificationFramebuffer();

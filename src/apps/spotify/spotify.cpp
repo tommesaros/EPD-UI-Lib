@@ -69,8 +69,8 @@ Rect_t areaspotify = {
 uint8_t * spotifyFrameBuffer;
 
 void printCurrentlyPlaying() {
-    // CleanFramebuffer(mainFrameBuffer);
-
+    CleanFramebuffer(spotifyFrameBuffer, areaspotify);
+    //TODO add Spotify barcode
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
     writeln((GFXfont *)&OpenSans12, "Is Playing: \n", &cursor_x, &cursor_y, spotifyFrameBuffer);
@@ -121,6 +121,9 @@ void updateScreenSpotify(void *parameter) {
 }
 
 void ScreenSpotify(uint8_t * framebuffer) {
+    int cursor_x = 20; //TODO relative to mainbuffer
+    int cursor_y = 140;
+    writeln((GFXfont *)&OpenSans12, "Make sure you are playing Spotify music on some other device.", &cursor_x, &cursor_y, spotifyFrameBuffer);
     spotifyFrameBuffer = framebuffer;
 
     xTaskCreatePinnedToCore(
@@ -133,3 +136,14 @@ void ScreenSpotify(uint8_t * framebuffer) {
         tskNO_AFFINITY     // Core number (0 or 1)
     );
 }
+
+/*
+//TODO controls
+spotify.previousTrack();
+spotify.nextTrack();
+spotify.pause();
+spotify.play();
+spotify.toggleShuffle(true);
+spotify.toggleShuffle(false);
+manual refresh of the screen
+*/

@@ -120,12 +120,12 @@ void setup()
     touch = TouchSetup();
     
     while (WiFi.status() != WL_CONNECTED) {
-        delay(5000);
+        delay(2000);
     }
 
-    epd_clear();
-
     mainFramebuffer = GetMainFramebuffer();
+
+    CleanFramebuffer(mainFramebuffer, epd_full_screen());
 
     //Draw Box
     epd_draw_rect(600, 450, 120, 60, 0, mainFramebuffer);
@@ -177,7 +177,7 @@ void loop()
                 writeln((GFXfont *)&OpenSans12, "stlačené", &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
                 ScreenSpotify(mainFramebuffer);
             } else if ((x > 740 && x < 860) && (y > 450 && y < 510)) {
-                state++;
+                
             } else {
                 return;
             }

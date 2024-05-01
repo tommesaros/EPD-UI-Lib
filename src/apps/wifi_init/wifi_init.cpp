@@ -13,7 +13,7 @@
 
 void ScreenWiFiInit() {
     uint8_t *framebuffer = GetPopupFramebuffer();
-    CleanFramebuffer(framebuffer);
+    CleanFramebuffer(framebuffer, epd_full_screen());
 
     int32_t wifi_popup_cursor_x = 100;
     int32_t wifi_popup_cursor_y = 240;

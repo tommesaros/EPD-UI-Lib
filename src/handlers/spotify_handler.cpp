@@ -48,6 +48,7 @@ char artists[100] = "";
 char albumName[100] = "";
 char trackName[100] = "";
 
+bool prevIsPlaying = false;
 char trackUri[100] = "";
 char prevTrackUri[100] = "";
 
@@ -89,6 +90,11 @@ void updateCurrentlyPlaying(void *parameter) {
         if (strcmp(prevTrackUri, trackUri) != 0) {
             changeIndex++;
             strcpy(prevTrackUri, trackUri);
+        }
+
+        if (prevIsPlaying != isPlaying) {
+            changeIndex++;
+            prevIsPlaying = isPlaying;
         }
         
         vTaskDelay(pdMS_TO_TICKS(10000)); // Delay for 1 minute
@@ -134,4 +140,8 @@ char *getAlbumName() {
 
 char *getTrackName() {
     return trackName;
+}
+
+SpotifyArduino getSpotifyAgent() {
+    return spotify;
 }

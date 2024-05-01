@@ -10,5 +10,6 @@ bool getIsPlaying();
 char *getArtists();
 char *getAlbumName();
 char *getTrackName();
+SpotifyArduino getSpotifyAgent();
 
 #endif // SPOTIFY_HANDLER_H

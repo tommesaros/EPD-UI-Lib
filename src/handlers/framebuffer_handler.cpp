@@ -25,8 +25,9 @@ void FramebufferSetup() {
     popup_framebuffer = CreateFramebuffer();
 }
 
-void CleanFramebuffer(uint8_t *framebuffer) {
+void CleanFramebuffer(uint8_t *framebuffer, Rect_t area) {
     memset(framebuffer, 0xFF, EPD_WIDTH * EPD_HEIGHT / 2);
+    epd_clear_area_cycles(area, 2, 5);
 }
 
 uint8_t* GetMainFramebuffer() {
