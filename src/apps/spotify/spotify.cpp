@@ -32,7 +32,12 @@
 // ----------------------------
 #include "../../../font/opensans12.h"
 #include "../../../font/opensans18.h"
-#include "../../../font/opensans26b.h"
+#include "../../../font/opensans20b.h"
+
+// ----------------------------
+// Images
+// ----------------------------
+#include "../../../image/spotify_icon.h"
 
 // ----------------------------
 // Handlers
@@ -61,35 +66,45 @@ Rect_t areaspotify = {
             .height =  EPD_HEIGHT / 2 + 80
         };
 
+uint8_t * spotifyFrameBuffer;
+
 void printCurrentlyPlaying() {
-    epd_clear_area(areaspotify);
-    int cursor_x = 20;
+    // CleanFramebuffer(mainFrameBuffer);
+
+    int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
-    writeln((GFXfont *)&OpenSans12, "Is Playing: \n", &cursor_x, &cursor_y, NULL);
+    writeln((GFXfont *)&OpenSans12, "Is Playing: \n", &cursor_x, &cursor_y, spotifyFrameBuffer);
     if (getIsPlaying())
     {
-        writeln((GFXfont *)&OpenSans12, "Yes", &cursor_x, &cursor_y, NULL);
+        writeln((GFXfont *)&OpenSans12, "Yes", &cursor_x, &cursor_y, spotifyFrameBuffer);
         // display play icon
     }
     else
     {
-        writeln((GFXfont *)&OpenSans12, "No", &cursor_x, &cursor_y, NULL);
+        writeln((GFXfont *)&OpenSans12, "No", &cursor_x, &cursor_y, spotifyFrameBuffer);
         // display pause icon
     }
     cursor_x = 20;
     cursor_y += 40;
-    writeln((GFXfont *)&OpenSans12, "Track: ", &cursor_x, &cursor_y, NULL);
-    writeln((GFXfont *)&OpenSans12, getTrackName(), &cursor_x, &cursor_y, NULL);
+    writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     cursor_x = 20;
     cursor_y += 40;
-    writeln((GFXfont *)&OpenSans12, "Artists: ", &cursor_x, &cursor_y, NULL);
-    writeln((GFXfont *)&OpenSans12, getArtists(), &cursor_x, &cursor_y, NULL);
+    writeln((GFXfont *)&OpenSans12, getArtists(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     cursor_x = 20;
     cursor_y += 40;
-    writeln((GFXfont *)&OpenSans12, "Album: ", &cursor_x, &cursor_y, NULL);
-    writeln((GFXfont *)&OpenSans12, getAlbumName(), &cursor_x, &cursor_y, NULL);
+    writeln((GFXfont *)&OpenSans12, getAlbumName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
+
+    Rect_t iconArea = {
+        .x = EPD_WIDTH - 100 - spotify_icon_width,
+        .y = EPD_HEIGHT / 2 - spotify_icon_height / 2,
+        .width = spotify_icon_width,
+        .height =  spotify_icon_height
+    };
+    epd_copy_to_framebuffer(iconArea, (uint8_t *) spotify_icon_data, spotifyFrameBuffer);
+
+    epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 }
 
 void updateScreenSpotify(void *parameter) {
@@ -105,7 +120,9 @@ void updateScreenSpotify(void *parameter) {
     }
 }
 
-void ScreenSpotify() {
+void ScreenSpotify(uint8_t * framebuffer) {
+    spotifyFrameBuffer = framebuffer;
+
     xTaskCreatePinnedToCore(
         updateScreenSpotify,    // Task function
         "updateScreenSpotify",  // Task name

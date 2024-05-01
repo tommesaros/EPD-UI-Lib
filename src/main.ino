@@ -44,7 +44,6 @@
 #include "include/apps/spotify/spotify.h"
 
 TouchClass touch;
-uint8_t *framebuffer = NULL;
 
 const char overview[] = {
     "   ESP32 is a single 2.4 GHz Wi-Fi-and-Bluetooth\n"\
@@ -85,9 +84,11 @@ Rect_t area1 = {
 };
 uint8_t state = 1;
 uint8_t buf[2] = {0xD1, 0X05};
+uint8_t *mainFramebuffer;
 
 void updateTimeTask(void *parameter) {
     //TODO theres no need to update the time everytime from the server
+    //TODO do not print 99:99
     int32_t wifi_popup_cursor_x = 50;
     int32_t wifi_popup_cursor_y = 490;
     while (true) {
@@ -124,20 +125,20 @@ void setup()
 
     epd_clear();
 
-    framebuffer = GetMainFramebuffer();
+    mainFramebuffer = GetMainFramebuffer();
 
     //Draw Box
-    epd_draw_rect(600, 450, 120, 60, 0, framebuffer);
+    epd_draw_rect(600, 450, 120, 60, 0, mainFramebuffer);
     cursor_x = 615;
     cursor_y = 490;
-    writeln((GFXfont *)&OpenSans12, "Prev", &cursor_x, &cursor_y, framebuffer);
+    writeln((GFXfont *)&OpenSans12, "Prev", &cursor_x, &cursor_y, mainFramebuffer);
 
-    epd_draw_rect(740, 450, 120, 60, 0, framebuffer);
+    epd_draw_rect(740, 450, 120, 60, 0, mainFramebuffer);
     cursor_x = 755;
     cursor_y = 490;
-    writeln((GFXfont *)&OpenSans12, "Next", &cursor_x, &cursor_y, framebuffer);
+    writeln((GFXfont *)&OpenSans12, "Next", &cursor_x, &cursor_y, mainFramebuffer);
 
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
     
     int32_t wifi_popup_cursor_x = 50;
     int32_t wifi_popup_cursor_y = 450;
@@ -159,10 +160,7 @@ void setup()
         NULL,              // Task handle
         tskNO_AFFINITY     // Core number (0 or 1)
     );
-
-    delay(1000);
-    ScreenSpotify();
-    // task handle can be used to delete the task!!
+    //TODO task handle can be used to delete the task!!
 }
 
 
@@ -177,7 +175,7 @@ void loop()
                 int32_t wifi_popup_cursor_x = 50;
                 int32_t wifi_popup_cursor_y = 420;
                 writeln((GFXfont *)&OpenSans12, "stlačené", &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
-                printCurrentlyPlaying();
+                ScreenSpotify(mainFramebuffer);
             } else if ((x > 740 && x < 860) && (y > 450 && y < 510)) {
                 state++;
             } else {
