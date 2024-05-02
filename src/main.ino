@@ -120,7 +120,7 @@ void setup()
     FramebufferSetup();
     ScreenWiFiInit();
     SpotifySetup();
-    WeatherSetup();
+    // WeatherSetup();
     TimeSetup();
     touch = TouchSetup();
     
@@ -182,7 +182,7 @@ void loop()
                 writeln((GFXfont *)&OpenSans12, "stlačené", &wifi_popup_cursor_x, &wifi_popup_cursor_y, NULL);
                 ScreenSpotify(mainFramebuffer);
             } else if ((x > 740 && x < 860) && (y > 450 && y < 510)) {
-                
+                ScreenWeather(mainFramebuffer);
             } else {
                 return;
             }

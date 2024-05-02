@@ -45,11 +45,22 @@
 // ----------------------------
 #include "../../include/apps/weather/weather.h"
 
-void printCurrentWeather()
-{
-    OW_current *current = GetCurrentWeather();
-    OW_hourly *hourly = GetHourlyWeather();
-    OW_daily  *daily = GetDailyWeather();
+void ScreenWeather(uint8_t * framebuffer) {
+    CleanFramebuffer(framebuffer, epd_full_screen());
+
+    OW_current *current = new OW_current;
+    OW_hourly *hourly = new OW_hourly;
+    OW_daily  *daily = new OW_daily;
+    OW_Weather ow;
+    ow.getForecast(current, hourly, daily, WEATHER_API_KEY, WEATHER_LAT, WEATHER_LON, WEATHER_UNITS, WEATHER_LANG);
+    
+    int cursor_x = 20; //TODO relative to mainbuffer
+    int cursor_y = 140;
+    writeln((GFXfont *)&OpenSans12, "Pocko ", &cursor_x, &cursor_y, framebuffer);
+    String temp = String(current->temp) + "°C";
+    const char *temp_c = temp.c_str();
+    writeln((GFXfont *)&OpenSans12, temp_c, &cursor_x, &cursor_y, framebuffer);
+    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     
     if (current)
     {

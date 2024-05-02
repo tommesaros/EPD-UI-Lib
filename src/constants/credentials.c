@@ -41,11 +41,15 @@ const char* SPOTIFY_REFRESH_TOKEN   = "";
 // ----------------------------
 // Weather credentials
 // ----------------------------
-const char* WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?";
+const char* WEATHER_URL = "https://api.openweathermap.org/data/3.0/onecall?";
 
 /*
-Sign into the OpenWeatherMap page and paste below your API key from 
+Sign into the OpenWeatherMap page and paste below your API key from:
 https://home.openweathermap.org/api_keys
+Subscribe to the "One Call API 3.0" services (1000 calls a day are free):
+https://openweathermap.org/price#onecall
+Optionally, set a call limit to avoid getting charged for overuse:
+https://home.openweathermap.org/subscriptions (set "Call per day" to 999)
 */ 
 const char* WEATHER_API_KEY = "";
 
@@ -53,8 +57,8 @@ const char* WEATHER_API_KEY = "";
 To get the latitude and longitude, you can use Google Maps.
 Just right-click on the location you want and copy the numbers.
 */
-const char* WEATHER_LAT = "";
-const char* WEATHER_LON = "";
+const char* WEATHER_LAT = "49.209895085987185";
+const char* WEATHER_LON = "16.599009032596893";
 
 const char* WEATHER_UNITS = "metric";  // or "imperial"
 const char* WEATHER_LANG = "en";   // see OpenWeather API notes
