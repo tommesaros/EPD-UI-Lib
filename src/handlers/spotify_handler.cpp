@@ -22,10 +22,6 @@
 #include <SpotifyArduino.h>
 #include <SpotifyArduinoCert.h>
 #include <ArduinoJson.h>
-#include <string.h>
-
-#include "epd_driver.h"
-#include "../font/opensans12.h"
 
 // ----------------------------
 // Handlers
@@ -83,7 +79,7 @@ void updateCurrentlyPlaying(void *parameter) {
         }
         else{
             isPlaying = false;
-            //TODO cross icon and notification toast
+            //TODO cross icon and notification toast, int status to string
             // writeln((GFXfont *)&OpenSans12, status, &cursor_x, &cursor_y, NULL);
         }
 

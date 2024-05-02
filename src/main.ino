@@ -32,6 +32,7 @@
 #include "include/handlers/touch_handler.h"
 #include "include/handlers/framebuffer_handler.h"
 #include "include/handlers/spotify_handler.h"
+#include "include/handlers/weather_handler.h"
 
 // ----------------------------
 // Credentials
@@ -43,6 +44,7 @@
 // ----------------------------
 #include "include/apps/wifi_init/wifi_init.h"
 #include "include/apps/spotify/spotify.h"
+#include "include/apps/weather/weather.h"
 
 TouchClass touch;
 
@@ -88,6 +90,7 @@ uint8_t buf[2] = {0xD1, 0X05};
 uint8_t *mainFramebuffer;
 
 void updateTimeTask(void *parameter) {
+    // do handleru?
     //TODO theres no need to update the time everytime from the server
     //TODO do not print 99:99
     int32_t wifi_popup_cursor_x = 50;
@@ -117,6 +120,7 @@ void setup()
     FramebufferSetup();
     ScreenWiFiInit();
     SpotifySetup();
+    WeatherSetup();
     TimeSetup();
     touch = TouchSetup();
     

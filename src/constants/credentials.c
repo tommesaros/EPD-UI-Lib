@@ -1,13 +1,20 @@
 #include "../include/credentials.h"
-
+// ------------------------------------------------------------------------------------
 // Do *NOT* share any of this information!
 // Keep it stored localy on your machine and do not commit it to any public repository!
+// ------------------------------------------------------------------------------------
 
+
+// ----------------------------
 // WiFi credentials
+// ----------------------------
 const char* WIFI_SSID       = "";
 const char* WIFI_PASSWORD   = "";
 
+
+// ----------------------------
 // Spotify credentials
+// ----------------------------
 /*
 Sign into the Spotify Developer page https://developer.spotify.com/ and
 create a new application (name it whatever you want). 
@@ -21,7 +28,7 @@ const char* SPOTIFY_CLIENT_SECRET   = "";
 const char* SPOTIFY_MARKET          = "GB";
 
 /*
-To get the refresh token, you need to follow the instructions in the README of this repository:
+Follow the instructions in the README file of this repository:
 https://github.com/arnvgh/get-spotify-refresh-token
 In main.py file, change spotipy.SpotifyOAuth scope on line 12 from
 scope="playlist-modify-private" to
@@ -29,3 +36,25 @@ scope="playlist-modify-private user-read-playback-state user-read-currently-play
 Then copy the "refresh_token" from .cache file and paste it below.
 */
 const char* SPOTIFY_REFRESH_TOKEN   = "";
+
+
+// ----------------------------
+// Weather credentials
+// ----------------------------
+const char* WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather?";
+
+/*
+Sign into the OpenWeatherMap page and paste below your API key from 
+https://home.openweathermap.org/api_keys
+*/ 
+const char* WEATHER_API_KEY = "";
+
+/*
+To get the latitude and longitude, you can use Google Maps.
+Just right-click on the location you want and copy the numbers.
+*/
+const char* WEATHER_LAT = "";
+const char* WEATHER_LON = "";
+
+const char* WEATHER_UNITS = "metric";  // or "imperial"
+const char* WEATHER_LANG = "en";   // see OpenWeather API notes
