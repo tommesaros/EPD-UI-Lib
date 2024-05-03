@@ -1,0 +1,6 @@
+#ifndef BUS_DEPARTURES_H
+#define BUS_DEPARTURES_H
+
+
+
+#endif // BUS_DEPARTURES_H

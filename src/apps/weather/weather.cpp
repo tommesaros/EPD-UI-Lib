@@ -2,7 +2,7 @@
     Based on the OpenWeather API Example:
     My_OpenWeather_Test.ino
     https://github.com/Bodmer/OpenWeather/blob/main/examples/Onecall%20API%20(subscription%20required)/My_OpenWeather_Test/My_OpenWeather_Test.ino
- *******************************************************************/
+*******************************************************************/
 
 // ----------------------------
 // External libraries
@@ -15,11 +15,10 @@
 #include <OpenWeather.h>
 
 // ----------------------------
-// Fonts
+// Internal libraries
 // ----------------------------
-#include "../../../font/opensans12.h"
-#include "../../../font/opensans18.h"
-#include "../../../font/opensans20b.h"
+#include "include/fonts.h"
+#include "include/components.h"
 
 // ----------------------------
 // Images

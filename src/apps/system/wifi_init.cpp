@@ -5,10 +5,10 @@
 #include "epd_driver.h"
 
 // ----------------------------
-// Fonts
+// Internal libraries
 // ----------------------------
-#include "../../../font/opensans12.h"
-#include "../../../font/opensans26b.h"
+#include "include/fonts.h"
+#include "include/components.h"
 
 // ----------------------------
 // Images

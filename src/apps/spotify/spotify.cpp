@@ -28,11 +28,10 @@
 #include <ArduinoJson.h>
 
 // ----------------------------
-// Fonts
+// Internal libraries
 // ----------------------------
-#include "../../../font/opensans12.h"
-#include "../../../font/opensans18.h"
-#include "../../../font/opensans20b.h"
+#include "include/fonts.h"
+#include "include/components.h"
 
 // ----------------------------
 // Images

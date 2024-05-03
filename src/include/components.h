@@ -7,7 +7,7 @@
 #include "components/icon.h"
 #include "components/notification.h"
 #include "components/popup.h"
-#include "components/progress_bar."
+#include "components/progress_bar.h"
 #include "components/radio_button.h"
 #include "components/slider.h"
 #include "components/status_bar.h"

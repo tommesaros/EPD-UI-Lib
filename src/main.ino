@@ -17,9 +17,11 @@
 #include <ArduinoJson.h>
 
 // ----------------------------
-// Fonts
+// Internal libraries
 // ----------------------------
+#include "include/credentials.h"
 #include "include/fonts.h"
+#include "include/components.h"
 
 // ----------------------------
 // Handlers
@@ -31,11 +33,6 @@
 #include "include/handlers/framebuffer_handler.h"
 #include "include/handlers/spotify_handler.h"
 #include "include/handlers/weather_handler.h"
-
-// ----------------------------
-// Credentials
-// ----------------------------
-#include "include/credentials.h"
 
 // ----------------------------
 // Apps
@@ -193,17 +190,8 @@ void loop()
                 
                 return;
             }
-            state %= 4;
-            Serial.print(millis());
-            Serial.print(":");
-            Serial.println(state);
-            epd_poweron();
-            cursor_x = 20;
-            cursor_y = 60;
             
-
-            while (digitalRead(TOUCH_INT)) {
-            }
+            
             while (digitalRead(TOUCH_INT)) {
             }
         }
