@@ -19,9 +19,7 @@
 // ----------------------------
 // Fonts
 // ----------------------------
-#include "../font/opensans12.h"
-#include "../font/opensans18.h"
-#include "../font/opensans26b.h"
+#include "include/fonts.h"
 
 // ----------------------------
 // Handlers
@@ -42,7 +40,7 @@
 // ----------------------------
 // Apps
 // ----------------------------
-#include "include/apps/wifi_init/wifi_init.h"
+#include "include/apps/system/wifi_init.h"
 #include "include/apps/spotify/spotify.h"
 #include "include/apps/weather/weather.h"
 
@@ -143,6 +141,14 @@ void setup()
     cursor_y = 490;
     writeln((GFXfont *)&OpenSans12, "Next", &cursor_x, &cursor_y, mainFramebuffer);
 
+    epd_draw_rounded_rect(10, 20, EPD_WIDTH - 20, EPD_HEIGHT / 2 + 80, 40, 0, mainFramebuffer);
+
+    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+
+    delay(5000);
+
+    epd_fill_rounded_rect(10, 20, EPD_WIDTH - 20, EPD_HEIGHT / 2 + 80, 40, 0, mainFramebuffer);
+
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
     
     int32_t wifi_popup_cursor_x = 50;
@@ -184,6 +190,7 @@ void loop()
             } else if ((x > 740 && x < 860) && (y > 450 && y < 510)) {
                 ScreenWeather(mainFramebuffer);
             } else {
+                
                 return;
             }
             state %= 4;
@@ -203,3 +210,4 @@ void loop()
     }
     delay(10);
 }
+

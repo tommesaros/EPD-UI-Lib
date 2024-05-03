@@ -69,3 +69,5 @@ int TimeGetMinute() {
   
   return timeinfo.tm_min;
 }
+
+// alarms and timers handling

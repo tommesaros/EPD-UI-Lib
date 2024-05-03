@@ -29,7 +29,7 @@
 // ----------------------------
 // Apps
 // ----------------------------
-#include "../../include/apps/wifi_init/wifi_init.h"
+#include "../../include/apps/system/wifi_init.h"
 
 void ScreenWiFiInit() {
     uint8_t *framebuffer = GetPopupFramebuffer();

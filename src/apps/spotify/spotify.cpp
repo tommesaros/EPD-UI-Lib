@@ -139,11 +139,33 @@ void ScreenSpotify(uint8_t * framebuffer) {
 
 /*
 //TODO controls
+
 spotify.previousTrack();
+updateCurrentlyPlaying()
+printCurrentlyPlaying()
+
+
 spotify.nextTrack();
+updateCurrentlyPlaying()
+printCurrentlyPlaying()
+
+
 spotify.pause();
+isPlaying = false;
+prevIsPlaying = false;
+//show play icon
+
 spotify.play();
+isPlaying = true;
+prevIsPlaying = true;
+//show pause icon
+
 spotify.toggleShuffle(true);
+// icon and bold the text
+
 spotify.toggleShuffle(false);
+// icon and unbold the text
+
 manual refresh of the screen
+//spin arrow icon
 */
