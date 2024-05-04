@@ -39,10 +39,7 @@ void epd_draw_circle_button_label(
 
         epd_push_pixels(area, 100, 1);
         epd_fill_circle(x, y, radius, color, framebuffer);
-        int32_t x1 = 0; 
-        int32_t y1 = 0; 
-        int32_t x2 = 0; 
-        int32_t y2 = 0; 
+        
         int32_t width = 0;
         int32_t height = 0;
 
@@ -50,15 +47,9 @@ void epd_draw_circle_button_label(
         properties->fg_color = 15;
         properties->bg_color = 0;
 
-        get_text_bounds(font,
-                        buttonText,
-                        &x1,
-                        &y1,
-                        &x2,
-                        &y2,
-                        &width,
-                        &height,
-                        properties);
+       
+
+        epd_get_text_dimensions(font, buttonText, &width, &height);
 
         int cursor_x = x - (width / 2);
         int cursor_y = y + (height / 2);
