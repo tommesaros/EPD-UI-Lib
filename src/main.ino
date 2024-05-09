@@ -41,6 +41,8 @@
 #include "include/apps/spotify/spotify.h"
 #include "include/apps/weather/weather.h"
 
+#include "include/components/status_bar.h"
+
 uint8_t *mainFramebuffer;
 
 void updateTimeTask(void *parameter) {
@@ -127,6 +129,8 @@ void setup()
         mainFramebuffer,
         ScreenWeather
     );
+
+    epd_draw_status_bar();
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 

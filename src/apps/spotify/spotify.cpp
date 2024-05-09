@@ -37,6 +37,8 @@
 // Images
 // ----------------------------
 #include "../../../image/white_bg/spotify_icon.h"
+#include "../../../image/black_bg/pause_icon.h"
+#include "../../../image/black_bg/play_icon.h"
 
 // ----------------------------
 // Handlers
@@ -59,9 +61,9 @@
 
 int lastChangeIndex = 0;
 Rect_t areaspotify = {
-            .x = 10,
+            .x = 0,
             .y = 20,
-            .width = EPD_WIDTH - 20,
+            .width = EPD_WIDTH,
             .height =  EPD_HEIGHT / 2 + 80
         };
 
@@ -72,17 +74,24 @@ void printCurrentlyPlaying() {
     //TODO add Spotify barcode
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
-    writeln((GFXfont *)&OpenSans12, "Is Playing: \n", &cursor_x, &cursor_y, spotifyFrameBuffer);
+
+    Rect_t playIconArea = {
+        .x = 400 - play_icon_width,
+        .y = EPD_HEIGHT / 2 - play_icon_height / 2,
+        .width = play_icon_width,
+        .height =  play_icon_height
+    };
+    
+
     if (getIsPlaying())
     {
-        writeln((GFXfont *)&OpenSans12, "Yes", &cursor_x, &cursor_y, spotifyFrameBuffer);
-        // display play icon
+        epd_copy_to_framebuffer(playIconArea, (uint8_t *) play_icon_data, spotifyFrameBuffer);
     }
     else
     {
-        writeln((GFXfont *)&OpenSans12, "No", &cursor_x, &cursor_y, spotifyFrameBuffer);
-        // display pause icon
+        epd_copy_to_framebuffer(playIconArea, (uint8_t *) pause_icon_data, spotifyFrameBuffer);
     }
+
     cursor_x = 20;
     cursor_y += 40;
     writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
@@ -120,11 +129,13 @@ void updateScreenSpotify(void *parameter) {
 }
 
 void ScreenSpotify() {
-    ClearTouchPoints();
+    //ClearTouchPoints();
+
+    spotifyFrameBuffer = GetMainFramebuffer();
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
     writeln((GFXfont *)&OpenSans12, "Make sure you are playing Spotify music on some other device.", &cursor_x, &cursor_y, spotifyFrameBuffer);
-    spotifyFrameBuffer = GetMainFramebuffer();
+    epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 
     xTaskCreatePinnedToCore(
         updateScreenSpotify,    // Task function

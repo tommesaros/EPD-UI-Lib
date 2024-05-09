@@ -1,9 +1,3 @@
-/*******************************************************************
-    Based on the OpenWeather API Example:
-    My_OpenWeather_Test.ino
-    https://github.com/Bodmer/OpenWeather/blob/main/examples/Onecall%20API%20(subscription%20required)/My_OpenWeather_Test/My_OpenWeather_Test.ino
-*******************************************************************/
-
 // ----------------------------
 // External libraries
 // ----------------------------
