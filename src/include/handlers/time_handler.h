@@ -4,5 +4,6 @@
 void TimeSetup();
 int TimeGetHour();
 int TimeGetMinute();
+char* getTimeDate();
 
 #endif // TIME_HANDLER_H

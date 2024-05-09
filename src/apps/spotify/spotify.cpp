@@ -61,7 +61,7 @@
 
 int lastChangeIndex = 0;
 Rect_t areaspotify = {
-            .x = 0,
+            .x = 55,
             .y = 20,
             .width = EPD_WIDTH,
             .height =  EPD_HEIGHT / 2 + 80
@@ -71,6 +71,7 @@ uint8_t * spotifyFrameBuffer;
 
 void printCurrentlyPlaying() {
     CleanFramebuffer(spotifyFrameBuffer, areaspotify);
+    epd_draw_status_bar();
     //TODO add Spotify barcode
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
@@ -130,7 +131,6 @@ void updateScreenSpotify(void *parameter) {
 
 void ScreenSpotify() {
     //ClearTouchPoints();
-
     spotifyFrameBuffer = GetMainFramebuffer();
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;

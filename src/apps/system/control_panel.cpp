@@ -42,3 +42,6 @@
 // ----------------------------
 #include "../../include/apps/system/control_panel.h"
 
+void ScreenControlPanel() {
+    
+}

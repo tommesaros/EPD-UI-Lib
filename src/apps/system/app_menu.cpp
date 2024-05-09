@@ -42,3 +42,6 @@
 // ----------------------------
 #include "../../include/apps/system/app_menu.h"
 
+void ScreenAppMenu() {
+
+}

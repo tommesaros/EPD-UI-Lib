@@ -13,16 +13,17 @@ const char* ntpServer1 = "pool.ntp.org";
 const char* ntpServer2 = "time.nist.gov";
 const long  gmtOffset_sec = 3600;
 const int   daylightOffset_sec = 3600;
+struct tm timeinfo;
 
 const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
 
 void timeavailable(struct timeval *t)
 {
-  Serial.println("Got time adjustment from NTP!");
+    Serial.println("Got time adjustment from NTP!");
 }
 
 void TimeSetup() {
-  // set notification call-back function
+    // set notification call-back function
     sntp_set_time_sync_notification_cb( timeavailable );
 
     /**
@@ -51,23 +52,30 @@ void TimeSetup() {
 }
 
 int TimeGetHour() {
-  struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)){
-    Serial.println("No time available yet");
-    return 99;
-  }
-  
-  return timeinfo.tm_hour;
+    //TODO theres no need to update the time everytime from the server if time fetched
+    while(!getLocalTime(&timeinfo)){
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+    
+    return timeinfo.tm_hour;
 }
 
 int TimeGetMinute() {
-  struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)){
-    Serial.println("No time available yet");
-    return 99;
-  }
-  
-  return timeinfo.tm_min;
+    while(!getLocalTime(&timeinfo)){
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+    
+    return timeinfo.tm_min;
+}
+
+char* getTimeDate() {
+    while(!getLocalTime(&timeinfo)){
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+    
+    char* date = new char[11];
+    sprintf(date, "%02d.%02d.%04d", timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900);
+    return date;
 }
 
 // alarms and timers handling

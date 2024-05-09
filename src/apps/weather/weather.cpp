@@ -47,6 +47,7 @@
 void ScreenWeather() {
     uint8_t * framebuffer = GetMainFramebuffer();
     CleanFramebuffer(framebuffer, epd_full_screen());
+    epd_draw_status_bar();
 
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;

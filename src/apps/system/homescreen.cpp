@@ -42,3 +42,6 @@
 // ----------------------------
 #include "../../include/apps/system/homescreen.h"
 
+void ScreenHome() {
+    
+}
