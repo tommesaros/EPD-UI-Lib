@@ -4,11 +4,11 @@
 void epd_draw_circle_button_label(
     char* buttonText, 
     GFXfont *font,
-    int32_t x, 
-    int32_t y, 
+    int32_t x,                      // x position of the center of the circle
+    int32_t y,                      // y position of the center of the circle
     int32_t radius, 
-    uint8_t color, 
-    uint8_t textColor, 
+    uint8_t color,                  // 15 is white, 0 is black
+    uint8_t textColor,              // 15 is white, 0 is black
     uint8_t *framebuffer
 );
 

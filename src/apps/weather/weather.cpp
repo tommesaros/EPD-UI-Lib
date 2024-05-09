@@ -44,7 +44,8 @@
 // ----------------------------
 #include "../../include/apps/weather/weather.h"
 
-void ScreenWeather(uint8_t * framebuffer) {
+void ScreenWeather() {
+    uint8_t * framebuffer = GetMainFramebuffer();
     CleanFramebuffer(framebuffer, epd_full_screen());
 
     int cursor_x = 20; //TODO relative to mainbuffer
@@ -60,6 +61,6 @@ void ScreenWeather(uint8_t * framebuffer) {
     writeln((GFXfont *)&OpenSans12, daily->temp_max.c_str(), &cursor_x, &cursor_y, framebuffer);
     writeln((GFXfont *)&OpenSans12, daily->description.c_str(), &cursor_x, &cursor_y, framebuffer);
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
-    // manual update button
+    //TODO add manual update button
 }
 

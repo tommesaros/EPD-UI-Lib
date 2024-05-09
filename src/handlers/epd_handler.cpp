@@ -71,4 +71,13 @@ void epd_get_text_dimensions(const GFXfont *font,
                     width,
                     height,
                     properties);
+
+    delete properties;
+}
+void epd_clear_area_quick(Rect_t area) {
+    epd_push_pixels(area, 100, 1);
+}
+
+uint8_t epd_convert_font_color(uint8_t color) {
+    return map(color, 0, 15, 0, 255);
 }

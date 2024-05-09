@@ -27,36 +27,46 @@
 #include "../include/handlers/framebuffer_handler.h"
 
 void epd_draw_circle_button_label(
-    char* buttonText, 
+    char* label, 
     GFXfont *font,
     int32_t x, 
     int32_t y, 
     int32_t radius, 
-    uint8_t color, 
+    uint8_t bgColor, 
     uint8_t textColor, 
     uint8_t *framebuffer) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
+        epd_clear_area_quick(area); 
 
-        epd_push_pixels(area, 100, 1);
-        epd_fill_circle(x, y, radius, color, framebuffer);
-        
-        int32_t width = 0;
-        int32_t height = 0;
+        if (bgColor == 15) {
+            epd_draw_circle(x, y, radius, 0, framebuffer);
+        } else {
+            // Convert color from range 0-15 to 0-255
+            // Fill circle takes different range
+            uint8_t epdColor = epd_convert_font_color(bgColor);
+            epd_fill_circle(x, y, radius, epdColor, framebuffer);
+        }
 
         FontProperties *properties = new FontProperties();
-        properties->fg_color = 15;
-        properties->bg_color = 0;
-
+        properties->fg_color = textColor;
+        properties->bg_color = bgColor;
        
-
-        epd_get_text_dimensions(font, buttonText, &width, &height);
+        int32_t width = 0;
+        int32_t height = 0;
+        epd_get_text_dimensions(font, label, &width, &height);
 
         int cursor_x = x - (width / 2);
         int cursor_y = y + (height / 2);
-
-        write_mode(font, buttonText, &cursor_x, &cursor_y, framebuffer, 
-                    WHITE_ON_BLACK,
-                    properties);
+        write_mode(
+            font, 
+            label, 
+            &cursor_x, 
+            &cursor_y, 
+            framebuffer, 
+            WHITE_ON_BLACK,
+            properties);
+        
+        delete properties;
 }
 
 // with icons / without

@@ -41,7 +41,6 @@
 #include "include/apps/spotify/spotify.h"
 #include "include/apps/weather/weather.h"
 
-TouchClass touch;
 uint8_t *mainFramebuffer;
 
 void updateTimeTask(void *parameter) {
@@ -79,7 +78,7 @@ void setup()
     SpotifySetup();
     WeatherSetup();
     TimeSetup();
-    touch = TouchSetup();
+    TouchClass touch = TouchSetup();
     
     while (WiFi.status() != WL_CONNECTED) {
         delay(2000);
@@ -106,6 +105,27 @@ void setup()
     writeln((GFXfont *)&OpenSans12, "Connected to ", &wifi_popup_cursor_x, &wifi_popup_cursor_y, mainFramebuffer);
     writeln((GFXfont *)&OpenSans12, WIFI_SSID, &wifi_popup_cursor_x, &wifi_popup_cursor_y, mainFramebuffer);
 
+    epd_draw_circle_button_label(
+        "ahoj", 
+        (GFXfont *)&OpenSans10B,
+        100, 
+        450, 
+        40, 
+        0, 
+        15, 
+        mainFramebuffer
+    );
+    epd_draw_circle_button_label(
+        "9", 
+        (GFXfont *)&OpenSans16B,
+        170, 
+        450, 
+        40, 
+        15, 
+        0, 
+        mainFramebuffer
+    );
+
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 
     delay(1000);
@@ -119,45 +139,18 @@ void setup()
         NULL,              // Task handle
         tskNO_AFFINITY     // Core number (0 or 1)
     );
-    //TODO task handle can be used to delete the task!!
+
+    AddTouchPoint(600, 450, 120, 60, ScreenWeather);
+
+    //ScreenWeather(mainFramebuffer);
+    //ScreenSpotify(mainFramebuffer);
+
+    //TODO task handle can be used to delete the task!!    
 }
 
 
 void loop()
 {
-    uint16_t  x, y;
-    if (digitalRead(TOUCH_INT)) {
-        if (touch.scanPoint()) {
-            touch.getPoint(x, y, 0);
-            y = EPD_HEIGHT - y;
-
-            if ((x > 600 && x < 720) && (y > 450 && y < 510)) {
-                epd_draw_circle_button_label(
-                    "ahoj", 
-                    (GFXfont *)&OpenSans10B,
-                    100, 
-                    450, 
-                    40, 
-                    0, 
-                    1, 
-                    mainFramebuffer
-                );
-                epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
-                delay(1000);
-
-                ScreenSpotify(mainFramebuffer);
-            } else if ((x > 740 && x < 860) && (y > 450 && y < 510)) {
-                ScreenWeather(mainFramebuffer);
-            } else {
-                
-                return;
-            }
-            
-            
-            while (digitalRead(TOUCH_INT)) {
-            }
-        }
-    }
-    delay(10);
+    delay(1000);
 }
 

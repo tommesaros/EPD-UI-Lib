@@ -81,6 +81,8 @@ void updateWeather(void *parameters) {
         delete hourly;
         delete daily;
 
+        //TODO check data if temp==0, then retry
+
         vTaskDelay(3600000);
     }
 }
