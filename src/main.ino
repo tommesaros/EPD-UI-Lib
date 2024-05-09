@@ -113,17 +113,19 @@ void setup()
         40, 
         0, 
         15, 
-        mainFramebuffer
+        mainFramebuffer,
+        ScreenSpotify
     );
     epd_draw_circle_button_label(
         "9", 
         (GFXfont *)&OpenSans16B,
-        170, 
+        230, 
         450, 
         40, 
         15, 
         0, 
-        mainFramebuffer
+        mainFramebuffer,
+        ScreenWeather
     );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
@@ -139,8 +141,6 @@ void setup()
         NULL,              // Task handle
         tskNO_AFFINITY     // Core number (0 or 1)
     );
-
-    AddTouchPoint(600, 450, 120, 60, ScreenWeather);
 
     //ScreenWeather(mainFramebuffer);
     //ScreenSpotify(mainFramebuffer);

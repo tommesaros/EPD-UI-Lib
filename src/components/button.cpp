@@ -34,8 +34,10 @@ void epd_draw_circle_button_label(
     int32_t radius, 
     uint8_t bgColor, 
     uint8_t textColor, 
-    uint8_t *framebuffer) {
+    uint8_t *framebuffer,
+    void (*function)()) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
+        AddTouchPoint(x - radius, y - radius, radius * 2, radius * 2, function);
         epd_clear_area_quick(area); 
 
         if (bgColor == 15) {

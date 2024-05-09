@@ -47,10 +47,12 @@ void TouchLoop(void *parameters) {
                 
                 while (digitalRead(TOUCH_INT)) {
                 }
+                while (digitalRead(TOUCH_INT)) {
+                }
             }
         }
         
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
 
@@ -87,4 +89,7 @@ void AddTouchPoint(int x, int y, int width, int height, void (*function)()) {
     }
 }
 
-//TODO clear all touch points
+void ClearTouchPoints() {
+    memset(touchPoints, 0, sizeof(touchPoints));
+    numTouchPoints = 0; // Reset the count of touch points
+}

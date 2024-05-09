@@ -119,11 +119,12 @@ void updateScreenSpotify(void *parameter) {
     }
 }
 
-void ScreenSpotify(uint8_t * framebuffer) {
+void ScreenSpotify() {
+    ClearTouchPoints();
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
     writeln((GFXfont *)&OpenSans12, "Make sure you are playing Spotify music on some other device.", &cursor_x, &cursor_y, spotifyFrameBuffer);
-    spotifyFrameBuffer = framebuffer;
+    spotifyFrameBuffer = GetMainFramebuffer();
 
     xTaskCreatePinnedToCore(
         updateScreenSpotify,    // Task function

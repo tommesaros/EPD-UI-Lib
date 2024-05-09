@@ -9,7 +9,8 @@ void epd_draw_circle_button_label(
     int32_t radius, 
     uint8_t color,                  // 15 is white, 0 is black
     uint8_t textColor,              // 15 is white, 0 is black
-    uint8_t *framebuffer
+    uint8_t *framebuffer,
+    void (*function)()
 );
 
 #endif // BUTTON_H
