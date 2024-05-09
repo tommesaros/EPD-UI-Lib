@@ -38,7 +38,7 @@ void epd_draw_circle_button_label(
     void (*function)()) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
         AddTouchPoint(x - radius, y - radius, radius * 2, radius * 2, function);
-        epd_clear_area_quick(area); 
+        epd_clear_area_quick(area, true); 
 
         if (bgColor == 15) {
             epd_draw_circle(x, y, radius, 0, framebuffer);

@@ -10,7 +10,7 @@ void epd_get_text_dimensions(
     const char *string,
     int32_t *width,             //needs to be a pointer
     int32_t *height);           //needs to be a pointer
-void epd_clear_area_quick(Rect_t area);
+void epd_clear_area_quick(Rect_t area, bool white);
 uint8_t epd_convert_font_color(uint8_t color);
 
 #endif // EPD_HANDLER_H

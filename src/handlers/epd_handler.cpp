@@ -74,8 +74,8 @@ void epd_get_text_dimensions(const GFXfont *font,
 
     delete properties;
 }
-void epd_clear_area_quick(Rect_t area) {
-    epd_push_pixels(area, 100, 1);
+void epd_clear_area_quick(Rect_t area, bool white) {
+    epd_push_pixels(area, 100, white ? 1 : 0);
 }
 
 uint8_t epd_convert_font_color(uint8_t color) {
