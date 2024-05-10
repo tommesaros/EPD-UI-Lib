@@ -61,20 +61,20 @@
 
 int lastChangeIndex = 0;
 Rect_t areaspotify = {
-            .x = 55,
-            .y = 20,
-            .width = EPD_WIDTH,
-            .height =  EPD_HEIGHT / 2 + 80
+            .x = 95 + spotify_icon_width,
+            .y = 65 + (EPD_HEIGHT - 65) / 2 - 60,
+            .width = EPD_WIDTH - 100 - spotify_icon_width,
+            .height =  120
         };
 
-uint8_t * spotifyFrameBuffer;
+TaskHandle_t updateScreenSpotifyTaskHandle = NULL;
 
 void printCurrentlyPlaying() {
+    uint8_t *spotifyFrameBuffer = GetMainFramebuffer();
     CleanFramebuffer(spotifyFrameBuffer, areaspotify);
+    vTaskDelay(pdMS_TO_TICKS(1000));
     epd_draw_status_bar();
     //TODO add Spotify barcode
-    int cursor_x = 20; //TODO relative to mainbuffer
-    int cursor_y = 140;
 
     Rect_t playIconArea = {
         .x = 400 - play_icon_width,
@@ -82,70 +82,85 @@ void printCurrentlyPlaying() {
         .width = play_icon_width,
         .height =  play_icon_height
     };
-    
-
-    if (getIsPlaying())
-    {
-        epd_copy_to_framebuffer(playIconArea, (uint8_t *) play_icon_data, spotifyFrameBuffer);
-    }
-    else
-    {
+    if (getIsPlaying()) {
         epd_copy_to_framebuffer(playIconArea, (uint8_t *) pause_icon_data, spotifyFrameBuffer);
     }
+    else {
+        epd_copy_to_framebuffer(playIconArea, (uint8_t *) play_icon_data, spotifyFrameBuffer);
+    }
 
-    cursor_x = 20;
-    cursor_y += 40;
+    int cursor_x = 100 + spotify_icon_width; //TODO relative to mainbuffer
+    int cursor_y = 65 + (EPD_HEIGHT - 65) / 2 - 20;
     writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
-    cursor_x = 20;
+    cursor_x = 100 + spotify_icon_width;
     cursor_y += 40;
     writeln((GFXfont *)&OpenSans12, getArtists(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
-    cursor_x = 20;
+    cursor_x = 100 + spotify_icon_width;
     cursor_y += 40;
     writeln((GFXfont *)&OpenSans12, getAlbumName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
-
-    Rect_t iconArea = {
-        .x = EPD_WIDTH - 100 - spotify_icon_width,
-        .y = EPD_HEIGHT / 2 - spotify_icon_height / 2,
-        .width = spotify_icon_width,
-        .height =  spotify_icon_height
-    };
-    epd_copy_to_framebuffer(iconArea, (uint8_t *) spotify_icon_data, spotifyFrameBuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 }
 
 void updateScreenSpotify(void *parameter) {
     while (true) {
-        
-
         if (lastChangeIndex != getChangeIndex()) {
             lastChangeIndex = getChangeIndex();
             printCurrentlyPlaying();
         }
 
-        vTaskDelay(pdMS_TO_TICKS(10000)); // Delay for 1 minute
+        vTaskDelay(pdMS_TO_TICKS(10000));
     }
 }
 
 void ScreenSpotify() {
     //ClearTouchPoints();
-    spotifyFrameBuffer = GetMainFramebuffer();
-    int cursor_x = 20; //TODO relative to mainbuffer
-    int cursor_y = 140;
-    writeln((GFXfont *)&OpenSans12, "Make sure you are playing Spotify music on some other device.", &cursor_x, &cursor_y, spotifyFrameBuffer);
+    uint8_t *spotifyFrameBuffer = GetMainFramebuffer();
+    CleanFramebuffer(spotifyFrameBuffer, epd_full_screen());
+    epd_draw_status_bar();
+
+    Rect_t iconArea = {
+        .x = 50,
+        .y = 65 + (EPD_HEIGHT - 65) / 2 - spotify_icon_height / 2,
+        .width = spotify_icon_width,
+        .height =  spotify_icon_height
+    };
+    epd_copy_to_framebuffer(iconArea, (uint8_t *) spotify_icon_data, spotifyFrameBuffer);
     epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 
-    xTaskCreatePinnedToCore(
-        updateScreenSpotify,    // Task function
-        "updateScreenSpotify",  // Task name
-        10000,              // Stack size (in words)
-        NULL,              // Task parameter
-        1,                 // Task priority
-        NULL,              // Task handle
-        tskNO_AFFINITY     // Core number (0 or 1)
-    );
+    if (updateScreenSpotifyTaskHandle == NULL) {
+        int cursor_x = 100 + spotify_icon_width; //TODO relative to mainbuffer
+        int cursor_y = 65 + (EPD_HEIGHT - 65) / 2 - 20;
+        writeln((GFXfont *)&OpenSans20B, "Connecting to Spotify...", &cursor_x, &cursor_y, spotifyFrameBuffer);
+
+        cursor_x = 100 + spotify_icon_width;
+        cursor_y += 40;
+        writeln((GFXfont *)&OpenSans12, "Make sure you are playing Spotify music", &cursor_x, &cursor_y, spotifyFrameBuffer);
+
+        cursor_x = 100 + spotify_icon_width;
+        cursor_y += 40;
+        writeln((GFXfont *)&OpenSans12, "on some other device connected to your account.", &cursor_x, &cursor_y, spotifyFrameBuffer);
+        epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+
+        xTaskCreatePinnedToCore(
+            updateScreenSpotify,    // Task function
+            "updateScreenSpotify",  // Task name
+            10000,              // Stack size (in words)
+            NULL,              // Task parameter
+            1,                 // Task priority
+            &updateScreenSpotifyTaskHandle,              // Task handle
+            tskNO_AFFINITY     // Core number (0 or 1)
+        );
+    }
+}
+
+void spotifyExit() {
+    if (updateScreenSpotifyTaskHandle != NULL) {
+        vTaskDelete(updateScreenSpotifyTaskHandle);
+        updateScreenSpotifyTaskHandle = NULL;
+    }
 }
 
 /*
