@@ -1,16 +1,87 @@
 #ifndef EPD_HANDLER_H
 #define EPD_HANDLER_H
 
+/**
+ * @brief Sets up the EPD (Electronic Paper Display).
+ * 
+ * This function initializes the communication with the Electronic Paper Display.
+ */
 void EPDSetup();
+
+/**
+ * Draws a rounded rectangle with filled background.
+ *
+ * @param x The x-coordinate of the top-left corner of the rectangle.
+ * @param y The y-coordinate of the top-left corner of the rectangle.
+ * @param width The width of the rounded rectangle.
+ * @param height The height of the rounded rectangle.
+ * @param radius The radius of the rounded corners.
+ * @param color The color to fill the rounded rectangle with.
+ * @param framebuffer The framebuffer to draw on. (NULL for instant drawing)
+ */
 void epd_fill_rounded_rect(int x, int y, int width, int height, int radius, int color, uint8_t *framebuffer);
+
+/**
+ * Draws a rounded rectangle with transparent background.
+ *
+ * @param x The x-coordinate of the top-left corner of the rectangle.
+ * @param y The y-coordinate of the top-left corner of the rectangle.
+ * @param width The width of the rectangle.
+ * @param height The height of the rectangle.
+ * @param radius The radius of the rounded corners.
+ * @param color The color of the rectangle.
+ * @param framebuffer The framebuffer to draw on. (NULL for instant drawing)
+ */
 void epd_draw_rounded_rect(int x, int y, int width, int height, int radius, int color, uint8_t *framebuffer);
+
+/**
+ * @brief Puts the EPD into sleep mode.
+ * 
+ * This function puts the EPD into sleep mode, when the EPD consumes no power
+ * and is ready to be woken up by a button at the top of the device.
+ * 
+ * @note This function assumes that the EPD has been properly initialized before calling it.
+ * @see epd_init
+ */
 void epd_sleep();
+
+/**
+ * Calculates the dimensions of the given text string when rendered using the specified font.
+ *
+ * @param font The font used to render the text.
+ * @param string The text string to measure.
+ * @param width A pointer to an integer where the width of the text will be stored.
+ * @param height A pointer to an integer where the height of the text will be stored.
+ */
 void epd_get_text_dimensions(
     const GFXfont *font,
     const char *string,
-    int32_t *width,             //needs to be a pointer
-    int32_t *height);           //needs to be a pointer
+    int32_t *p_width,
+    int32_t *p_height);
+
+/**
+ * @brief Clears the specified area on the EPD display quickly.
+ *
+ * This function clears the specified area on the EPD by setting all pixels within 
+ * the area to white or black, depending on the value of the `white` parameter.
+ * In order to prevent any damage to the display, this clearing method cannot be used
+ * instead of proper epd_clear_area function. This serves as a quick way to change 
+ * the contents of a small area of the display. After approximately 20 quick clears,
+ * you should perform a full clear using the epd_clear_area function. Otherwise, 
+ * a ghost image may remain on the display.
+ *
+ * @param area The rectangular area to be cleared on the EPD display.
+ * @param white If `true`, the pixels within the area will be set to white. If `false`, the pixels will be set to black.
+ */
 void epd_clear_area_quick(Rect_t area, bool white);
+
+/**
+ * This function takes a font color (range 0-15) as input and converts it 
+ * to a format for epd_draw_* and epd_fill_* functions (range 0-255).
+ *
+ * @param color The font color to be converted (range 0 as black, 15 as white).
+ * @return The converted font color (range 0 as black, 255 as white).
+ */
 uint8_t epd_convert_font_color(uint8_t color);
 
 #endif // EPD_HANDLER_H

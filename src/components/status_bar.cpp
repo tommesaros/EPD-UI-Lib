@@ -44,8 +44,6 @@
 TaskHandle_t updateTimeTaskHandle = NULL;
 
 void updateTimeTask(void *parameter) {
-    //vacsi black border
-    //touchable buttons
     int32_t cursor_x = EPD_WIDTH / 2;
     int32_t cursor_y = 45;
     uint8_t *mainFramebuffer = GetMainFramebuffer();

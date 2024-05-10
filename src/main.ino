@@ -45,6 +45,7 @@
 
 uint8_t *mainFramebuffer;
 
+// This is all the code that is run during the startup process.
 void setup()
 {
     Serial.begin(115200);
@@ -93,7 +94,9 @@ void setup()
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 
 }
 
-
+// Has to be here because of the Arduino Core framework structure.
+// In an ideal case, there should be no code.
+// Can be used for testing.
 void loop()
 {
     delay(1000);

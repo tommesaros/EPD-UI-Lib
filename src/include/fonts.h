@@ -1,6 +1,9 @@
 #ifndef FONTS_H
 #define FONTS_H
 
+// All fonts
+//TODO How to import them?
+
 #include "../../font/opensans6.h"
 #include "../../font/opensans8.h"
 #include "../../font/opensans8b.h"

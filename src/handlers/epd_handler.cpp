@@ -41,7 +41,6 @@ void epd_draw_rounded_rect(int x, int y, int width, int height, int radius, int 
 }
 
 void epd_sleep() {
-    // power off button, turn on by touch
     epd_poweroff();
     // epd_deinit();
     esp_sleep_enable_ext1_wakeup(GPIO_SEL_13, ESP_EXT1_WAKEUP_ANY_HIGH);
@@ -51,8 +50,8 @@ void epd_sleep() {
 
 void epd_get_text_dimensions(const GFXfont *font,
                              const char *string,
-                             int32_t *width,
-                             int32_t *height) {
+                             int32_t *p_width,
+                             int32_t *p_height) {
     int32_t x1 = 0; 
     int32_t y1 = 0; 
     int32_t x2 = 0; 
@@ -68,8 +67,8 @@ void epd_get_text_dimensions(const GFXfont *font,
                     &y1,
                     &x2,
                     &y2,
-                    width,
-                    height,
+                    p_width,
+                    p_height,
                     properties);
 
     delete properties;

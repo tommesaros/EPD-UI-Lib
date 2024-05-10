@@ -1,6 +1,11 @@
 #ifndef COMPONENTS_H
 #define COMPONENTS_H
 
+// All components, see their respective header files for more information
+//TODO How to use them?
+// To prevent display blurring, components should not be drawn directly 
+// to the display, use a framebuffer instead.
+
 #include "components/button.h"
 #include "components/card.h"
 #include "components/check_box.h"

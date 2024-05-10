@@ -1,6 +1,8 @@
 #ifndef CREDENTIALS_H
 #define CREDENTIALS_H
 
+// All credentials, see credentials.c for more information
+
 // WiFi
 extern const char* WIFI_SSID;
 extern const char* WIFI_PASSWORD;
