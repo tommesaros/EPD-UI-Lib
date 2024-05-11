@@ -42,6 +42,7 @@
 #include "../include/apps/system/homescreen.h"
 
 TaskHandle_t updateTimeTaskHandle = NULL;
+const int STATUS_BAR_HEIGHT = 65;
 void (*exitFunction)();
 
 void exitAppAndGoToHomescreen() {
@@ -76,8 +77,8 @@ void updateTimeTask(void *parameter) {
         vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
         epd_poweron();
 
-        if (refreshCount == 20) {
-            epd_clear_area_cycles(epd_full_screen(), 4, 25);
+        if (refreshCount == 5) {
+            epd_clear_area_cycles(epd_full_screen(), 4, 50);
             refreshCount = 0;
         } else {
             epd_clear_area_cycles(timeArea, 2, 50);
@@ -124,6 +125,8 @@ void updateTimeTask(void *parameter) {
 
         epd_poweroff();
     }
+
+    delete properties;
 }
 
 void epd_draw_status_bar(void (*function)()) {
@@ -138,23 +141,11 @@ void epd_draw_status_bar(void (*function)()) {
         .height = home_icon_height
     };
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) home_icon_data, mainFramebuffer);
-    AddTouchPoint(
-        statusBarIconArea.y, 
-        statusBarIconArea.y, 
-        statusBarIconArea.width, 
-        statusBarIconArea.height, 
-        exitAppAndGoToHomescreen
-    );
+    AddTouchPoint(statusBarIconArea, exitAppAndGoToHomescreen);
 
     statusBarIconArea.x = 90;
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) app_menu_icon_data, mainFramebuffer);
-    AddTouchPoint(
-        statusBarIconArea.y, 
-        statusBarIconArea.y, 
-        statusBarIconArea.width, 
-        statusBarIconArea.height, 
-        exitAppAndGoToAppMenu
-    );
+    AddTouchPoint(statusBarIconArea, exitAppAndGoToAppMenu);
 
     GFXfont *font = (GFXfont *)&OpenSans12;
     FontProperties *properties = new FontProperties();
@@ -208,13 +199,10 @@ void epd_draw_status_bar(void (*function)()) {
 
     statusBarIconArea.x = EPD_WIDTH - 60;
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) speaker_icon_data, mainFramebuffer);
-    AddTouchPoint(
-        EPD_WIDTH - 145 - width, 
-        statusBarIconArea.y, 
-        145 + width, 
-        statusBarIconArea.height, 
-        ScreenControlPanel
-    );
+
+    statusBarIconArea.x = EPD_WIDTH - 145 - width;
+    statusBarIconArea.width = 145 + width;
+    AddTouchPoint(statusBarIconArea, ScreenControlPanel);
     
     if (updateTimeTaskHandle == NULL) {
         xTaskCreatePinnedToCore(
@@ -227,4 +215,6 @@ void epd_draw_status_bar(void (*function)()) {
             tskNO_AFFINITY     // Core number (0 or 1)
         );
     }
+
+    delete properties;
 }

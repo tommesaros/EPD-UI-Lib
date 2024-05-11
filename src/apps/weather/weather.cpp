@@ -49,6 +49,7 @@ void weatherExit() {
 
 void ScreenWeather() {
     uint8_t * framebuffer = GetMainFramebuffer();
+    ClearTouchPoints();
     CleanFramebuffer(framebuffer, epd_full_screen());
     epd_draw_status_bar(weatherExit); //TODO
 

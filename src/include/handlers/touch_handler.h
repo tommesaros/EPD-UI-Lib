@@ -11,13 +11,10 @@ TouchClass TouchSetup();
 
 /**
  * Adds a touch point with the specified coordinates, size, and callback function.
- * @param x The x-coordinate of the touch point.
- * @param y The y-coordinate of the touch point.
- * @param width The width of the touch point.
- * @param height The height of the touch point.
+ * @param area The area of the touch point.
  * @param function The callback function to be executed when the touch point is pressed.
  */
-void AddTouchPoint(int x, int y, int width, int height, void (*function)());
+void AddTouchPoint(Rect_t area, void (*function)());
 
 /**
  * Clears all stored touch points. This function should be called each time

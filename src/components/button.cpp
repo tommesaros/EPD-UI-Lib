@@ -33,8 +33,7 @@ void epd_draw_circle_button_label(
     uint8_t *framebuffer,
     void (*function)()) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
-        AddTouchPoint(x - radius, y - radius, radius * 2, radius * 2, function);
-        // epd_clear_area_quick(area, true); 
+        AddTouchPoint(area, function);
 
         if (bgColor == 15) {
             epd_draw_circle(x, y, radius, 0, framebuffer);
@@ -62,7 +61,8 @@ void epd_draw_circle_button_label(
             &cursor_y, 
             framebuffer, 
             WHITE_ON_BLACK,
-            properties);
+            properties
+        );
         
         delete properties;
 }
@@ -78,8 +78,7 @@ void epd_draw_circle_button_icon(
     uint8_t *framebuffer,
     void (*function)()) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
-        AddTouchPoint(x - radius, y - radius, radius * 2, radius * 2, function);
-        // epd_clear_area_quick(area, true); 
+        AddTouchPoint(area, function);
 
         if (bgColor == 15) {
             epd_draw_circle(x, y, radius, 0, framebuffer);
@@ -97,6 +96,57 @@ void epd_draw_circle_button_icon(
             .height =  image_height
         };
         epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+}
+
+void epd_draw_tertiary_button_icon(
+    uint8_t *image_data,
+    int32_t image_width,
+    int32_t image_height,
+    char* label, 
+    GFXfont *font,
+    int32_t x, 
+    int32_t y, 
+    uint8_t bgColor,
+    uint8_t textColor, 
+    DrawMode_t drawMode,
+    uint8_t *framebuffer,
+    void (*function)()) {
+        int text_width;
+        int text_height;
+        epd_get_text_dimensions(font, label, &text_width, &text_height);
+
+        Rect_t area = {x, y - 5, image_width + text_width + 10, image_height + 10};
+        AddTouchPoint(area, function);
+
+        uint8_t epdColor = epd_convert_font_color(bgColor);
+        epd_fill_rect(area.x, area.y, area.width, area.height, epdColor, framebuffer);
+
+        Rect_t iconArea = {
+            .x = x,
+            .y = y,
+            .width = image_width,
+            .height =  image_height
+        };
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+
+
+        FontProperties *properties = new FontProperties();
+        properties->fg_color = textColor;
+        properties->bg_color = bgColor;
+
+        int cursor_x = x + image_width + 10;
+        int cursor_y = y + image_height / 2 + text_height / 2;
+        write_mode(
+            font, 
+            label, 
+            &cursor_x, 
+            &cursor_y, 
+            framebuffer, 
+            drawMode,
+            properties
+        );
+        
+        delete properties;
 }
 
 // with icons / without

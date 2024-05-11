@@ -66,7 +66,7 @@
 int lastChangeIndex = 0;
 Rect_t areaspotify = {
             .x = 95 + spotify_icon_width,
-            .y = 65 + (EPD_HEIGHT - 65) / 2 - 70,
+            .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 70,
             .width = EPD_WIDTH - 100 - spotify_icon_width,
             .height =  140
         };
@@ -76,14 +76,17 @@ SpotifyArduino spotifyAgent = getSpotifyAgent();
 uint8_t *spotifyFrameBuffer;
 bool trackPlaying = false;
 bool shuffle = false;
+bool repeat = false;
 
-void spotifyTogglePlay() {
-    Rect_t playIconArea = {
-        .x = 400 - play_icon_width,
-        .y = EPD_HEIGHT / 2 - play_icon_height / 2,
+Rect_t playIconArea = {
+        .x = EPD_WIDTH - 160 - play_icon_width / 2,
+        .y = EPD_HEIGHT - 70 - play_icon_height / 2,
         .width = play_icon_width,
         .height =  play_icon_height
     };
+
+void spotifyTogglePlay() {
+    
 
     epd_clear_area_quick(playIconArea, true);
 
@@ -111,8 +114,23 @@ void spotifyNext() {
 void spotifyToggleShuffle() {
     if (shuffle) {
         spotifyAgent.toggleShuffle(false);
+        shuffle = false;
+        //TODO add a little dot to display state
     } else {
         spotifyAgent.toggleShuffle(true);
+        shuffle = true;
+    }
+}
+
+void spotifyToggleRepeat() {
+    if (repeat) {
+        spotifyAgent.setRepeatMode(repeat_track);
+        repeat = false;
+        //TODO add a little dot to display state
+        //TODO edit to repeat
+    } else {
+        spotifyAgent.setRepeatMode(repeat_off);
+        repeat = true;
     }
 }
 
@@ -137,16 +155,14 @@ void printCurrentlyPlaying() {
         .height =  play_icon_height
     };
     if (getIsPlaying()) {
-        //epd_copy_to_framebuffer(playIconArea, (uint8_t *) pause_icon_data, spotifyFrameBuffer);
         trackPlaying = true;
     }
     else {
-        //epd_copy_to_framebuffer(playIconArea, (uint8_t *) play_icon_data, spotifyFrameBuffer);
         trackPlaying = false;
     }
 
     int cursor_x = 100 + spotify_icon_width; //TODO relative to mainbuffer
-    int cursor_y = 65 + (EPD_HEIGHT - 65) / 2 - 20;
+    int cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
     writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     cursor_x = 100 + spotify_icon_width;
@@ -179,30 +195,60 @@ void ScreenSpotify() {
 
     Rect_t iconArea = {
         .x = 50,
-        .y = 65 + (EPD_HEIGHT - 65) / 2 - spotify_icon_height / 2,
+        .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - spotify_icon_height / 2,
         .width = spotify_icon_width,
         .height =  spotify_icon_height
     };
     epd_copy_to_framebuffer(iconArea, (uint8_t *) spotify_icon_data, spotifyFrameBuffer);
+
+    epd_draw_tertiary_button_icon(
+        const_cast<uint8_t *>(shuffle_icon_data), 
+        shuffle_icon_width,
+        shuffle_icon_height,
+        "Shuffle",
+        (GFXfont *)&OpenSans12,
+        EPD_WIDTH - 150, 
+        STATUS_BAR_HEIGHT + 20, 
+        15, 
+        0,
+        WHITE_ON_BLACK, 
+        spotifyFrameBuffer,
+        spotifyToggleShuffle
+    );
+    
+    epd_draw_tertiary_button_icon(
+        const_cast<uint8_t *>(refresh_icon_data), 
+        refresh_icon_width,
+        refresh_icon_height,
+        "Repeat",
+        (GFXfont *)&OpenSans12,
+        EPD_WIDTH - 300,
+        STATUS_BAR_HEIGHT + 20, 
+        15, 
+        0,
+        WHITE_ON_BLACK, 
+        spotifyFrameBuffer,
+        spotifyToggleRepeat
+    );
     
     epd_draw_circle_button_icon(
-        const_cast<uint8_t *>(prev_icon_data), // Add const qualifier
+        const_cast<uint8_t *>(prev_icon_data), 
         prev_icon_width,
         prev_icon_height,
-        EPD_WIDTH - 240, 
-        EPD_HEIGHT - 60, 
+        EPD_WIDTH - 260, 
+        EPD_HEIGHT - 70, 
         40, 
         0, 
         spotifyFrameBuffer,
         spotifyPrev
     );
-    
+
     epd_draw_circle_button_icon(
-        const_cast<uint8_t *>(pause_icon_data), // Add const qualifier
+        const_cast<uint8_t *>(pause_icon_data), 
         pause_icon_width,
         pause_icon_height,
-        EPD_WIDTH - 150, 
-        EPD_HEIGHT - 60, 
+        EPD_WIDTH - 160, 
+        EPD_HEIGHT - 70, 
         50, 
         0, 
         spotifyFrameBuffer,
@@ -210,11 +256,11 @@ void ScreenSpotify() {
     );
     
     epd_draw_circle_button_icon(
-        const_cast<uint8_t *>(next_icon_data), // Add const qualifier
+        const_cast<uint8_t *>(next_icon_data), 
         next_icon_width,
         next_icon_height,
-        EPD_WIDTH - 50, 
-        EPD_HEIGHT - 60, 
+        EPD_WIDTH - 60, 
+        EPD_HEIGHT - 70, 
         40, 
         0, 
         spotifyFrameBuffer,
@@ -228,7 +274,7 @@ void ScreenSpotify() {
 
     if (updateScreenSpotifyTaskHandle == NULL) {
         int cursor_x = 100 + spotify_icon_width; //TODO relative to mainbuffer
-        int cursor_y = 65 + (EPD_HEIGHT - 65) / 2 - 20;
+        int cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
         writeln((GFXfont *)&OpenSans20B, "Connecting to Spotify...", &cursor_x, &cursor_y, spotifyFrameBuffer);
 
         cursor_x = 100 + spotify_icon_width;

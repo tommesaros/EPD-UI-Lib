@@ -78,12 +78,13 @@ TouchClass TouchSetup() {
     return (touch);
 }
 
-void AddTouchPoint(int x, int y, int width, int height, void (*function)()) {
+//TODO edit to Rect area
+void AddTouchPoint(Rect_t area, void (*function)()) {
     if (numTouchPoints < MAX_TOUCH_POINTS) {
-        touchPoints[numTouchPoints].x = x;
-        touchPoints[numTouchPoints].y = y;
-        touchPoints[numTouchPoints].width = width;
-        touchPoints[numTouchPoints].height = height;
+        touchPoints[numTouchPoints].x = area.x;
+        touchPoints[numTouchPoints].y = area.y;
+        touchPoints[numTouchPoints].width = area.width;
+        touchPoints[numTouchPoints].height = area.height;
         touchPoints[numTouchPoints].function = function;
         numTouchPoints++;
     }
