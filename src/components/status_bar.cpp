@@ -42,6 +42,18 @@
 #include "../include/apps/system/homescreen.h"
 
 TaskHandle_t updateTimeTaskHandle = NULL;
+void (*exitFunction)();
+
+void exitAppAndGoToHomescreen() {
+    exitFunction();
+    ScreenHome();
+}
+
+void exitAppAndGoToAppMenu() {
+    exitFunction();
+    ScreenAppMenu();
+}
+
 
 void updateTimeTask(void *parameter) {
     int32_t cursor_x = EPD_WIDTH / 2;
@@ -114,7 +126,8 @@ void updateTimeTask(void *parameter) {
     }
 }
 
-void epd_draw_status_bar() {
+void epd_draw_status_bar(void (*function)()) {
+    exitFunction = function;
     uint8_t *mainFramebuffer = GetMainFramebuffer();
     epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, 20, 0, mainFramebuffer);
 
@@ -130,7 +143,7 @@ void epd_draw_status_bar() {
         statusBarIconArea.y, 
         statusBarIconArea.width, 
         statusBarIconArea.height, 
-        ScreenHome
+        exitAppAndGoToHomescreen
     );
 
     statusBarIconArea.x = 90;
@@ -140,7 +153,7 @@ void epd_draw_status_bar() {
         statusBarIconArea.y, 
         statusBarIconArea.width, 
         statusBarIconArea.height, 
-        ScreenAppMenu
+        exitAppAndGoToAppMenu
     );
 
     GFXfont *font = (GFXfont *)&OpenSans12;

@@ -2,6 +2,8 @@
 #include "epd_driver.h"
 
 #include "../include/handlers/epd_handler.h"
+#include "../include/handlers/framebuffer_handler.h"
+#include "../include/fonts.h"
 
 void EPDSetup() {
     epd_init();
@@ -74,9 +76,12 @@ void epd_get_text_dimensions(const GFXfont *font,
     delete properties;
 }
 void epd_clear_area_quick(Rect_t area, bool white) {
+    epd_fill_rect(area.x, area.y, area.width, area.height, white ? 255 : 0, GetMainFramebuffer());
     epd_push_pixels(area, 100, white ? 1 : 0);
 }
 
 uint8_t epd_convert_font_color(uint8_t color) {
     return map(color, 0, 15, 0, 255);
 }
+
+//TODO *font GetFont(string){switch}

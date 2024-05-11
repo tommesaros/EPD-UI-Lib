@@ -44,10 +44,13 @@
 // ----------------------------
 #include "../../include/apps/weather/weather.h"
 
+void weatherExit() {
+}
+
 void ScreenWeather() {
     uint8_t * framebuffer = GetMainFramebuffer();
     CleanFramebuffer(framebuffer, epd_full_screen());
-    epd_draw_status_bar();
+    epd_draw_status_bar(weatherExit); //TODO
 
     int cursor_x = 20; //TODO relative to mainbuffer
     int cursor_y = 140;
@@ -64,4 +67,3 @@ void ScreenWeather() {
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     //TODO add manual update button
 }
-
