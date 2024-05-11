@@ -51,8 +51,9 @@ void homeExit() {
 void ScreenHome() {
     uint8_t *mainFramebuffer = GetMainFramebuffer();
 
-    CleanFramebuffer(mainFramebuffer, epd_full_screen());
     ClearTouchPoints();
+    CleanFramebuffer(mainFramebuffer, epd_full_screen());
+    epd_draw_status_bar(homeExit);
 
     epd_draw_circle_button_label(
         "ahoj", 
@@ -76,8 +77,6 @@ void ScreenHome() {
         mainFramebuffer,
         ScreenWeather
     );
-
-    epd_draw_status_bar(homeExit);
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 
 }

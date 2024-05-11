@@ -111,8 +111,6 @@ void spotifyNext() {
 
 void spotifyToggleShuffle() {
     if (shuffle) {
-        spotifyAgent.toggleShuffle(false);
-        shuffle = false;
         Rect_t shuffleDotArea = {
             .x = EPD_WIDTH - 160,
             .y = STATUS_BAR_HEIGHT + 30,
@@ -120,30 +118,32 @@ void spotifyToggleShuffle() {
             .height = 12
         };
         CleanFramebuffer(spotifyFrameBuffer, shuffleDotArea);
+        spotifyAgent.toggleShuffle(false);
+        shuffle = false;
     } else {
-        spotifyAgent.toggleShuffle(true);
-        shuffle = true;
         epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_HEIGHT + 36, 5, 0, spotifyFrameBuffer);
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+        spotifyAgent.toggleShuffle(true);
+        shuffle = true;
     }
 }
 
 void spotifyToggleRepeat() {
     if (repeat) {
-        spotifyAgent.setRepeatMode(repeat_off);
-        repeat = false;
         Rect_t repeatDotArea = {
-            .x = EPD_WIDTH - 310,
+            .x = EPD_WIDTH - 323,
             .y = STATUS_BAR_HEIGHT + 30,
             .width = 15,
             .height =  12
         };
         CleanFramebuffer(spotifyFrameBuffer, repeatDotArea);
+        spotifyAgent.setRepeatMode(repeat_off);
+        repeat = false;
     } else {
-        spotifyAgent.setRepeatMode(repeat_track);
-        repeat = true;
         epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_HEIGHT + 36, 5, 0, spotifyFrameBuffer);
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+        spotifyAgent.setRepeatMode(repeat_track);
+        repeat = true;
     }
 }
 
