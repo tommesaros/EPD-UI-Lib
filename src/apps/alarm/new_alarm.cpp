@@ -42,3 +42,4 @@
 // ----------------------------
 #include "../../include/apps/alarm/new_alarm.h"
 
+// dialer for time, next page for days of the week and alarm sound

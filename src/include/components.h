@@ -9,7 +9,6 @@
 #include "components/button.h"
 #include "components/card.h"
 #include "components/check_box.h"
-#include "components/icon.h"
 #include "components/notification.h"
 #include "components/popup.h"
 #include "components/progress_bar.h"

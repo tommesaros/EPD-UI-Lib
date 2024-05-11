@@ -123,3 +123,15 @@ String strTime(time_t unixTime) {
   unixTime += WEATHER_TIME_OFFSET;
   return ctime(&unixTime);
 }
+
+//TODO get current weather icon
+const uint8_t* getWeatherIcon(String iconName) {
+    switch (iconName)
+    {
+    case "01d":
+        return weather_clear_sky_day_icon_data;
+    
+    default:
+        break;
+    }
+}

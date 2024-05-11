@@ -2,6 +2,19 @@
 #define EPD_HANDLER_H
 
 /**
+ * @brief The maximum number of quick refreshes supported by the EPD handler.
+ *
+ * This constant represents the maximum number of quick refreshes that can be performed
+ * by the EPD handler. Quick refresh is a feature of the EPD (Electronic Paper Display)
+ * technology that allows for faster screen updates by only refreshing the parts of the
+ * screen that have changed. It is much less disturbing to the user than a full refresh, 
+ * however it can cause ghosting if used too frequently.
+ *
+ * @note The value of this constant may vary depending on the specific EPD hardware being used.
+ */
+extern const int EPD_MAX_QUICK_REFRESHES;
+
+/**
  * @brief Sets up the EPD (Electronic Paper Display).
  * 
  * This function initializes the communication with the Electronic Paper Display.
@@ -83,5 +96,11 @@ void epd_clear_area_quick(Rect_t area, bool white);
  * @return The converted font color (range 0 as black, 255 as white).
  */
 uint8_t epd_convert_font_color(uint8_t color);
+
+void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)());
+
+GFXfont* epd_get_font(int size, bool bold);
+
+void epd_draw_framebuffer(uint8_t *framebuffer);
 
 #endif // EPD_HANDLER_H

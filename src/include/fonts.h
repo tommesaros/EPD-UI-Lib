@@ -31,5 +31,4 @@
 #include "../../font/opensans26.h"
 #include "../../font/opensans26b.h"
 
-
 #endif // FONTS_H

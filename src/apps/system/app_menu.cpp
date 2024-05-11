@@ -43,5 +43,5 @@
 #include "../../include/apps/system/app_menu.h"
 
 void ScreenAppMenu() {
-
+    //four buttons for the four apps
 }

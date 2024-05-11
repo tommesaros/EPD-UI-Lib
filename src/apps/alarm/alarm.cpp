@@ -42,3 +42,4 @@
 // ----------------------------
 #include "../../include/apps/alarm/alarm.h"
 
+//tertiary button to add new alarm, card for each alarm

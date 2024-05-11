@@ -41,7 +41,7 @@
 #include "../include/apps/system/app_menu.h"
 #include "../include/apps/system/homescreen.h"
 
-TaskHandle_t updateTimeTaskHandle = NULL;
+TaskHandle_t updateTimeStatusBarHandle = NULL;
 const int STATUS_BAR_HEIGHT = 65;
 void (*exitFunction)();
 
@@ -56,7 +56,7 @@ void exitAppAndGoToAppMenu() {
 }
 
 
-void updateTimeTask(void *parameter) {
+void updateTimeStatusBar(void *parameter) {
     int32_t cursor_x = EPD_WIDTH / 2;
     int32_t cursor_y = 45;
     uint8_t *mainFramebuffer = GetMainFramebuffer();
@@ -75,10 +75,9 @@ void updateTimeTask(void *parameter) {
 
     while (true) {
         vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
-        epd_poweron();
 
-        if (refreshCount == 5) {
-            epd_clear_area_cycles(epd_full_screen(), 4, 50);
+        if (refreshCount == EPD_MAX_QUICK_REFRESHES) {
+            epd_clear();
             refreshCount = 0;
         } else {
             epd_clear_area_cycles(timeArea, 2, 50);
@@ -90,7 +89,6 @@ void updateTimeTask(void *parameter) {
 
         if (hour == 0 && minute == 0) {
             epd_clear_area_cycles(dateArea, 2, 50);
-            epd_fill_rect(150, 11, 200, 49, 255, mainFramebuffer);
             epd_fill_rect(150, 11, 200, 49, 0, mainFramebuffer);
 
             cursor_x = 150;
@@ -122,8 +120,6 @@ void updateTimeTask(void *parameter) {
         );
         
         epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
-
-        epd_poweroff();
     }
 
     delete properties;
@@ -204,14 +200,14 @@ void epd_draw_status_bar(void (*function)()) {
     statusBarIconArea.width = 145 + width;
     AddTouchPoint(statusBarIconArea, ScreenControlPanel);
     
-    if (updateTimeTaskHandle == NULL) {
+    if (updateTimeStatusBarHandle == NULL) {
         xTaskCreatePinnedToCore(
-            updateTimeTask,    // Task function
-            "updateTimeTask",  // Task name
+            updateTimeStatusBar,    // Task function
+            "updateTimeStatusBar",  // Task name
             5000,              // Stack size (in words)
             NULL,              // Task parameter
             1,                 // Task priority
-            &updateTimeTaskHandle,              // Task handle
+            &updateTimeStatusBarHandle,              // Task handle
             tskNO_AFFINITY     // Core number (0 or 1)
         );
     }

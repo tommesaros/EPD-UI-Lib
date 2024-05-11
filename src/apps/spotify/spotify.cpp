@@ -131,7 +131,7 @@ void spotifyToggleShuffle() {
 void spotifyToggleRepeat() {
     if (repeat) {
         Rect_t repeatDotArea = {
-            .x = EPD_WIDTH - 323,
+            .x = EPD_WIDTH - 318,
             .y = STATUS_BAR_HEIGHT + 30,
             .width = 15,
             .height =  12
@@ -157,9 +157,7 @@ void spotifyExit() {
 
 void printCurrentlyPlaying() {
     CleanFramebuffer(spotifyFrameBuffer, areaspotify);
-    //vTaskDelay(pdMS_TO_TICKS(1000));
     epd_draw_status_bar(spotifyExit);
-    //TODO add Spotify barcode
 
     Rect_t playIconArea = {
         .x = 400 - play_icon_width,
@@ -196,7 +194,7 @@ void updateScreenSpotify(void *parameter) {
             printCurrentlyPlaying();
         }
 
-        vTaskDelay(pdMS_TO_TICKS(10000));
+        vTaskDelay(pdMS_TO_TICKS(5000));
     }
 }
 

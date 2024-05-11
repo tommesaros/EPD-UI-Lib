@@ -43,5 +43,5 @@
 #include "../../include/apps/system/control_panel.h"
 
 void ScreenControlPanel() {
-    
+    //showcase toggles checkboxex and sliders
 }

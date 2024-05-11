@@ -93,7 +93,7 @@ void updateCurrentlyPlaying(void *parameter) {
             prevIsPlaying = isPlaying;
         }
         
-        vTaskDelay(pdMS_TO_TICKS(10000)); // Delay for 1 minute
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Delay for 5 seconds
     }
     
 }
@@ -110,11 +110,11 @@ void SpotifySetup() {
     xTaskCreatePinnedToCore(
         updateCurrentlyPlaying,     // Task function
         "updateCurrentlyPlaying",   // Task name
-        10000,              // Stack size (in words)
-        NULL,              // Task parameter
-        1,                 // Task priority
-        NULL,              // Task handle
-        tskNO_AFFINITY     // Core number (0 or 1)
+        10000,                      // Stack size (in words)
+        NULL,                       // Task parameter
+        1,                          // Task priority
+        NULL,                       // Task handle
+        tskNO_AFFINITY              // Core number (0 or 1)
     );
 }
 

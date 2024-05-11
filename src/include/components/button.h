@@ -37,6 +37,34 @@ void epd_draw_tertiary_button_icon(
     uint8_t textColor, 
     DrawMode_t drawMode,
     uint8_t *framebuffer,
-    void (*function)());
+    void (*function)()
+);
+
+void epd_draw_button_icon(
+    uint8_t *image_data,
+    int32_t image_width,
+    int32_t image_height,
+    char* label, 
+    GFXfont *font,
+    Rect_t rectArea,
+    int32_t radius, 
+    uint8_t bgColor,
+    uint8_t textColor, 
+    DrawMode_t drawMode,
+    uint8_t *framebuffer,
+    void (*function)()
+);
+
+void epd_draw_button(
+    char* label, 
+    GFXfont *font,
+    Rect_t rectArea,
+    int32_t radius, 
+    uint8_t bgColor,
+    uint8_t textColor, 
+    DrawMode_t drawMode,
+    uint8_t *framebuffer,
+    void (*function)()
+);
 
 #endif // BUTTON_H
