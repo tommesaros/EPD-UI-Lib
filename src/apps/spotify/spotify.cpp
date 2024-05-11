@@ -86,8 +86,6 @@ Rect_t playIconArea = {
     };
 
 void spotifyTogglePlay() {
-    
-
     epd_clear_area_quick(playIconArea, true);
 
     if (trackPlaying) {
@@ -115,22 +113,37 @@ void spotifyToggleShuffle() {
     if (shuffle) {
         spotifyAgent.toggleShuffle(false);
         shuffle = false;
-        //TODO add a little dot to display state
+        Rect_t shuffleDotArea = {
+            .x = EPD_WIDTH - 160,
+            .y = STATUS_BAR_HEIGHT + 30,
+            .width = 15,
+            .height = 12
+        };
+        CleanFramebuffer(spotifyFrameBuffer, shuffleDotArea);
     } else {
         spotifyAgent.toggleShuffle(true);
         shuffle = true;
+        epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_HEIGHT + 36, 5, 0, spotifyFrameBuffer);
+        epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
     }
 }
 
 void spotifyToggleRepeat() {
     if (repeat) {
-        spotifyAgent.setRepeatMode(repeat_track);
-        repeat = false;
-        //TODO add a little dot to display state
-        //TODO edit to repeat
-    } else {
         spotifyAgent.setRepeatMode(repeat_off);
+        repeat = false;
+        Rect_t repeatDotArea = {
+            .x = EPD_WIDTH - 310,
+            .y = STATUS_BAR_HEIGHT + 30,
+            .width = 15,
+            .height =  12
+        };
+        CleanFramebuffer(spotifyFrameBuffer, repeatDotArea);
+    } else {
+        spotifyAgent.setRepeatMode(repeat_track);
         repeat = true;
+        epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_HEIGHT + 36, 5, 0, spotifyFrameBuffer);
+        epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
     }
 }
 
@@ -202,21 +215,6 @@ void ScreenSpotify() {
     epd_copy_to_framebuffer(iconArea, (uint8_t *) spotify_icon_data, spotifyFrameBuffer);
 
     epd_draw_tertiary_button_icon(
-        const_cast<uint8_t *>(shuffle_icon_data), 
-        shuffle_icon_width,
-        shuffle_icon_height,
-        "Shuffle",
-        (GFXfont *)&OpenSans12,
-        EPD_WIDTH - 150, 
-        STATUS_BAR_HEIGHT + 20, 
-        15, 
-        0,
-        WHITE_ON_BLACK, 
-        spotifyFrameBuffer,
-        spotifyToggleShuffle
-    );
-    
-    epd_draw_tertiary_button_icon(
         const_cast<uint8_t *>(refresh_icon_data), 
         refresh_icon_width,
         refresh_icon_height,
@@ -229,6 +227,21 @@ void ScreenSpotify() {
         WHITE_ON_BLACK, 
         spotifyFrameBuffer,
         spotifyToggleRepeat
+    );
+
+    epd_draw_tertiary_button_icon(
+        const_cast<uint8_t *>(shuffle_icon_data), 
+        shuffle_icon_width,
+        shuffle_icon_height,
+        "Shuffle",
+        (GFXfont *)&OpenSans12,
+        EPD_WIDTH - 150, 
+        STATUS_BAR_HEIGHT + 20, 
+        15, 
+        0,
+        WHITE_ON_BLACK, 
+        spotifyFrameBuffer,
+        spotifyToggleShuffle
     );
     
     epd_draw_circle_button_icon(
