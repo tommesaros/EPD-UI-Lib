@@ -29,7 +29,7 @@ void epd_draw_tertiary_button_icon(
     uint8_t *image_data,
     int32_t image_width,
     int32_t image_height,
-    char* label, 
+    const char* label, 
     GFXfont *font,
     int32_t x, 
     int32_t y, 

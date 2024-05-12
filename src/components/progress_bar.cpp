@@ -21,3 +21,4 @@
 #include "../include/handlers/framebuffer_handler.h"
 
 // two colors
+// take percentage and draw a rectangle

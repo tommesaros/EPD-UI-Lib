@@ -12,6 +12,7 @@
 // ----------------------------
 #include "../include/fonts.h"
 #include "../include/components/status_bar.h"
+#include "../include/dimensions.h"
 
 // ----------------------------
 // Handlers
@@ -41,7 +42,6 @@
 #include "../include/apps/system/homescreen.h"
 
 TaskHandle_t updateTimeStatusBarHandle = NULL;
-const int STATUS_BAR_HEIGHT = 65;
 void (*exitFunction)();
 
 void exitAppAndGoToHomescreen() {
