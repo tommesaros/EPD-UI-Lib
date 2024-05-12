@@ -21,7 +21,8 @@
 // ----------------------------
 // Images
 // ----------------------------
-//TODO: Add images
+#include "../../../image/black_bg/alarm_icon.h"
+#include "../../../image/black_bg/spotify_line_icon.h"
 
 // ----------------------------
 // Handlers
@@ -46,6 +47,12 @@ void homeExit() {
     // epd_sleep();
 }
 
+void openAlarm() {
+    vTaskDelete(updateTimeHomeScreenHandle);
+    updateTimeHomeScreenHandle = NULL;
+    //TODO ScreenAlarm();
+}
+
 void openSpotify() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
@@ -61,7 +68,19 @@ void openWeather() {
 void openControlPanel() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    //ScreenControlPanel();
+    //TODO ScreenControlPanel();
+}
+
+void openBusDepartures() {
+    vTaskDelete(updateTimeHomeScreenHandle);
+    updateTimeHomeScreenHandle = NULL;
+    //TODO ScreenBusDepartures();
+}
+
+void toggleLights() {
+    vTaskDelete(updateTimeHomeScreenHandle);
+    updateTimeHomeScreenHandle = NULL;
+    //TODO toggle button;
 }
 
 void updateTimeHomeScreen(void *parameter) {
@@ -71,14 +90,26 @@ void updateTimeHomeScreen(void *parameter) {
     char time[6];
     int32_t width = 0;
     int32_t height = 0;
-    Rect_t timeArea = {0, 100, EPD_WIDTH / 2, 300};
+    Rect_t timeArea = {
+        0, 
+        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 50, 
+        EPD_WIDTH / 4, 
+        100
+    };
     int hour;
     int minute;
     GFXfont *font = (GFXfont *)&OpenSans26B;
     bool firstRun = true;
 
     while (true) {
-        epd_fill_rect(0, 100, EPD_WIDTH / 2, 300, 255, mainFramebuffer);
+        epd_fill_rect(
+            0, 
+            STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 50, 
+            EPD_WIDTH / 4, 
+            100, 
+            255, 
+            mainFramebuffer
+        );
 
         hour = TimeGetHour();
         minute = TimeGetMinute();
@@ -128,28 +159,70 @@ void ScreenHome() {
 
     epd_draw_status_bar(homeExit);
 
-    epd_draw_circle_button_label(
-        "ahoj", 
-        (GFXfont *)&OpenSans10B,
-        100, 
-        450, 
-        40, 
-        0, 
-        15, 
-        mainFramebuffer,
-        openSpotify
-    );
     
-    epd_draw_circle_button_label(
-        "9", 
-        (GFXfont *)&OpenSans16B,
-        230, 
-        450, 
-        40, 
-        15, 
-        0, 
+    // 1st column of information cards
+    Rect_t cardArea = {
+        EPD_WIDTH / 2 - 150, 
+        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 170, 
+        300, 
+        100
+    };
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(alarm_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "Alarm",
+        "tomorrow 7:20",
+        (GFXfont *)&OpenSans12B,
+        (GFXfont *)&OpenSans12,
+        cardArea,
+        30,
+        0,
+        15,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        openAlarm
+    );
+
+    CurrentWeather *current = getCurrentWeather();
+
+    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 50;
+    epd_draw_horizontal_card(
+        const_cast<uint8_t*>(getWeatherIcon(current->icon)),
+        alarm_icon_width,
+        alarm_icon_height,
+        "Weather",
+        current->temperature.c_str(),
+        (GFXfont *)&OpenSans12B,
+        (GFXfont *)&OpenSans12,
+        cardArea,
+        30,
+        0,
+        15,
+        WHITE_ON_BLACK,
         mainFramebuffer,
         openWeather
+    );
+
+    char trackName[15];
+    strncpy(trackName, getTrackName(), 14);
+
+    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 70;
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(spotify_line_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "Spotify",
+        trackName,
+        (GFXfont *)&OpenSans12B,
+        (GFXfont *)&OpenSans12,
+        cardArea,
+        30,
+        0,
+        15,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        openSpotify
     );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 

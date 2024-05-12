@@ -43,3 +43,30 @@
 #include "../../include/apps/alarm/alarm.h"
 
 //tertiary button to add new alarm, card for each alarm
+
+/*
+epd_draw_circle_button_label(
+        "ahoj", 
+        (GFXfont *)&OpenSans10B,
+        100, 
+        450, 
+        40, 
+        0, 
+        15, 
+        mainFramebuffer,
+        openSpotify
+    );
+    
+    epd_draw_circle_button_label(
+        "9", 
+        (GFXfont *)&OpenSans16B,
+        230, 
+        450, 
+        40, 
+        15, 
+        0, 
+        mainFramebuffer,
+        openWeather
+    );
+
+*/

@@ -38,7 +38,6 @@
 // Apps
 // ----------------------------
 #include "../include/apps/system/control_panel.h"
-#include "../include/apps/system/app_menu.h"
 #include "../include/apps/system/homescreen.h"
 
 TaskHandle_t updateTimeStatusBarHandle = NULL;
@@ -52,7 +51,8 @@ void exitAppAndGoToHomescreen() {
 
 void exitAppAndGoToAppMenu() {
     exitFunction();
-    ScreenAppMenu();
+    // Show screen with all apps when there are 
+    // more apps than can fit on the homescreen
 }
 
 
