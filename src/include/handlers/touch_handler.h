@@ -22,4 +22,6 @@ void AddTouchPoint(Rect_t area, void (*function)());
  */
 void ClearTouchPoints();
 
+void dummyFunction();
+
 #endif // TOUCH_HANDLER_H

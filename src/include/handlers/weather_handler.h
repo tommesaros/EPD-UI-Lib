@@ -34,7 +34,7 @@ struct HourlyWeather {
  * Structure representing the daily weather forecast with units.
  */
 struct DailyWeather {
-    String time; /**< The time of the forecast. */
+    String day; /**< The time of the forecast. */
     String temp_min; /**< The minimum forecasted temperature. */
     String temp_max; /**< The maximum forecasted temperature. */
     String wind_speed; /**< The forecasted wind speed. */
@@ -80,5 +80,11 @@ void WeatherSetup();
  * @return The string representation of time.
  */
 String strTime(time_t unixTime);
+
+//TODO: add description
+String strDate(time_t unixTime);
+
+//TODO: add description
+const uint8_t* getWeatherIcon(String iconName);
 
 #endif // WEATHER_HANDLER_H

@@ -97,6 +97,7 @@ void epd_clear_area_quick(Rect_t area, bool white);
  */
 uint8_t epd_convert_font_color(uint8_t color);
 
+//TODO add documentation
 void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)());
 
 GFXfont* epd_get_font(int size, bool bold);

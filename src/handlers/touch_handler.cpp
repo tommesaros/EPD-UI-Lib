@@ -94,3 +94,6 @@ void ClearTouchPoints() {
     memset(touchPoints, 0, sizeof(touchPoints));
     numTouchPoints = 0; // Reset the count of touch points
 }
+
+void dummyFunction() {
+}

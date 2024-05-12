@@ -20,12 +20,12 @@
 #include "../include/handlers/touch_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 
-void epd_horizontal_card(
+void epd_draw_horizontal_card(
     uint8_t *image_data,
     int32_t image_width,
     int32_t image_height,
-    char* primaryLabel, 
-    char* secondaryLabel, 
+    const char * primaryLabel, 
+    const char * secondaryLabel, 
     GFXfont *primaryFont,
     GFXfont *secondaryFont,
     Rect_t rectArea,
@@ -90,7 +90,8 @@ void epd_horizontal_card(
             drawMode,
             properties
         );
-
+        
+        cursor_x = rectArea.x + image_width + 40;
         cursor_y = rectArea.y + rectArea.height / 2 + text_height + 5;
         write_mode(
             secondaryFont, 
@@ -105,7 +106,7 @@ void epd_horizontal_card(
         delete properties;
 }
 
-void epd_vertical_card(
+void epd_draw_vertical_card(
     uint8_t *image_data,
     int32_t image_width,
     int32_t image_height,

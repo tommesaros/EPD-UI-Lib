@@ -133,7 +133,7 @@ void epd_draw_tertiary_button_icon(
         properties->bg_color = bgColor;
 
         int cursor_x = x + image_width + 10;
-        int cursor_y = y + image_height / 2 + text_height / 2;
+        int cursor_y = y + image_height / 2 + text_height / 2 - 5;
         write_mode(
             font, 
             label, 

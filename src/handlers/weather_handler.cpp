@@ -24,6 +24,17 @@
 // ----------------------------
 #include "../include/credentials.h"
 
+// ----------------------------
+// Weather icons
+// ----------------------------
+#include "../../image/black_bg/sunny_icon.h"
+#include "../../image/black_bg/cloudy_icon.h"
+#include "../../image/black_bg/semi_cloudy_icon.h"
+#include "../../image/black_bg/rainy_icon.h"
+#include "../../image/black_bg/storm_icon.h"
+#include "../../image/black_bg/snow_icon.h"
+#include "../../image/black_bg/mist_icon.h"
+
 OW_Weather ow; // Weather forecast library instance
 
 struct CurrentWeather;
@@ -68,7 +79,7 @@ void updateWeather(void *parameters) {
         }
 
         for (int i = 0; i < MAX_DAYS; i++) {
-            dailyWeather[i].time = strTime(daily->dt[i]);
+            dailyWeather[i].day = strDate(daily->dt[i]);
             dailyWeather[i].temp_min = String(daily->temp_min[i]) + "°C";
             dailyWeather[i].temp_max = String(daily->temp_max[i]) + "°C";
             dailyWeather[i].wind_speed = String(daily->wind_speed[i]) + "m/s";
@@ -120,18 +131,40 @@ void WeatherSetup() {
 }
 
 String strTime(time_t unixTime) {
-  unixTime += WEATHER_TIME_OFFSET;
-  return ctime(&unixTime);
+    unixTime += WEATHER_TIME_OFFSET;
+    struct tm *timeinfo;
+    timeinfo = localtime(&unixTime);
+    char buffer[9];
+    strftime(buffer, sizeof(buffer), "%H:%M", timeinfo);
+    return String(buffer);
+}
+
+String strDate(time_t unixTime) {
+    unixTime += WEATHER_TIME_OFFSET;
+    struct tm *timeinfo;
+    timeinfo = localtime(&unixTime);
+    char buffer[20]; 
+    strftime(buffer, sizeof(buffer), "%a %d.%m.", timeinfo);
+    return String(buffer);
 }
 
 //TODO get current weather icon
 const uint8_t* getWeatherIcon(String iconName) {
-    switch (iconName)
-    {
-    case "01d":
-        return weather_clear_sky_day_icon_data;
-    
-    default:
-        break;
+    if (iconName == "01d" || iconName == "01n") {
+        return sunny_icon_data;
+    } else if (iconName == "02d" || iconName == "02n") {
+        return semi_cloudy_icon_data;
+    } else if (iconName == "03d" || iconName == "03n" || iconName == "04d" || iconName == "04n") {
+        return cloudy_icon_data;
+    } else if (iconName == "09d" || iconName == "09n" || iconName == "10d" || iconName == "10n") {
+        return rainy_icon_data;
+    } else if (iconName == "11d" || iconName == "11n") {
+        return storm_icon_data;
+    } else if (iconName == "13d" || iconName == "13n") {
+        return snow_icon_data;
+    } else if (iconName == "50d" || iconName == "50n") {
+        return mist_icon_data;
+    } else {
+        return sunny_icon_data;
     }
 }

@@ -133,6 +133,8 @@ void epd_draw_framebuffer(uint8_t *framebuffer) {
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
     epdCurrentlyRefreshing = true;
+    epd_poweron();
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_poweroff();
     epdCurrentlyRefreshing = false;
 }
