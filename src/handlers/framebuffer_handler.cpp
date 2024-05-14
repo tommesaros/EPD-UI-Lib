@@ -8,6 +8,8 @@ uint8_t *statusbar_framebuffer;
 uint8_t *notification_framebuffer;
 uint8_t *popup_framebuffer;
 
+//TODO RENAME ALL
+
 uint8_t* CreateFramebuffer() {
     uint8_t *framebuffer = (uint8_t *)ps_calloc(sizeof(uint8_t), EPD_WIDTH * EPD_HEIGHT / 2);
     if (!framebuffer) {

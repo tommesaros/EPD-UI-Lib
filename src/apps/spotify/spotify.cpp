@@ -191,7 +191,6 @@ void updateScreenSpotify(void *parameter) {
 }
 
 void displaySpotify() {
-    const int UPPER_BUTTON_ROW_Y = STATUS_BAR_HEIGHT + 20;
     const int LOWER_BUTTON_ROW_Y = EPD_HEIGHT - 70;
     const int SMALL_BUTTON_RADIUS = 40;
     const int BIG_BUTTON_RADIUS = 50;

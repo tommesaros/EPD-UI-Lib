@@ -20,6 +20,7 @@
 #include "include/fonts.h"
 #include "include/components.h"
 #include "include/dimensions.h"
+#include "include/colors.h"
 
 // ----------------------------
 // Images
@@ -71,11 +72,11 @@ void showHourlyWeather() {
         back_icon_width,
         back_icon_height,
         "Hourly weather",
-        (GFXfont *)&OpenSans14B,
+        TITLE_FONT,
         30, 
-        STATUS_BAR_HEIGHT + 20,  
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y,  
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
         ScreenWeather
@@ -87,11 +88,11 @@ void showHourlyWeather() {
         daily_icon_width,
         daily_icon_height,
         "Daily",
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT,
         EPD_WIDTH - 150, 
-        STATUS_BAR_HEIGHT + 20,  
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y,  
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
         showDailyWeather
@@ -99,65 +100,65 @@ void showHourlyWeather() {
 
     // Information cards
     Rect_t cardArea = {
-        EPD_WIDTH / 2 - 470, 
-        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140, 
+        EPD_WIDTH / 2 - SMALL_CARD_WIDTH * 1.5 - CARD_PADDING, 
+        SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30, 
         300, 
         100
     };
 
     for (int i = 0; i < MAX_HOURS; i++) {
         HourlyWeather *hour = getHourWeather(i);
-        cardArea.x = EPD_WIDTH / 2 - 470 + i * 320,
-        cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140;
-        
+        cardArea.x = EPD_WIDTH / 2 - SMALL_CARD_WIDTH * 1.5 - CARD_PADDING + i * (SMALL_CARD_WIDTH + CARD_PADDING),
+
+        cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30;
         epd_draw_horizontal_card(
             const_cast<uint8_t*>(getWeatherIcon(hour->icon)),
             temp_icon_width,
             temp_icon_height,
             hour->time.c_str(),
             hour->description.c_str(),
-            (GFXfont *)&OpenSans12B,
-            (GFXfont *)&OpenSans12,
+            TEXT_FONT_BOLD,
+            TEXT_FONT,
             cardArea,
-            30,
-            0,
-            15,
+            CORNER_RADIUS,
+            BLACK,
+            WHITE,
             WHITE_ON_BLACK,
             framebuffer,
             dummyFunction
         );
 
-        cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+        cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2 + 30;
         epd_draw_horizontal_card(
             const_cast<uint8_t *>(temp_icon_data),
             temp_icon_width,
             temp_icon_height,
             "Temperature",
             hour->temperature.c_str(),
-            (GFXfont *)&OpenSans12B,
-            (GFXfont *)&OpenSans12,
+            TEXT_FONT_BOLD,
+            TEXT_FONT,
             cardArea,
-            30,
-            0,
-            15,
+            CORNER_RADIUS,
+            BLACK,
+            WHITE,
             WHITE_ON_BLACK,
             framebuffer,
             dummyFunction
         );
 
-        cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 100;
+        cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING + 30;
         epd_draw_horizontal_card(
             const_cast<uint8_t *>(wind_icon_data),
             temp_icon_width,
             temp_icon_height,
             ("Rain " + hour->rain).c_str(),
             ("Wind " + hour->wind_speed).c_str(),
-            (GFXfont *)&OpenSans12B,
-            (GFXfont *)&OpenSans12,
+            TEXT_FONT_BOLD,
+            TEXT_FONT,
             cardArea,
-            30,
-            0,
-            15,
+            CORNER_RADIUS,
+            BLACK,
+            WHITE,
             WHITE_ON_BLACK,
             framebuffer,
             dummyFunction
@@ -179,11 +180,11 @@ void showDailyWeather() {
         back_icon_width,
         back_icon_height,
         "Daily weather",
-        (GFXfont *)&OpenSans14B,
+        TITLE_FONT,
         30, 
-        STATUS_BAR_HEIGHT + 20,  
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y,  
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
         ScreenWeather
@@ -195,11 +196,11 @@ void showDailyWeather() {
         daily_icon_width,
         daily_icon_height,
         "Hourly",
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT,
         EPD_WIDTH - 150, 
-        STATUS_BAR_HEIGHT + 20,  
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y,  
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
         showHourlyWeather
@@ -207,8 +208,8 @@ void showDailyWeather() {
 
     // Information cards
     Rect_t cardArea = {
-        EPD_WIDTH / 2 - 470, 
-        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140, 
+        EPD_WIDTH / 2 - SMALL_CARD_WIDTH * 1.5 - CARD_PADDING, 
+        SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30, 
         300, 
         100
     };
@@ -216,57 +217,57 @@ void showDailyWeather() {
     // MAX_DAYS - 1 because DAY = 0 is today
     for (int i = 0; i < MAX_DAYS - 1; i++) {
         DailyWeather *day = getDayWeather(i + 1);
-        cardArea.x = EPD_WIDTH / 2 - 470 + i * 320,
-        cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140;
-        
+        cardArea.x = EPD_WIDTH / 2 - SMALL_CARD_WIDTH * 1.5 - CARD_PADDING + i * (SMALL_CARD_WIDTH + CARD_PADDING),
+
+        cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30;
         epd_draw_horizontal_card(
             const_cast<uint8_t*>(getWeatherIcon(day->icon)),
             temp_icon_width,
             temp_icon_height,
             day->day.c_str(),
             day->description.c_str(),
-            (GFXfont *)&OpenSans12B,
-            (GFXfont *)&OpenSans12,
+            TEXT_FONT_BOLD,
+            TEXT_FONT,
             cardArea,
-            30,
-            0,
-            15,
+            CORNER_RADIUS,
+            BLACK,
+            WHITE,
             WHITE_ON_BLACK,
             framebuffer,
             dummyFunction
         );
 
-        cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+        cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2 + 30;
         epd_draw_horizontal_card(
             const_cast<uint8_t *>(temp_icon_data),
             temp_icon_width,
             temp_icon_height,
             ("Max " + day->temp_max).c_str(),
             ("Min " + day->temp_min).c_str(),
-            (GFXfont *)&OpenSans12B,
-            (GFXfont *)&OpenSans12,
+            TEXT_FONT_BOLD,
+            TEXT_FONT,
             cardArea,
-            30,
-            0,
-            15,
+            CORNER_RADIUS,
+            BLACK,
+            WHITE,
             WHITE_ON_BLACK,
             framebuffer,
             dummyFunction
         );
 
-        cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 100;
+        cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING + 30;
         epd_draw_horizontal_card(
             const_cast<uint8_t *>(wind_icon_data),
             temp_icon_width,
             temp_icon_height,
             ("Rain " + day->rain).c_str(),
             ("Wind " + day->wind_speed).c_str(),
-            (GFXfont *)&OpenSans12B,
-            (GFXfont *)&OpenSans12,
+            TEXT_FONT_BOLD,
+            TEXT_FONT,
             cardArea,
-            30,
-            0,
-            15,
+            CORNER_RADIUS,
+            BLACK,
+            WHITE,
             WHITE_ON_BLACK,
             framebuffer,
             dummyFunction
@@ -284,9 +285,9 @@ void ScreenWeather() {
     CurrentWeather *current = getCurrentWeather();
 
     // Title
-    int cursor_x = 30; 
-    int cursor_y = STATUS_BAR_HEIGHT + 50;
-    writeln((GFXfont *)&OpenSans14B, "Current weather ", &cursor_x, &cursor_y, framebuffer);
+    int x = 30; 
+    int y = STATUS_BAR_HEIGHT + 50;
+    writeln(TITLE_FONT, "Current weather ", &x, &y, framebuffer);
 
     // Buttons for daily and hourly weather
     epd_draw_tertiary_button_icon(
@@ -294,11 +295,11 @@ void ScreenWeather() {
         daily_icon_width,
         daily_icon_height,
         "Daily",
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT,
         EPD_WIDTH - 300,
-        STATUS_BAR_HEIGHT + 20, 
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y,  
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
         showDailyWeather
@@ -309,11 +310,11 @@ void ScreenWeather() {
         hourly_icon_width,
         hourly_icon_height,
         "Hourly",
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT,
         EPD_WIDTH - 150, 
-        STATUS_BAR_HEIGHT + 20, 
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y,  
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
         showHourlyWeather
@@ -321,8 +322,8 @@ void ScreenWeather() {
 
     // 1st column of information cards
     Rect_t cardArea = {
-        EPD_WIDTH / 2 - 470, 
-        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140, 
+        EPD_WIDTH / 2 - SMALL_CARD_WIDTH * 1.5 - CARD_PADDING, 
+        SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30, 
         300, 
         100
     };
@@ -332,160 +333,160 @@ void ScreenWeather() {
         temp_icon_height,
         "Description",
         current->description.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2 + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(temp_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Temperature",
         current->temperature.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 100;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(temp_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Feels like",
         current->feels_like.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
     // 2nd column of information cards
-    cardArea.x = EPD_WIDTH / 2 - 150;
-    cardArea.y =STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140;
+    cardArea.x = EPD_WIDTH / 2 - SMALL_CARD_WIDTH / 2;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t*>(sunrise_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Sunrise & set",
         (current->sunrise + " - " + current->sunset).c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2 + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(uv_icon_data),
         temp_icon_width,
         temp_icon_height,
         "UV Index",
         current->uvi.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 100;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(cloudy_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Clouds",
         current->clouds.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
     //3rd column of information cards
-    cardArea.x = EPD_WIDTH / 2 + 170;
-    cardArea.y =STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 140;
+    cardArea.x = EPD_WIDTH / 2 + SMALL_CARD_WIDTH / 2 + CARD_PADDING;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t*>(humidity_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Humidity",
         current->humidity.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2 + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(rain_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Rain",
         current->rain.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction
     );
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 100;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING + 30;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(wind_icon_data),
         temp_icon_width,
         temp_icon_height,
         "Wind speed",
         current->wind_speed.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         framebuffer,
         dummyFunction

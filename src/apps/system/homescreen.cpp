@@ -166,7 +166,7 @@ void ScreenHome() {
 
     // Alarm card
     Rect_t cardArea = {
-        EPD_WIDTH / 2 - 150, 
+        EPD_WIDTH / 2 - SMALL_CARD_WIDTH / 2, 
         SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING, 
         SMALL_CARD_WIDTH, 
         SMALL_CARD_HEIGHT

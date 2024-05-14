@@ -9,6 +9,8 @@
 // ----------------------------
 #include "include/fonts.h"
 #include "include/components.h"
+#include "include/dimensions.h"
+#include "include/colors.h"
 
 // ----------------------------
 // Images
@@ -35,15 +37,19 @@ void ScreenWiFiInit() {
     uint8_t *framebuffer = GetPopupFramebuffer();
     CleanFramebuffer(framebuffer, epd_full_screen());
 
-    int32_t wifi_popup_cursor_x = 100;
-    int32_t wifi_popup_cursor_y = 240;
-    writeln((GFXfont *)&OpenSans26B, "Connecting to WiFi...", &wifi_popup_cursor_x, &wifi_popup_cursor_y, framebuffer);
+    int32_t x = 100;
+    int32_t y = 240;
+    writeln(HEADLINE_FONT, "Connecting to WiFi...", &x, &y, framebuffer);
 
     char wifi_init_text[256];
-    sprintf(wifi_init_text, "Please make sure that %s\nnetwork is reachable and the password stored\nin src/constants/credentials is correct.", WIFI_SSID);
-    wifi_popup_cursor_x = 100;
-    wifi_popup_cursor_y = 290;
-    write_string((GFXfont *)&OpenSans12, (char *)wifi_init_text, &wifi_popup_cursor_x, &wifi_popup_cursor_y, framebuffer);
+    sprintf(
+        wifi_init_text, 
+        "Please make sure that %s\nnetwork is reachable and the password stored\nin src/constants/credentials is correct.", 
+        WIFI_SSID
+    );
+    x = 100;
+    y = 290;
+    write_string(TEXT_FONT, (char *)wifi_init_text, &x, &y, framebuffer);
 
     Rect_t iconArea = {
         .x = EPD_WIDTH - 100 - wifi_icon_width,

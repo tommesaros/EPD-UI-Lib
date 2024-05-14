@@ -13,6 +13,9 @@ const int CHECK_BOX_SIZE = 40;
 
 const int RADIO_BUTTON_RADIUS = 20;
 
+// Button dimensions
+const int UPPER_BUTTON_ROW_Y = STATUS_BAR_HEIGHT + 20;
+
 // Card dimensions
 const int SMALL_CARD_WIDTH = 300;
 const int SMALL_CARD_HEIGHT = 100;
