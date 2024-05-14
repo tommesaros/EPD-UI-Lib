@@ -25,6 +25,7 @@ void FramebufferSetup() {
     popup_framebuffer = CreateFramebuffer();
 }
 
+//TODO rename to epd_clear_partial_and_framebuffer_also or something
 void CleanFramebuffer(uint8_t *framebuffer, Rect_t area) {
     epd_fill_rect(area.x, area.y, area.width, area.height, 255, framebuffer);
     epd_clear_area_cycles(area, 2, 50);

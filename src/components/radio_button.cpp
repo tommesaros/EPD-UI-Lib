@@ -21,7 +21,7 @@
 #include "../include/handlers/touch_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 
-void epd_draw_check_box(
+void epd_draw_radio_button(
     const char* label, 
     GFXfont *font,
     int32_t x, 
@@ -35,24 +35,42 @@ void epd_draw_check_box(
         int text_width;
         int text_height;
         epd_get_text_dimensions(font, label, &text_width, &text_height);
-        Rect_t squareArea = {x, y, CHECK_BOX_SIZE, CHECK_BOX_SIZE};
+        Rect_t circleArea = {x, y, RADIO_BUTTON_RADIUS * 2, RADIO_BUTTON_RADIUS * 2};
 
-        Rect_t touchArea = {x, y, squareArea.width + text_width + 10, squareArea.height};
+        Rect_t touchArea = {x, y, circleArea.width + text_width + 10, circleArea.height};
         AddTouchPoint(touchArea, function);
 
-        epd_fill_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 255, framebuffer);
-        epd_draw_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 0, framebuffer);
+        epd_fill_circle(
+            circleArea.x + RADIO_BUTTON_RADIUS, 
+            circleArea.y + RADIO_BUTTON_RADIUS, 
+            RADIO_BUTTON_RADIUS, 
+            255, 
+            framebuffer
+        );
+        epd_draw_circle(
+            circleArea.x + RADIO_BUTTON_RADIUS, 
+            circleArea.y + RADIO_BUTTON_RADIUS, 
+            RADIO_BUTTON_RADIUS, 
+            0, 
+            framebuffer
+        );
 
         if (checked) {
-            epd_fill_rect(squareArea.x + 10, squareArea.y + 10, squareArea.width - 20, squareArea.height - 20, 0, framebuffer);
+            epd_fill_circle(
+            circleArea.x + RADIO_BUTTON_RADIUS, 
+            circleArea.y + RADIO_BUTTON_RADIUS, 
+            RADIO_BUTTON_RADIUS - 5, 
+            0, 
+            framebuffer
+        );
         }
 
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
 
-        int cursor_x = x + squareArea.width + 10;
-        int cursor_y = y + squareArea.height / 2 + text_height / 2 - 5;
+        int cursor_x = x + circleArea.width + 10;
+        int cursor_y = y + circleArea.height / 2 + text_height / 2;
         write_mode(
             font, 
             label, 

@@ -12,6 +12,7 @@
 // ----------------------------
 #include "../include/fonts.h"
 #include "../include/components/progress_bar.h"
+#include "../include/dimensions.h"
 
 // ----------------------------
 // Handlers
@@ -20,5 +21,15 @@
 #include "../include/handlers/touch_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 
-// two colors
-// take percentage and draw a rectangle
+void epd_draw_progress_bar(
+    int32_t x, 
+    int32_t y, 
+    int32_t width,
+    int32_t progress,
+    uint8_t bgColor,
+    uint8_t progressColor,
+    uint8_t *framebuffer) {
+        epd_fill_rounded_rect(x, y, width, PROGRESS_BAR_HEIGHT, 10, bgColor, framebuffer);
+        int32_t progressWidth = (width / 100) * progress;
+        epd_fill_rounded_rect(x, y, progressWidth, PROGRESS_BAR_HEIGHT, 10, progressColor, framebuffer);
+}

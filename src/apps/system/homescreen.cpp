@@ -57,7 +57,7 @@ void openAlarm() {
 void openSpotify() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    ScreenSpotify();
+    displaySpotify();
 }
 
 void openWeather() {

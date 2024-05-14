@@ -1,19 +1,3 @@
-/*******************************************************************
-    Based on the Spotify Arduino Library Example: 
-    getCurrentlyPlaying.ino and playerControls.ino
-    https://github.com/witnessmenow/spotify-api-arduino/blob/main/examples/getCurrentlyPlaying/getCurrentlyPlaying.ino
-    https://github.com/witnessmenow/spotify-api-arduino/tree/main/examples/playerControls
-
-    Message from the original author:
-    Written by Brian Lough
-    If you find what I do useful and would like to support me,
-    please consider becoming a sponsor on Github
-    https://github.com/sponsors/witnessmenow/
-    YouTube: https://www.youtube.com/brianlough
-    Tindie: https://www.tindie.com/stores/brianlough/
-    Twitter: https://twitter.com/witnessmenow
- *******************************************************************/
-
 // ----------------------------
 // External libraries
 // ----------------------------
@@ -33,9 +17,10 @@
 #include "include/fonts.h"
 #include "include/components.h"
 #include "include/dimensions.h"
+#include "include/colors.h"
 
 // ----------------------------
-// Images
+// Icons
 // ----------------------------
 #include "../../../image/white_bg/spotify_icon.h"
 #include "../../../image/black_bg/pause_icon.h"
@@ -64,29 +49,26 @@
 // ----------------------------
 #include "../../include/apps/spotify/spotify.h"
 
-int lastChangeIndex = 0;
-Rect_t areaspotify = {
-            .x = 95 + spotify_icon_width,
-            .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 70,
-            .width = EPD_WIDTH - 100 - spotify_icon_width,
-            .height =  140
-        };
-
-TaskHandle_t updateScreenSpotifyTaskHandle = NULL;
 SpotifyArduino spotifyAgent = getSpotifyAgent();
+TaskHandle_t updateScreenSpotifyTaskHandle = NULL;
 uint8_t *spotifyFrameBuffer;
+
+int lastChangeIndex = 0;
 bool trackPlaying = false;
 bool shuffle = false;
 bool repeat = false;
 
-Rect_t playIconArea = {
+const int ICON_PADDING = 100;
+const int LINE_HEIGHT = 40;
+
+void spotifyTogglePlay() {
+    Rect_t playIconArea = {
         .x = EPD_WIDTH - 160 - play_icon_width / 2,
         .y = EPD_HEIGHT - 70 - play_icon_height / 2,
         .width = play_icon_width,
         .height =  play_icon_height
     };
 
-void spotifyTogglePlay() {
     epd_clear_area_quick(playIconArea, true);
 
     if (trackPlaying) {
@@ -111,6 +93,7 @@ void spotifyNext() {
 }
 
 void spotifyToggleShuffle() {
+    // The dot is signaling that the shuffle mode is on
     if (shuffle) {
         Rect_t shuffleDotArea = {
             .x = EPD_WIDTH - 160,
@@ -119,17 +102,20 @@ void spotifyToggleShuffle() {
             .height = 12
         };
         CleanFramebuffer(spotifyFrameBuffer, shuffleDotArea);
+
         spotifyAgent.toggleShuffle(false);
         shuffle = false;
     } else {
-        epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_HEIGHT + 36, 5, 0, spotifyFrameBuffer);
+        epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_HEIGHT + 36, 5, BLACK, spotifyFrameBuffer);
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+
         spotifyAgent.toggleShuffle(true);
         shuffle = true;
     }
 }
 
 void spotifyToggleRepeat() {
+    // The dot is signaling that the repeat mode is on
     if (repeat) {
         Rect_t repeatDotArea = {
             .x = EPD_WIDTH - 318,
@@ -138,17 +124,21 @@ void spotifyToggleRepeat() {
             .height =  12
         };
         CleanFramebuffer(spotifyFrameBuffer, repeatDotArea);
+
         spotifyAgent.setRepeatMode(repeat_off);
         repeat = false;
     } else {
-        epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_HEIGHT + 36, 5, 0, spotifyFrameBuffer);
+        epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_HEIGHT + 36, 5, BLACK, spotifyFrameBuffer);
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+
         spotifyAgent.setRepeatMode(repeat_track);
         repeat = true;
     }
 }
 
 void spotifyExit() {
+    // In order to trigger displaying the currently playing track 
+    // immediately after reopening the Spotify app. 
     lastChangeIndex = 0;
     if (updateScreenSpotifyTaskHandle != NULL) {
         vTaskDelete(updateScreenSpotifyTaskHandle);
@@ -157,15 +147,15 @@ void spotifyExit() {
 }
 
 void printCurrentlyPlaying() {
+    Rect_t areaspotify = {
+        .x = 95 + spotify_icon_width,
+        .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 70,
+        .width = EPD_WIDTH - 100 - spotify_icon_width,
+        .height =  140
+    };
     CleanFramebuffer(spotifyFrameBuffer, areaspotify);
     epd_draw_status_bar(spotifyExit);
 
-    Rect_t playIconArea = {
-        .x = 400 - play_icon_width,
-        .y = EPD_HEIGHT / 2 - play_icon_height / 2,
-        .width = play_icon_width,
-        .height =  play_icon_height
-    };
     if (getIsPlaying()) {
         trackPlaying = true;
     }
@@ -173,16 +163,17 @@ void printCurrentlyPlaying() {
         trackPlaying = false;
     }
 
-    int cursor_x = 100 + spotify_icon_width; //TODO relative to mainbuffer
+    // Displaying the track information
+    int cursor_x = ICON_PADDING + spotify_icon_width;
     int cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
     writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
-    cursor_x = 100 + spotify_icon_width;
-    cursor_y += 40;
+    cursor_x = ICON_PADDING + spotify_icon_width;
+    cursor_y += LINE_HEIGHT;
     writeln((GFXfont *)&OpenSans12, getArtists(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
-    cursor_x = 100 + spotify_icon_width;
-    cursor_y += 40;
+    cursor_x = ICON_PADDING + spotify_icon_width;
+    cursor_y += LINE_HEIGHT;
     writeln((GFXfont *)&OpenSans12, getAlbumName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
@@ -199,12 +190,18 @@ void updateScreenSpotify(void *parameter) {
     }
 }
 
-void ScreenSpotify() {
+void displaySpotify() {
+    const int UPPER_BUTTON_ROW_Y = STATUS_BAR_HEIGHT + 20;
+    const int LOWER_BUTTON_ROW_Y = EPD_HEIGHT - 70;
+    const int SMALL_BUTTON_RADIUS = 40;
+    const int BIG_BUTTON_RADIUS = 50;
+
     spotifyFrameBuffer = GetMainFramebuffer();
     ClearTouchPoints();
     CleanFramebuffer(spotifyFrameBuffer, epd_full_screen());
     epd_draw_status_bar(spotifyExit);
 
+    // Big Spotify icon
     Rect_t iconArea = {
         .x = 50,
         .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - spotify_icon_height / 2,
@@ -213,6 +210,7 @@ void ScreenSpotify() {
     };
     epd_copy_to_framebuffer(iconArea, (uint8_t *) spotify_icon_data, spotifyFrameBuffer);
 
+    // Repeat button
     epd_draw_tertiary_button_icon(
         const_cast<uint8_t *>(refresh_icon_data), 
         refresh_icon_width,
@@ -220,14 +218,15 @@ void ScreenSpotify() {
         "Repeat",
         (GFXfont *)&OpenSans12,
         EPD_WIDTH - 300,
-        STATUS_BAR_HEIGHT + 20, 
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y, 
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         spotifyFrameBuffer,
         spotifyToggleRepeat
     );
 
+    // Shuffle button
     epd_draw_tertiary_button_icon(
         const_cast<uint8_t *>(shuffle_icon_data), 
         shuffle_icon_width,
@@ -235,83 +234,96 @@ void ScreenSpotify() {
         "Shuffle",
         (GFXfont *)&OpenSans12,
         EPD_WIDTH - 150, 
-        STATUS_BAR_HEIGHT + 20, 
-        15, 
-        0,
+        UPPER_BUTTON_ROW_Y, 
+        WHITE, 
+        BLACK,
         WHITE_ON_BLACK, 
         spotifyFrameBuffer,
         spotifyToggleShuffle
     );
     
+    // Previous track button
     epd_draw_circle_button_icon(
         const_cast<uint8_t *>(prev_icon_data), 
         prev_icon_width,
         prev_icon_height,
         EPD_WIDTH - 260, 
-        EPD_HEIGHT - 70, 
-        40, 
-        0, 
+        LOWER_BUTTON_ROW_Y, 
+        SMALL_BUTTON_RADIUS, 
+        BLACK, 
         spotifyFrameBuffer,
         spotifyPrev
     );
 
+    // Play/Pause button
     epd_draw_circle_button_icon(
         const_cast<uint8_t *>(pause_icon_data), 
         pause_icon_width,
         pause_icon_height,
         EPD_WIDTH - 160, 
-        EPD_HEIGHT - 70, 
-        50, 
-        0, 
+        LOWER_BUTTON_ROW_Y, 
+        BIG_BUTTON_RADIUS, 
+        BLACK, 
         spotifyFrameBuffer,
         spotifyTogglePlay
     );
     
+    // Next track button
     epd_draw_circle_button_icon(
         const_cast<uint8_t *>(next_icon_data), 
         next_icon_width,
         next_icon_height,
         EPD_WIDTH - 60, 
-        EPD_HEIGHT - 70, 
-        40, 
-        0, 
+        LOWER_BUTTON_ROW_Y, 
+        SMALL_BUTTON_RADIUS, 
+        BLACK, 
         spotifyFrameBuffer,
         spotifyNext
     );
-    //TODO draw refresh
-    //TODO draw shuffle
-    
-
-    epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 
     if (updateScreenSpotifyTaskHandle == NULL) {
-        int cursor_x = 100 + spotify_icon_width; //TODO relative to mainbuffer
+        // Initial screen when the app is opened and not connected to Spotify yet
+        int cursor_x = ICON_PADDING + spotify_icon_width;
         int cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
-        writeln((GFXfont *)&OpenSans20B, "Connecting to Spotify...", &cursor_x, &cursor_y, spotifyFrameBuffer);
+        writeln(
+            (GFXfont *)&OpenSans20B, 
+            "Connecting to Spotify...", 
+            &cursor_x, 
+            &cursor_y, 
+            spotifyFrameBuffer
+        );
 
-        cursor_x = 100 + spotify_icon_width;
-        cursor_y += 40;
-        writeln((GFXfont *)&OpenSans12, "Make sure you are playing Spotify music", &cursor_x, &cursor_y, spotifyFrameBuffer);
+        cursor_x = ICON_PADDING + spotify_icon_width;
+        cursor_y += LINE_HEIGHT;
+        writeln(
+            (GFXfont *)&OpenSans12, 
+            "Make sure you are playing Spotify music", 
+            &cursor_x, 
+            &cursor_y, 
+            spotifyFrameBuffer
+        );
 
-        cursor_x = 100 + spotify_icon_width;
-        cursor_y += 40;
-        writeln((GFXfont *)&OpenSans12, "on some other device connected to your account.", &cursor_x, &cursor_y, spotifyFrameBuffer);
+        cursor_x = ICON_PADDING + spotify_icon_width;
+        cursor_y += LINE_HEIGHT;
+        writeln(
+            (GFXfont *)&OpenSans12, 
+            "on some other device connected to your account.", 
+            &cursor_x, 
+            &cursor_y, 
+            spotifyFrameBuffer
+        );
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 
         xTaskCreatePinnedToCore(
-            updateScreenSpotify,    // Task function
-            "updateScreenSpotify",  // Task name
-            10000,              // Stack size (in words)
-            NULL,              // Task parameter
-            1,                 // Task priority
-            &updateScreenSpotifyTaskHandle,              // Task handle
-            tskNO_AFFINITY     // Core number (0 or 1)
+            updateScreenSpotify,                // Task function
+            "updateScreenSpotify",              // Task name
+            10000,                              // Stack size (in words)
+            NULL,                               // Task parameter
+            1,                                  // Task priority
+            &updateScreenSpotifyTaskHandle,     // Task handle
+            tskNO_AFFINITY                      // Core number
         );
     }
 }
 
-/*
-//TODO controls
-manual refresh of the screen
-//spin arrow icon
-*/
+ //TODO dat to do premennych všetky súradnice a veľkosti

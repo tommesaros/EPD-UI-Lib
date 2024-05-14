@@ -79,5 +79,47 @@ void ScreenControlPanel() {
         toggle
     );
 
+    epd_draw_radio_button(
+        "Ahoj", 
+        (GFXfont *)&OpenSans12B,
+        20, 
+        200, 
+        0,
+        15, 
+        firstCheckBox,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        toggle
+    );
+
+    epd_draw_radio_button(
+        "Caaau", 
+        (GFXfont *)&OpenSans12B,
+        20, 
+        250, 
+        0,
+        15, 
+        secondCheckBox,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        toggle
+    );
+
+    epd_draw_progress_bar(
+        20, 
+        300, 
+        300, 
+        15, 
+        15, 
+        3, 
+        mainFramebuffer
+    );
+
+    epd_fill_rect(20, 380, 100, 20, 100, mainFramebuffer);
+    epd_fill_rect(20, 400, 100, 20, 200, mainFramebuffer);
+    epd_fill_rect(20, 420, 100, 20, 220, mainFramebuffer);
+    epd_fill_rect(20, 440, 100, 20, 240, mainFramebuffer);
+    epd_fill_rect(20, 440, 100, 20, 150, mainFramebuffer);
+
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 }

@@ -44,7 +44,14 @@ void epd_draw_check_box(
         epd_draw_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 0, framebuffer);
 
         if (checked) {
-            epd_fill_rect(squareArea.x + 10, squareArea.y + 10, squareArea.width - 20, squareArea.height - 20, 0, framebuffer);
+            epd_fill_rect(
+                squareArea.x + 5, 
+                squareArea.y + 5, 
+                squareArea.width - 10, 
+                squareArea.height - 10, 
+                0, 
+                framebuffer
+            );
         }
 
         FontProperties *properties = new FontProperties();
@@ -52,7 +59,7 @@ void epd_draw_check_box(
         properties->bg_color = bgColor;
 
         int cursor_x = x + squareArea.width + 10;
-        int cursor_y = y + squareArea.height / 2 + text_height / 2 - 5;
+        int cursor_y = y + squareArea.height / 2 + text_height / 2;
         write_mode(
             font, 
             label, 
