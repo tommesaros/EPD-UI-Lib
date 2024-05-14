@@ -78,7 +78,7 @@ TouchClass TouchSetup() {
     return (touch);
 }
 
-//TODO edit to Rect area
+//TODO rename
 void AddTouchPoint(Rect_t area, void (*function)()) {
     if (numTouchPoints < MAX_TOUCH_POINTS) {
         touchPoints[numTouchPoints].x = area.x;
@@ -89,7 +89,7 @@ void AddTouchPoint(Rect_t area, void (*function)()) {
         numTouchPoints++;
     }
 }
-
+//TODO RENAME
 void ClearTouchPoints() {
     memset(touchPoints, 0, sizeof(touchPoints));
     numTouchPoints = 0; // Reset the count of touch points

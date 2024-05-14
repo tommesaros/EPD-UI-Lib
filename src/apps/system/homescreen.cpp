@@ -1,5 +1,7 @@
 /*******************************************************************
-    
+    //TODO Description
+    //Here you can place all your app shortcuts and widgets in 
+    //form of interactive cards that show current information
 *******************************************************************/
 
 // ----------------------------
@@ -18,6 +20,7 @@
 #include "include/fonts.h"
 #include "include/components.h"
 #include "include/dimensions.h"
+#include "include/colors.h"
 
 // ----------------------------
 // Images
@@ -85,45 +88,47 @@ void toggleLights() {
 }
 
 void updateTimeHomeScreen(void *parameter) {
-    int cursor_x;
-    int cursor_y;
     uint8_t *mainFramebuffer = GetMainFramebuffer();
-    char time[6];
-    int32_t width = 0;
-    int32_t height = 0;
+    
     Rect_t timeArea = {
         0, 
-        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 50, 
+        SCREEN_MIDDLE_WITH_STATUS_BAR - 50, 
         EPD_WIDTH / 4, 
         100
     };
+    char time[6];
     int hour;
     int minute;
-    GFXfont *font = (GFXfont *)&OpenSans26B;
     bool firstRun = true;
 
+    int x;
+    int y;
+    int32_t width = 0;
+    int32_t height = 0;
+    
     while (true) {
+        // Cover up the old time
         epd_fill_rect(
             0, 
-            STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 50, 
+            SCREEN_MIDDLE_WITH_STATUS_BAR - 50, 
             EPD_WIDTH / 4, 
             100, 
-            255, 
+            epd_convert_font_color(WHITE),
             mainFramebuffer
         );
 
         hour = TimeGetHour();
         minute = TimeGetMinute();
         sprintf(time, "%02d:%02d", TimeGetHour(), TimeGetMinute());
-        epd_get_text_dimensions(font, time, &width, &height);
-        cursor_x = EPD_WIDTH / 8 - width / 2;
-        cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + height / 2;
-        
+
+        epd_get_text_dimensions(HEADLINE_FONT, time, &width, &height);
+        x = EPD_WIDTH / 8 - width / 2;
+        y = SCREEN_MIDDLE_WITH_STATUS_BAR + height / 2;
         write_mode(
-            font, 
+            HEADLINE_FONT, 
             time, 
-            &cursor_x, 
-            &cursor_y, 
+            &x, 
+            &y, 
             mainFramebuffer, 
             BLACK_ON_WHITE, 
             NULL
@@ -142,54 +147,52 @@ void updateTimeHomeScreen(void *parameter) {
 
 void ScreenHome() {
     uint8_t *mainFramebuffer = GetMainFramebuffer();
-
     ClearTouchPoints();
     CleanFramebuffer(mainFramebuffer, epd_full_screen());
 
     if (updateTimeHomeScreenHandle == NULL) {
         xTaskCreatePinnedToCore(
-            updateTimeHomeScreen,    // Task function
-            "updateTimeHomeScreen",  // Task name
-            5000,              // Stack size (in words)
-            NULL,              // Task parameter
-            1,                 // Task priority
-            &updateTimeHomeScreenHandle,              // Task handle
-            tskNO_AFFINITY     // Core number (0 or 1)
+            updateTimeHomeScreen,           // Task function
+            "updateTimeHomeScreen",         // Task name
+            5000,                           // Stack size (in words)
+            NULL,                           // Task parameter
+            1,                              // Task priority
+            &updateTimeHomeScreenHandle,    // Task handle
+            tskNO_AFFINITY                  // Core number (0 or 1)
         );
     }
 
     epd_draw_status_bar(homeExit);
 
-    
-    // 1st column of information cards
+    // Alarm card
     Rect_t cardArea = {
         EPD_WIDTH / 2 - 150, 
-        STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 170, 
-        300, 
-        100
+        SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING, 
+        SMALL_CARD_WIDTH, 
+        SMALL_CARD_HEIGHT
     };
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(alarm_icon_data),
         alarm_icon_width,
         alarm_icon_height,
         "Alarm",
-        "tomorrow 7:20",
+        "tomorrow 7:20", // dummy data
         (GFXfont *)&OpenSans12B,
         (GFXfont *)&OpenSans12,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         mainFramebuffer,
         openAlarm
     );
 
+    // Weather card
     CurrentWeather *current = getCurrentWeather();
-
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 50;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2;
     epd_draw_horizontal_card(
-        const_cast<uint8_t*>(getWeatherIcon(current->icon)),
+        const_cast<uint8_t*>(getWeatherIcon(current->icon)), //icon of current weather
         alarm_icon_width,
         alarm_icon_height,
         "Weather",
@@ -197,18 +200,20 @@ void ScreenHome() {
         (GFXfont *)&OpenSans12B,
         (GFXfont *)&OpenSans12,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         mainFramebuffer,
         openWeather
     );
 
+    //Avoiding too long track names that would overflow the card
     char trackName[15];
     strncpy(trackName, getTrackName(), 14);
 
-    cardArea.y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 + 70;
+    // Spotify card
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(spotify_line_icon_data),
         alarm_icon_width,
@@ -218,9 +223,9 @@ void ScreenHome() {
         (GFXfont *)&OpenSans12B,
         (GFXfont *)&OpenSans12,
         cardArea,
-        30,
-        0,
-        15,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
         WHITE_ON_BLACK,
         mainFramebuffer,
         openSpotify

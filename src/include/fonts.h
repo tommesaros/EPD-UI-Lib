@@ -31,4 +31,9 @@
 #include "../../font/opensans26.h"
 #include "../../font/opensans26b.h"
 
+extern const GFXfont *HEADLINE_FONT;
+extern const GFXfont *TITLE_FONT;
+extern const GFXfont *TEXT_FONT_BOLD;
+extern const GFXfont *TEXT_FONT;
+
 #endif // FONTS_H

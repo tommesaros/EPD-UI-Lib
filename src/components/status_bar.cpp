@@ -13,6 +13,7 @@
 #include "../include/fonts.h"
 #include "../include/components/status_bar.h"
 #include "../include/dimensions.h"
+#include "../include/colors.h"
 
 // ----------------------------
 // Handlers
@@ -128,7 +129,7 @@ void updateTimeStatusBar(void *parameter) {
 void epd_draw_status_bar(void (*function)()) {
     exitFunction = function;
     uint8_t *mainFramebuffer = GetMainFramebuffer();
-    epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, 20, 0, mainFramebuffer);
+    epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, CORNER_RADIUS - 10, BLACK, mainFramebuffer);
 
     Rect_t statusBarIconArea = {
         .x = 30,
