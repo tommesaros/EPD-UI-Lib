@@ -149,7 +149,7 @@ void spotifyExit() {
 void printCurrentlyPlaying() {
     Rect_t areaspotify = {
         .x = 95 + spotify_icon_width,
-        .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 70,
+        .y = SCREEN_MIDDLE_WITH_STATUS_BAR - 70,
         .width = EPD_WIDTH - 100 - spotify_icon_width,
         .height =  140
     };
@@ -165,16 +165,16 @@ void printCurrentlyPlaying() {
 
     // Displaying the track information
     int cursor_x = ICON_PADDING + spotify_icon_width;
-    int cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+    int cursor_y = SCREEN_MIDDLE_WITH_STATUS_BAR - 20;
     writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     cursor_x = ICON_PADDING + spotify_icon_width;
     cursor_y += LINE_HEIGHT;
-    writeln((GFXfont *)&OpenSans12, getArtists(), &cursor_x, &cursor_y, spotifyFrameBuffer);
+    writeln(TEXT_FONT_BOLD, getArtists(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     cursor_x = ICON_PADDING + spotify_icon_width;
     cursor_y += LINE_HEIGHT;
-    writeln((GFXfont *)&OpenSans12, getAlbumName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
+    writeln(TEXT_FONT, getAlbumName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 }
@@ -204,7 +204,7 @@ void displaySpotify() {
     // Big Spotify icon
     Rect_t iconArea = {
         .x = 50,
-        .y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - spotify_icon_height / 2,
+        .y = SCREEN_MIDDLE_WITH_STATUS_BAR - spotify_icon_height / 2,
         .width = spotify_icon_width,
         .height =  spotify_icon_height
     };
@@ -216,7 +216,7 @@ void displaySpotify() {
         refresh_icon_width,
         refresh_icon_height,
         "Repeat",
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT,
         EPD_WIDTH - 300,
         UPPER_BUTTON_ROW_Y, 
         WHITE, 
@@ -232,7 +232,7 @@ void displaySpotify() {
         shuffle_icon_width,
         shuffle_icon_height,
         "Shuffle",
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT,
         EPD_WIDTH - 150, 
         UPPER_BUTTON_ROW_Y, 
         WHITE, 
@@ -284,7 +284,7 @@ void displaySpotify() {
     if (updateScreenSpotifyTaskHandle == NULL) {
         // Initial screen when the app is opened and not connected to Spotify yet
         int cursor_x = ICON_PADDING + spotify_icon_width;
-        int cursor_y = STATUS_BAR_HEIGHT + (EPD_HEIGHT - STATUS_BAR_HEIGHT) / 2 - 20;
+        int cursor_y = SCREEN_MIDDLE_WITH_STATUS_BAR - 20;
         writeln(
             (GFXfont *)&OpenSans20B, 
             "Connecting to Spotify...", 
@@ -296,7 +296,7 @@ void displaySpotify() {
         cursor_x = ICON_PADDING + spotify_icon_width;
         cursor_y += LINE_HEIGHT;
         writeln(
-            (GFXfont *)&OpenSans12, 
+            TEXT_FONT, 
             "Make sure you are playing Spotify music", 
             &cursor_x, 
             &cursor_y, 
@@ -306,7 +306,7 @@ void displaySpotify() {
         cursor_x = ICON_PADDING + spotify_icon_width;
         cursor_y += LINE_HEIGHT;
         writeln(
-            (GFXfont *)&OpenSans12, 
+            TEXT_FONT, 
             "on some other device connected to your account.", 
             &cursor_x, 
             &cursor_y, 

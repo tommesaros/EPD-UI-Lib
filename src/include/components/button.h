@@ -3,7 +3,7 @@
 
 void epd_draw_circle_button_label(
     char* buttonText, 
-    GFXfont *font,
+    const GFXfont *font,
     int32_t x,                      // x position of the center of the circle
     int32_t y,                      // y position of the center of the circle
     int32_t radius, 
@@ -30,7 +30,7 @@ void epd_draw_tertiary_button_icon(
     int32_t image_width,
     int32_t image_height,
     const char* label, 
-    GFXfont *font,
+    const GFXfont *font,
     int32_t x, 
     int32_t y, 
     uint8_t bgColor,
@@ -45,7 +45,7 @@ void epd_draw_button_icon(
     int32_t image_width,
     int32_t image_height,
     char* label, 
-    GFXfont *font,
+    const GFXfont *font,
     Rect_t rectArea,
     int32_t radius, 
     uint8_t bgColor,
@@ -57,7 +57,7 @@ void epd_draw_button_icon(
 
 void epd_draw_button(
     char* label, 
-    GFXfont *font,
+    const GFXfont *font,
     Rect_t rectArea,
     int32_t radius, 
     uint8_t bgColor,
