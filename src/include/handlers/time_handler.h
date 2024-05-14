@@ -2,7 +2,7 @@
 #define TIME_HANDLER_H
 
 /**
- * @brief Sets up the time.
+ * Sets up the time.
  * 
  * This function initializes the connection to a NTP server allowing the 
  * user to get current time.

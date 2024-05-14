@@ -45,18 +45,21 @@ struct DailyWeather {
 
 /**
  * Updates the weather data.
+ * 
  * @param parameters Used only for RTOS tasks.
  */
 void updateWeather(void *parameters);
 
 /**
  * Gets the current weather data.
+ * 
  * @return A pointer to the CurrentWeather structure.
  */
 CurrentWeather* getCurrentWeather();
 
 /**
  * Gets the hourly weather data for a specific hour.
+ * 
  * @param hourIndex The index of the hour, has to be lower then MAX_HOURS.
  * @return A pointer to the HourlyWeather structure.
  */
@@ -64,6 +67,7 @@ HourlyWeather* getHourWeather(int hourIndex);
 
 /**
  * Gets the daily weather data for a specific day.
+ * 
  * @param dayIndex The index of the day, has to be lower then MAX_DAYS.
  * @return A pointer to the DailyWeather structure.
  */
@@ -76,15 +80,33 @@ void weatherSetup();
 
 /**
  * Converts a Unix timestamp to a string representation of time.
+ * 
  * @param unixTime The Unix timestamp.
- * @return The string representation of time.
+ * @return The string with time in format HH:MM.
  */
 String getTimeString(time_t unixTime);
 
-//TODO: add description
+
+/**
+ * Converts a Unix timestamp to a formatted date string.
+ * 
+ * @param unixTime The Unix timestamp to convert.
+ * @return A string with date in format "DD.MM.YYYY".
+ */
 String getDateString(time_t unixTime);
 
-//TODO: add description
+
+/**
+ * @brief Retrieves the weather icon based on the given icon name.
+ * 
+ * This function returns a pointer to the weather icon data 
+ * corresponding to the icon name according to OpenWeather OneCall 3.0
+ * API specification. See https://openweathermap.org/api/one-call-3
+ * The weather icon data is represented as a uint8_t array.
+ * 
+ * @param iconName The name of the weather icon.
+ * @return const uint8_t* A pointer to the weather icon data.
+ */
 const uint8_t* getWeatherIcon(String iconName);
 
 #endif // WEATHER_HANDLER_H

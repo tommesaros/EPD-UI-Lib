@@ -84,7 +84,7 @@ void epd_get_text_dimensions(
  * a ghost image may remain on the display.
  *
  * @param area The rectangular area to be cleared on the EPD display.
- * @param white If `true`, the pixels within the area will be set to white. If `false`, the pixels will be set to black.
+ * @param white If `true`, the pixels will be set to white, false = black.
  */
 void epd_clear_area_quick(Rect_t area, bool white);
 
@@ -97,11 +97,29 @@ void epd_clear_area_quick(Rect_t area, bool white);
  */
 uint8_t epd_convert_font_color(uint8_t color);
 
-//TODO add documentation
+
+/**
+ * @brief Creates a new screen on the EPD display.
+ *
+ * This function sets up a cleam new screen by clearing the framebuffer
+ * and all touch points. The `exitFunction` parameter is a callback function 
+ * that will be called when the screen is exited.
+ *
+ * @param framebuffer Pointer to the framebuffer for the new screen.
+ * @param exitFunction Callback function to be called when the screen is exited.
+ */
 void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)());
 
-GFXfont* epd_get_font(int size, bool bold);
-
+/**
+ * @brief Draws the specified framebuffer on the EPD display.
+ *
+ * This function takes a pointer to a framebuffer and 
+ * draws its contents on the EPD display. Use this function instead of 
+ * epd_draw_grayscale_image from epd_driver.h to prevent pararell drawing 
+ * two distinct framebuffers in the same time which results in ghosting.
+ *
+ * @param framebuffer Pointer to the framebuffer containing the image data.
+ */
 void epd_draw_framebuffer(uint8_t *framebuffer);
 
 #endif // EPD_HANDLER_H

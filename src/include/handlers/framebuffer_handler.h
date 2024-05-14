@@ -9,11 +9,11 @@
  */
 void framebufferSetup();
 
-//TODO rework
 /**
- * @brief Cleans the specified area of the framebuffer.
+ * @brief Cleans the specified area of the framebuffer and refreshes the are on the EPD.
  *
- * This function clears the specified area of the framebuffer by setting all the pixels within the area to 0.
+ * This function clears the specified area of the framebuffer 
+ * by setting all the pixels within the area to 0.
  *
  * @param framebuffer Pointer to the framebuffer.
  * @param area The area to be cleaned.
@@ -30,18 +30,6 @@ void cleanFramebufferAndEPD(uint8_t *framebuffer, Rect_t area);
  * @return A pointer to the main framebuffer.
  */
 uint8_t* getMainFramebuffer();
-
-//TODO remove, not used
-/**
- * @brief Get the status bar framebuffer.
- * 
- * This function returns a pointer to the status bar framebuffer.
- * The status bar framebuffer is a uint8_t array that represents the
- * memory buffer used for rendering the status bar on the display.
- * 
- * @return uint8_t* A pointer to the status bar framebuffer.
- */
-uint8_t* GetStatubarFramebuffer();
 
 /**
  * @brief Retrieves the notification framebuffer.

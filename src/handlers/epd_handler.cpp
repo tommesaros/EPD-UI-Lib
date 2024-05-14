@@ -95,39 +95,6 @@ void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)()) {
     epd_draw_status_bar(exitFunction);
 }
 
-GFXfont* epd_get_font(int size, bool bold) {
-    switch (size) {
-        case 8:
-            return bold ? (GFXfont *)&OpenSans8B : (GFXfont *)&OpenSans8;
-        case 9:
-            return bold ? (GFXfont *)&OpenSans9B : (GFXfont *)&OpenSans9;
-        case 10:
-            return bold ? (GFXfont *)&OpenSans10B : (GFXfont *)&OpenSans10;
-        case 11:
-            return bold ? (GFXfont *)&OpenSans11B : (GFXfont *)&OpenSans11;
-        case 12:
-            return bold ? (GFXfont *)&OpenSans12B : (GFXfont *)&OpenSans12;
-        case 13:
-            return bold ? (GFXfont *)&OpenSans13B : (GFXfont *)&OpenSans13;
-        case 14:
-            return bold ? (GFXfont *)&OpenSans14B : (GFXfont *)&OpenSans14;
-        case 15:
-            return bold ? (GFXfont *)&OpenSans16B : (GFXfont *)&OpenSans15;
-        case 16:
-            return bold ? (GFXfont *)&OpenSans16B : (GFXfont *)&OpenSans16;
-        case 18:
-            return bold ? (GFXfont *)&OpenSans18B : (GFXfont *)&OpenSans18;
-        case 20:
-            return bold ? (GFXfont *)&OpenSans20B : (GFXfont *)&OpenSans20;
-        case 24:
-            return bold ? (GFXfont *)&OpenSans24B : (GFXfont *)&OpenSans24;
-        case 26:
-            return bold ? (GFXfont *)&OpenSans26B : (GFXfont *)&OpenSans26;
-        default:
-            return (GFXfont *)&OpenSans12;
-    }
-}
-
 void epd_draw_framebuffer(uint8_t *framebuffer) {
     while (epdCurrentlyRefreshing) {
         vTaskDelay(pdMS_TO_TICKS(1000));

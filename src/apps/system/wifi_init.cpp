@@ -33,7 +33,7 @@
 // ----------------------------
 #include "../../include/apps/system/wifi_init.h"
 
-void ScreenWiFiInit() {
+void displayWiFiInitMessage() {
     uint8_t *framebuffer = getPopupFramebuffer();
     cleanFramebufferAndEPD(framebuffer, epd_full_screen());
 

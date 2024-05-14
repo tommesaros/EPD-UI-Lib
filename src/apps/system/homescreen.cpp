@@ -66,13 +66,13 @@ void openSpotify() {
 void openWeather() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    ScreenWeather();
+    displayWeather();
 }
 
 void openControlPanel() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    //TODO ScreenControlPanel();
+    //TODO displayControlPanel();
 }
 
 void openBusDepartures() {
@@ -145,7 +145,7 @@ void updateTimeHomeScreen(void *parameter) {
     }
 }
 
-void ScreenHome() {
+void displayHomeScreen() {
     uint8_t *mainFramebuffer = getMainFramebuffer();
     clearTouchPoints();
     cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());

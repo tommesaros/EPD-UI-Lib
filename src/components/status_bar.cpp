@@ -47,7 +47,7 @@ void (*exitFunction)();
 
 void exitAppAndGoToHomescreen() {
     exitFunction();
-    ScreenHome();
+    displayHomeScreen();
 }
 
 void exitAppAndGoToAppMenu() {
@@ -207,7 +207,7 @@ void epd_draw_status_bar(void (*function)()) {
 
     statusBarIconArea.x = EPD_WIDTH - 145 - width;
     statusBarIconArea.width = 145 + width;
-    addTouchPoint(statusBarIconArea, ScreenControlPanel);
+    addTouchPoint(statusBarIconArea, displayControlPanel);
     
     if (updateTimeStatusBarHandle == NULL) {
         xTaskCreatePinnedToCore(

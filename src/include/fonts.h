@@ -1,8 +1,24 @@
 #ifndef FONTS_H
 #define FONTS_H
 
-// All fonts
-//TODO How to import them?
+/*******************************************************************
+ * How to include new font?
+ * The conversion is done by a utility tool available on Lilygo’s GitHub repository.
+ * See the documentation in the readme file:
+ * https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/blob/esp32s3/scripts/fontconvert.py
+ * 
+ * How to use the font in the code?
+ * 1) Use one of the predefined constants: 
+ *      HEADLINE_FONT for , 
+ *      TITLE_FONT for , 
+ *      TEXT_FONT_BOLD for , 
+ *      TEXT_FONT for .
+ * 2) Use the getFont function to get the OpenSans 
+ *    font based on the size and boldness.
+ * 3) Use the raw font data in the code.
+ *      const GFXfont *font = (GFXfont *)&FontName;   or
+ *      writeln(GFXfont *)&FontName, "Text", &x, &y, framebuffer);
+*******************************************************************/
 
 #include "../../font/opensans6.h"
 #include "../../font/opensans8.h"
@@ -35,5 +51,7 @@ extern const GFXfont *HEADLINE_FONT;
 extern const GFXfont *TITLE_FONT;
 extern const GFXfont *TEXT_FONT_BOLD;
 extern const GFXfont *TEXT_FONT;
+
+GFXfont* getFont(int size, bool bold);
 
 #endif // FONTS_H

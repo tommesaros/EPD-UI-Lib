@@ -51,7 +51,7 @@ void toggle() {
     //draw opposite of what it is
 }
 
-void ScreenControlPanel() {
+void displayControlPanel() {
     //TODO black background
     //TODO popup framebuffer
     uint8_t *mainFramebuffer = getMainFramebuffer();

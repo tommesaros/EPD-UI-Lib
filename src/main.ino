@@ -53,7 +53,7 @@ void setup()
     wifiSetup();
     EPDSetup();
     framebufferSetup();
-    ScreenWiFiInit();
+    displayWiFiInitMessage();
     spotifySetup();
     weatherSetup();
     timeSetup();
@@ -63,7 +63,7 @@ void setup()
         delay(2000);
     }
 
-    ScreenHome();
+    displayHomeScreen();
 }
 
 // Has to be here because of the Arduino Core framework structure.

@@ -79,7 +79,7 @@ void showHourlyWeather() {
         BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
-        ScreenWeather
+        displayWeather
     );
 
     // Button for daily weather
@@ -187,7 +187,7 @@ void showDailyWeather() {
         BLACK,
         WHITE_ON_BLACK, 
         framebuffer,
-        ScreenWeather
+        displayWeather
     );
 
     // Button for hourly weather
@@ -277,7 +277,7 @@ void showDailyWeather() {
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
 }
 
-void ScreenWeather() {
+void displayWeather() {
     uint8_t * framebuffer = getMainFramebuffer();
     clearTouchPoints();
     cleanFramebufferAndEPD(framebuffer, epd_full_screen());
