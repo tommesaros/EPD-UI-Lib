@@ -8,14 +8,14 @@
 #include "../include/handlers/wifi_handler.h"
 #include "../include/credentials.h"
 
-void WiFiSetup() {
+void wifiSetup() {
     WiFi.disconnect();
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-    WiFi.onEvent(WiFiEvent);
+    WiFi.onEvent(wifiEvent);
 }
 
-void WiFiEvent(WiFiEvent_t event) {
+void wifiEvent(WiFiEvent_t event) {
     /*
     const Rect_t line1Area = {
         .x = 0,

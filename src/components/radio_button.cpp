@@ -36,10 +36,10 @@ void epd_draw_radio_button(
         int text_height;
         epd_get_text_dimensions(font, label, &text_width, &text_height);
         Rect_t circleArea = {x, y, RADIO_BUTTON_RADIUS * 2, RADIO_BUTTON_RADIUS * 2};
-
         Rect_t touchArea = {x, y, circleArea.width + text_width + 10, circleArea.height};
-        AddTouchPoint(touchArea, function);
+        addTouchPoint(touchArea, function);
 
+        // Background
         epd_fill_circle(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
@@ -55,6 +55,7 @@ void epd_draw_radio_button(
             framebuffer
         );
 
+        // Check in the middle
         if (checked) {
             epd_fill_circle(
             circleArea.x + RADIO_BUTTON_RADIUS, 
@@ -65,10 +66,10 @@ void epd_draw_radio_button(
         );
         }
 
+        // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-
         int cursor_x = x + circleArea.width + 10;
         int cursor_y = y + circleArea.height / 2 + text_height / 2;
         write_mode(
@@ -80,6 +81,5 @@ void epd_draw_radio_button(
             drawMode,
             properties
         );
-        
         delete properties;
 }

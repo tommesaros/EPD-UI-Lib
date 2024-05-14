@@ -17,14 +17,14 @@ struct tm timeinfo;
 
 const char* time_zone = "CET-1CEST,M3.5.0,M10.5.0/3";  // TimeZone rule for Europe/Rome including daylight adjustment rules (optional)
 
-void timeavailable(struct timeval *t)
+void timeAvailable(struct timeval *t)
 {
     Serial.println("Got time adjustment from NTP!");
 }
 
-void TimeSetup() {
+void timeSetup() {
     // set notification call-back function
-    sntp_set_time_sync_notification_cb( timeavailable );
+    sntp_set_time_sync_notification_cb( timeAvailable );
 
     /**
      * NTP server address could be aquired via DHCP,
@@ -51,8 +51,7 @@ void TimeSetup() {
     configTzTime(time_zone, ntpServer1, ntpServer2);
 }
 
-int TimeGetHour() {
-    //TODO theres no need to update the time everytime from the server if time fetched
+int timeGetHour() {
     while(!getLocalTime(&timeinfo)){
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -60,7 +59,7 @@ int TimeGetHour() {
     return timeinfo.tm_hour;
 }
 
-int TimeGetMinute() {
+int timeGetMinute() {
     while(!getLocalTime(&timeinfo)){
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -77,5 +76,3 @@ char* getTimeDate() {
     sprintf(date, "%02d.%02d.%04d", timeinfo.tm_mday, timeinfo.tm_mon + 1, timeinfo.tm_year + 1900);
     return date;
 }
-
-// alarms and timers handling

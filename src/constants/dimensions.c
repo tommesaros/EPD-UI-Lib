@@ -20,3 +20,4 @@ const int UPPER_BUTTON_ROW_Y = STATUS_BAR_HEIGHT + 20;
 const int SMALL_CARD_WIDTH = 300;
 const int SMALL_CARD_HEIGHT = 100;
 const int CARD_PADDING = 20;
+//TODO , square card, big horizontal card

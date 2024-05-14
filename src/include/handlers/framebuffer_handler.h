@@ -7,7 +7,7 @@
  * This function initializes the framebuffer and prepares it for use with the EPD UI library.
  * It should be called before any other functions from the library are used.
  */
-void FramebufferSetup();
+void framebufferSetup();
 
 //TODO rework
 /**
@@ -18,7 +18,7 @@ void FramebufferSetup();
  * @param framebuffer Pointer to the framebuffer.
  * @param area The area to be cleaned.
  */
-void CleanFramebuffer(uint8_t *framebuffer, Rect_t area);
+void cleanFramebufferAndEPD(uint8_t *framebuffer, Rect_t area);
 
 /**
  * @brief Retrieves the main framebuffer.
@@ -29,7 +29,7 @@ void CleanFramebuffer(uint8_t *framebuffer, Rect_t area);
  *
  * @return A pointer to the main framebuffer.
  */
-uint8_t* GetMainFramebuffer();
+uint8_t* getMainFramebuffer();
 
 //TODO remove, not used
 /**
@@ -52,7 +52,7 @@ uint8_t* GetStatubarFramebuffer();
  *
  * @return Pointer to the notification framebuffer.
  */
-uint8_t* GetNotificationFramebuffer();
+uint8_t* getNotificationFramebuffer();
 
 /**
  * @brief Retrieves the framebuffer for the popup window.
@@ -64,6 +64,6 @@ uint8_t* GetNotificationFramebuffer();
  *
  * @return A pointer to the popup framebuffer.
  */
-uint8_t* GetPopupFramebuffer();
+uint8_t* getPopupFramebuffer();
 
 #endif // FRAMEBUFFER_HANDLER_H

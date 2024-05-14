@@ -34,8 +34,8 @@
 #include "../../include/apps/system/wifi_init.h"
 
 void ScreenWiFiInit() {
-    uint8_t *framebuffer = GetPopupFramebuffer();
-    CleanFramebuffer(framebuffer, epd_full_screen());
+    uint8_t *framebuffer = getPopupFramebuffer();
+    cleanFramebufferAndEPD(framebuffer, epd_full_screen());
 
     int32_t x = 100;
     int32_t y = 240;

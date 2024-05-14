@@ -20,4 +20,3 @@
 #include "../include/handlers/touch_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 
-// save state

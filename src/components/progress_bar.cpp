@@ -13,6 +13,7 @@
 #include "../include/fonts.h"
 #include "../include/components/progress_bar.h"
 #include "../include/dimensions.h"
+#include "../include/colors.h"
 
 // ----------------------------
 // Handlers

@@ -54,7 +54,7 @@ void toggle() {
 void ScreenControlPanel() {
     //TODO black background
     //TODO popup framebuffer
-    uint8_t *mainFramebuffer = GetMainFramebuffer();
+    uint8_t *mainFramebuffer = getMainFramebuffer();
     epd_draw_check_box(
         "Ahoj", 
         (GFXfont *)&OpenSans12B,

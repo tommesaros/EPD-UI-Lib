@@ -7,7 +7,7 @@
  * This function is responsible for setting up the WiFi connection.
  * It should be called before any other network-related operations.
  */
-void WiFiSetup();
+void wifiSetup();
 
 /**
  * @brief Handles WiFi events.
@@ -17,6 +17,6 @@ void WiFiSetup();
  * 
  * @param event The WiFi event that occurred.
  */
-void WiFiEvent(WiFiEvent_t event);
+void wifiEvent(WiFiEvent_t event);
 
 #endif // WIFI_HANDLER_H

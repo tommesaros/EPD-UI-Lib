@@ -26,6 +26,7 @@ void epd_fill_rounded_rect(int x, int y, int width, int height, int radius, int 
     epd_fill_circle(x + width - radius, y + height - radius, radius, color, framebuffer);
 
     // Draw the four sides
+    // -1 & -2 are to properly align the rectangle with the circles
     epd_fill_rect(x + radius, y, width - 2 * radius, height + 1, color, framebuffer);
     epd_fill_rect(x, y + radius, radius, height - 2 * radius, color, framebuffer);
     epd_fill_rect(x + width - radius, y + radius, radius + 1, height - 2 * radius, color, framebuffer);
@@ -41,6 +42,7 @@ void epd_draw_rounded_rect(int x, int y, int width, int height, int radius, int 
     epd_draw_circle(x + width - radius, y + height - radius, radius, color, framebuffer);
 
     // Draw the four sides
+    // -1 & -2 are to properly align the rectangle with the circles
     epd_draw_rect(x + radius, y, width - 2 * radius, height, color, framebuffer);
     epd_draw_rect(x, y + radius, radius, height - 2 * radius, color, framebuffer);
     epd_draw_rect(x + width - radius, y + radius, radius, height - 2 * radius, color, framebuffer);
@@ -49,10 +51,8 @@ void epd_draw_rounded_rect(int x, int y, int width, int height, int radius, int 
 
 void epd_sleep() {
     epd_poweroff();
-    // epd_deinit();
     esp_sleep_enable_ext1_wakeup(GPIO_SEL_13, ESP_EXT1_WAKEUP_ANY_HIGH);
     esp_deep_sleep_start();
-    // void epd_powerdown_lilygo_t5_47();
 }
 
 void epd_get_text_dimensions(const GFXfont *font,
@@ -81,7 +81,7 @@ void epd_get_text_dimensions(const GFXfont *font,
     delete properties;
 }
 void epd_clear_area_quick(Rect_t area, bool white) {
-    epd_fill_rect(area.x, area.y, area.width, area.height, white ? 255 : 0, GetMainFramebuffer());
+    epd_fill_rect(area.x, area.y, area.width, area.height, white ? 255 : 0, getMainFramebuffer());
     epd_push_pixels(area, 130, white ? 1 : 0);
 }
 
@@ -90,8 +90,8 @@ uint8_t epd_convert_font_color(uint8_t color) {
 }
 
 void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)()) {
-    ClearTouchPoints();
-    CleanFramebuffer(framebuffer, epd_full_screen());
+    clearTouchPoints();
+    cleanFramebufferAndEPD(framebuffer, epd_full_screen());
     epd_draw_status_bar(exitFunction);
 }
 
@@ -137,4 +137,5 @@ void epd_draw_framebuffer(uint8_t *framebuffer) {
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     epd_poweroff();
     epdCurrentlyRefreshing = false;
+    //TODO if popup is open, dont draw
 }

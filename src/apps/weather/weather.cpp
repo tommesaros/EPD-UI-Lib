@@ -61,9 +61,9 @@ void weatherExit() {
 }
 
 void showHourlyWeather() {
-    uint8_t * framebuffer = GetMainFramebuffer();
-    ClearTouchPoints();
-    CleanFramebuffer(framebuffer, epd_full_screen());
+    uint8_t * framebuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(framebuffer, epd_full_screen());
     epd_draw_status_bar(weatherExit); 
 
     // Title and back button
@@ -169,9 +169,9 @@ void showHourlyWeather() {
 }
 
 void showDailyWeather() {
-    uint8_t * framebuffer = GetMainFramebuffer();
-    ClearTouchPoints();
-    CleanFramebuffer(framebuffer, epd_full_screen());
+    uint8_t * framebuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(framebuffer, epd_full_screen());
     epd_draw_status_bar(weatherExit); 
 
     // Title and back button
@@ -278,9 +278,9 @@ void showDailyWeather() {
 }
 
 void ScreenWeather() {
-    uint8_t * framebuffer = GetMainFramebuffer();
-    ClearTouchPoints();
-    CleanFramebuffer(framebuffer, epd_full_screen());
+    uint8_t * framebuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(framebuffer, epd_full_screen());
     epd_draw_status_bar(weatherExit); 
     CurrentWeather *current = getCurrentWeather();
 

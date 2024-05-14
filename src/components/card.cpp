@@ -35,12 +35,9 @@ void epd_draw_horizontal_card(
     DrawMode_t drawMode,
     uint8_t *framebuffer,
     void (*function)()) {
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(primaryFont, primaryLabel, &text_width, &text_height);
+        addTouchPoint(rectArea, function);
 
-        AddTouchPoint(rectArea, function);
-
+        // Background
         if (bgColor == 15) {
             epd_draw_rounded_rect(
                 rectArea.x, 
@@ -66,20 +63,24 @@ void epd_draw_horizontal_card(
             );
         }
 
+        // Icon
         Rect_t iconArea = {
-            .x = rectArea.x + 20,
+            .x = rectArea.x + 20, // icon padding
             .y = rectArea.y + rectArea.height / 2 - image_height / 2,
             .width = image_width,
             .height =  image_height
         };
         epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
 
-
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
 
-        int cursor_x = rectArea.x + image_width + 40;
+        // Primary text
+        int text_width;
+        int text_height;
+        epd_get_text_dimensions(primaryFont, primaryLabel, &text_width, &text_height);
+        int cursor_x = rectArea.x + image_width + 40; // icon padding
         int cursor_y = rectArea.y + rectArea.height / 2 - 5;
         write_mode(
             primaryFont, 
@@ -91,7 +92,8 @@ void epd_draw_horizontal_card(
             properties
         );
         
-        cursor_x = rectArea.x + image_width + 40;
+        // Secondary text
+        cursor_x = rectArea.x + image_width + 40; // icon padding
         cursor_y = rectArea.y + rectArea.height / 2 + text_height + 5;
         write_mode(
             secondaryFont, 
@@ -122,9 +124,9 @@ void epd_draw_vertical_card(
         int text_width;
         int text_height;
         epd_get_text_dimensions(font, label, &text_width, &text_height);
+        addTouchPoint(rectArea, function);
 
-        AddTouchPoint(rectArea, function);
-
+        // Background
         if (bgColor == 15) {
             epd_draw_rounded_rect(
                 rectArea.x, 
@@ -150,6 +152,7 @@ void epd_draw_vertical_card(
             );
         }
 
+        // Icon
         Rect_t iconArea = {
             .x = rectArea.x + rectArea.width / 2 - image_width / 2,
             .y = rectArea.y + rectArea.height / 2 - (image_height + text_height + 10) / 2,
@@ -158,11 +161,10 @@ void epd_draw_vertical_card(
         };
         epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
 
-
+        // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-
         int cursor_x = rectArea.x + rectArea.width / 2 - text_width / 2;
         int cursor_y = rectArea.y + rectArea.height / 2 + (image_height + text_height + 10) / 2;
         write_mode(
@@ -174,6 +176,5 @@ void epd_draw_vertical_card(
             drawMode,
             properties
         );
-        
         delete properties;
 }

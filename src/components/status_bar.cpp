@@ -58,25 +58,28 @@ void exitAppAndGoToAppMenu() {
 
 
 void updateTimeStatusBar(void *parameter) {
-    int32_t cursor_x = EPD_WIDTH / 2;
-    int32_t cursor_y = 45;
-    uint8_t *mainFramebuffer = GetMainFramebuffer();
-    char time[6];
+    uint8_t *mainFramebuffer = getMainFramebuffer();
+    
+    int32_t x = EPD_WIDTH / 2;
+    int32_t y = 45;
     int32_t width = 0;
     int32_t height = 0;
+    Rect_t dateArea = {150, 10, 200, 50};
+    Rect_t timeArea = {EPD_WIDTH / 2 - 40, 10, 80, 50};
+    
+    char time[6];
     FontProperties *properties = new FontProperties();
     properties->fg_color = 15;
     properties->bg_color = 0;
-    Rect_t dateArea = {150, 10, 200, 50};
-    Rect_t timeArea = {EPD_WIDTH / 2 - 40, 10, 80, 50};
+
     int hour;
     int minute;
-    GFXfont *font = (GFXfont *)&OpenSans12;
     int refreshCount = 0;
 
     while (true) {
         vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
 
+        // Do a full refresh every 20 minutes
         if (refreshCount == EPD_MAX_QUICK_REFRESHES) {
             epd_clear();
             refreshCount = 0;
@@ -85,41 +88,42 @@ void updateTimeStatusBar(void *parameter) {
             refreshCount++;
         }
         
-        hour = TimeGetHour();
-        minute = TimeGetMinute();
+        hour = timeGetHour();
+        minute = timeGetMinute();
 
+        // Update date at midnight
         if (hour == 0 && minute == 0) {
             epd_clear_area_cycles(dateArea, 2, 50);
             epd_fill_rect(150, 11, 200, 49, 0, mainFramebuffer);
 
-            cursor_x = 150;
+            x = 150;
             write_mode(
-                font, 
+                TEXT_FONT_BOLD, 
                 getTimeDate(), 
-                &cursor_x, 
-                &cursor_y, 
+                &x, 
+                &y, 
                 mainFramebuffer, 
                 WHITE_ON_BLACK,
                 properties
             );
         }
-        epd_fill_rect(EPD_WIDTH / 2 - 40, 11, 80, 49, 255, mainFramebuffer);
+
+        // Background
         epd_fill_rect(EPD_WIDTH / 2 - 40, 11, 80, 49, 0, mainFramebuffer);
         
-        sprintf(time, "%02d:%02d", TimeGetHour(), TimeGetMinute());
-        epd_get_text_dimensions(font, time, &width, &height);
-        cursor_x = EPD_WIDTH / 2 - width / 2;
-        
+        // Updated time
+        sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
+        epd_get_text_dimensions(TITLE_FONT, time, &width, &height);
+        x = EPD_WIDTH / 2 - width / 2;
         write_mode(
-            font, 
+            TITLE_FONT, 
             time, 
-            &cursor_x, 
-            &cursor_y, 
+            &x, 
+            &y, 
             mainFramebuffer, 
             WHITE_ON_BLACK, 
             properties
         );
-        
         epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
     }
 
@@ -128,9 +132,12 @@ void updateTimeStatusBar(void *parameter) {
 
 void epd_draw_status_bar(void (*function)()) {
     exitFunction = function;
-    uint8_t *mainFramebuffer = GetMainFramebuffer();
-    epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, CORNER_RADIUS - 10, BLACK, mainFramebuffer);
+    uint8_t *mainFramebuffer = getMainFramebuffer();
 
+    // Background
+    epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, 20, BLACK, mainFramebuffer);
+
+    // Homescreen and menu icons
     Rect_t statusBarIconArea = {
         .x = 30,
         .y = 20,
@@ -138,68 +145,69 @@ void epd_draw_status_bar(void (*function)()) {
         .height = home_icon_height
     };
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) home_icon_data, mainFramebuffer);
-    AddTouchPoint(statusBarIconArea, exitAppAndGoToHomescreen);
+    addTouchPoint(statusBarIconArea, exitAppAndGoToHomescreen);
 
     statusBarIconArea.x = 90;
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) app_menu_icon_data, mainFramebuffer);
-    AddTouchPoint(statusBarIconArea, exitAppAndGoToAppMenu);
+    addTouchPoint(statusBarIconArea, exitAppAndGoToAppMenu);
 
-    GFXfont *font = (GFXfont *)&OpenSans12;
     FontProperties *properties = new FontProperties();
     properties->fg_color = 15;
     properties->bg_color = 0;
 
-    int cursor_x = 150;
-    int cursor_y = 45;
+    // Date
+    int x = 150;
+    int y = 45;
     write_mode(
-        font, 
+        TEXT_FONT_BOLD, 
         getTimeDate(), 
-        &cursor_x, 
-        &cursor_y, 
+        &x, 
+        &y, 
         mainFramebuffer, 
         WHITE_ON_BLACK,
         properties
     );
 
-    int32_t width = 0;
-    int32_t height = 0;
+    // Time
+    int32_t width;
+    int32_t height;
     char time[6];
-    sprintf(time, "%02d:%02d", TimeGetHour(), TimeGetMinute());
-    epd_get_text_dimensions((GFXfont *)&OpenSans12, time, &width, &height);
-    cursor_x = EPD_WIDTH / 2 - width / 2;
-    
+    sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
+    epd_get_text_dimensions(TITLE_FONT, time, &width, &height);
+    x = EPD_WIDTH / 2 - width / 2;
     write_mode(
-        (GFXfont *)&OpenSans12, 
+        TITLE_FONT, 
         time, 
-        &cursor_x, 
-        &cursor_y, 
+        &x, 
+        &y, 
         mainFramebuffer, 
         WHITE_ON_BLACK, 
         properties
     );
 
-    epd_get_text_dimensions(font, WIFI_SSID, &width, &height);
-    cursor_x = EPD_WIDTH - 145 - width;
-    cursor_y = 45;
+    // Wifi SSID
+    epd_get_text_dimensions(TEXT_FONT_BOLD, WIFI_SSID, &width, &height);
+    x = EPD_WIDTH - 145 - width;
+    y = 45;
     write_mode(
-        font, 
+        TEXT_FONT_BOLD, 
         WIFI_SSID, 
-        &cursor_x, 
-        &cursor_y, 
+        &x, 
+        &y, 
         mainFramebuffer, 
         WHITE_ON_BLACK,
         properties
     );
 
+    // Wifi and speaker icons
     statusBarIconArea.x = EPD_WIDTH - 120;
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) wifi_small_icon_data, mainFramebuffer);
-
     statusBarIconArea.x = EPD_WIDTH - 60;
     epd_copy_to_framebuffer(statusBarIconArea, (uint8_t *) speaker_icon_data, mainFramebuffer);
 
     statusBarIconArea.x = EPD_WIDTH - 145 - width;
     statusBarIconArea.width = 145 + width;
-    AddTouchPoint(statusBarIconArea, ScreenControlPanel);
+    addTouchPoint(statusBarIconArea, ScreenControlPanel);
     
     if (updateTimeStatusBarHandle == NULL) {
         xTaskCreatePinnedToCore(

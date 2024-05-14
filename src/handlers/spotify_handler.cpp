@@ -98,7 +98,7 @@ void updateCurrentlyPlaying(void *parameter) {
     
 }
 
-void SpotifySetup() {
+void spotifySetup() {
     client.setCACert(spotify_server_cert);  // Handle HTTPS Verification
 
      if (!spotify.refreshAccessToken())

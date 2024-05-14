@@ -72,17 +72,17 @@ DailyWeather* getDayWeather(int dayIndex);
 /**
  * Performs the setup for weather handling.
  */
-void WeatherSetup();
+void weatherSetup();
 
 /**
  * Converts a Unix timestamp to a string representation of time.
  * @param unixTime The Unix timestamp.
  * @return The string representation of time.
  */
-String strTime(time_t unixTime);
+String getTimeString(time_t unixTime);
 
 //TODO: add description
-String strDate(time_t unixTime);
+String getDateString(time_t unixTime);
 
 //TODO: add description
 const uint8_t* getWeatherIcon(String iconName);

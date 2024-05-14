@@ -101,7 +101,7 @@ void spotifyToggleShuffle() {
             .width = 15,
             .height = 12
         };
-        CleanFramebuffer(spotifyFrameBuffer, shuffleDotArea);
+        cleanFramebufferAndEPD(spotifyFrameBuffer, shuffleDotArea);
 
         spotifyAgent.toggleShuffle(false);
         shuffle = false;
@@ -123,7 +123,7 @@ void spotifyToggleRepeat() {
             .width = 15,
             .height =  12
         };
-        CleanFramebuffer(spotifyFrameBuffer, repeatDotArea);
+        cleanFramebufferAndEPD(spotifyFrameBuffer, repeatDotArea);
 
         spotifyAgent.setRepeatMode(repeat_off);
         repeat = false;
@@ -153,7 +153,7 @@ void printCurrentlyPlaying() {
         .width = EPD_WIDTH - 100 - spotify_icon_width,
         .height =  140
     };
-    CleanFramebuffer(spotifyFrameBuffer, areaspotify);
+    cleanFramebufferAndEPD(spotifyFrameBuffer, areaspotify);
     epd_draw_status_bar(spotifyExit);
 
     if (getIsPlaying()) {
@@ -195,9 +195,9 @@ void displaySpotify() {
     const int SMALL_BUTTON_RADIUS = 40;
     const int BIG_BUTTON_RADIUS = 50;
 
-    spotifyFrameBuffer = GetMainFramebuffer();
-    ClearTouchPoints();
-    CleanFramebuffer(spotifyFrameBuffer, epd_full_screen());
+    spotifyFrameBuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(spotifyFrameBuffer, epd_full_screen());
     epd_draw_status_bar(spotifyExit);
 
     // Big Spotify icon
@@ -324,5 +324,3 @@ void displaySpotify() {
         );
     }
 }
-
- //TODO dat to do premennych všetky súradnice a veľkosti

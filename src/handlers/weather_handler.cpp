@@ -57,8 +57,9 @@ void updateWeather(void *parameters) {
 
         ow.getForecast(current, hourly, daily, WEATHER_API_KEY, WEATHER_LAT, WEATHER_LON, WEATHER_UNITS, WEATHER_LANG);
 
-        currentWeather.sunrise = strTime(current->sunrise);
-        currentWeather.sunset = strTime(current->sunset);
+        // Current weather data
+        currentWeather.sunrise = getTimeString(current->sunrise);
+        currentWeather.sunset = getTimeString(current->sunset);
         currentWeather.temperature = String(current->temp) + "°C";
         currentWeather.feels_like = String(current->feels_like) + "°C";
         currentWeather.humidity = String(current->humidity) + "%";
@@ -69,8 +70,9 @@ void updateWeather(void *parameters) {
         currentWeather.description = String(current->description);
         currentWeather.icon = String(current->icon);
 
+        // Hourly weather data
         for (int i = 0; i < MAX_HOURS; i++) {
-            hourlyWeather[i].time = strTime(hourly->dt[i]);
+            hourlyWeather[i].time = getTimeString(hourly->dt[i]);
             hourlyWeather[i].temperature = String(hourly->temp[i]) + "°C";
             hourlyWeather[i].wind_speed = String(hourly->wind_speed[i]) + "m/s";
             hourlyWeather[i].rain = String(hourly->rain[i]) + "mm/h";
@@ -78,8 +80,9 @@ void updateWeather(void *parameters) {
             hourlyWeather[i].icon = String(hourly->icon[i]);
         }
 
+        // Daily weather data
         for (int i = 0; i < MAX_DAYS; i++) {
-            dailyWeather[i].day = strDate(daily->dt[i]);
+            dailyWeather[i].day = getDateString(daily->dt[i]);
             dailyWeather[i].temp_min = String(daily->temp_min[i]) + "°C";
             dailyWeather[i].temp_max = String(daily->temp_max[i]) + "°C";
             dailyWeather[i].wind_speed = String(daily->wind_speed[i]) + "m/s";
@@ -91,8 +94,6 @@ void updateWeather(void *parameters) {
         delete current;
         delete hourly;
         delete daily;
-
-        //TODO check data if temp==0, then retry
 
         vTaskDelay(3600000);
     }
@@ -118,7 +119,7 @@ DailyWeather* getDayWeather(int dayIndex) {
     }
 }
 
-void WeatherSetup() {
+void weatherSetup() {
     xTaskCreatePinnedToCore(
         updateWeather,     // Task function
         "updateWeather",   // Task name
@@ -130,7 +131,7 @@ void WeatherSetup() {
     );
 }
 
-String strTime(time_t unixTime) {
+String getTimeString(time_t unixTime) {
     unixTime += WEATHER_TIME_OFFSET;
     struct tm *timeinfo;
     timeinfo = localtime(&unixTime);
@@ -139,7 +140,7 @@ String strTime(time_t unixTime) {
     return String(buffer);
 }
 
-String strDate(time_t unixTime) {
+String getDateString(time_t unixTime) {
     unixTime += WEATHER_TIME_OFFSET;
     struct tm *timeinfo;
     timeinfo = localtime(&unixTime);
@@ -148,7 +149,6 @@ String strDate(time_t unixTime) {
     return String(buffer);
 }
 
-//TODO get current weather icon
 const uint8_t* getWeatherIcon(String iconName) {
     if (iconName == "01d" || iconName == "01n") {
         return sunny_icon_data;

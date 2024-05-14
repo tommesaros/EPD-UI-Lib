@@ -50,14 +50,14 @@ uint8_t *mainFramebuffer;
 void setup()
 {
     Serial.begin(115200);
-    WiFiSetup();
+    wifiSetup();
     EPDSetup();
-    FramebufferSetup();
+    framebufferSetup();
     ScreenWiFiInit();
-    SpotifySetup();
-    WeatherSetup();
-    TimeSetup();
-    TouchClass touch = TouchSetup();
+    spotifySetup();
+    weatherSetup();
+    timeSetup();
+    TouchClass touch = touchSetup();
     
     while (WiFi.status() != WL_CONNECTED) {
         delay(2000);

@@ -12,7 +12,7 @@
  * Spotify-related operations are performed. It starts the automatic update of the
  * currently playing track.
  */
-void SpotifySetup();
+void spotifySetup();
 
 /**
  * @brief Updates the currently playing information.

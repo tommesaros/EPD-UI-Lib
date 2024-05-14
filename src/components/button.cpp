@@ -31,8 +31,9 @@ void epd_draw_circle_button_label(
     uint8_t *framebuffer,
     void (*function)()) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
-        AddTouchPoint(area, function);
+        addTouchPoint(area, function);
 
+        // Background
         if (bgColor == 15) {
             epd_draw_circle(x, y, radius, 0, framebuffer);
         } else {
@@ -42,14 +43,13 @@ void epd_draw_circle_button_label(
             epd_fill_circle(x, y, radius, epdColor, framebuffer);
         }
 
+        // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-       
         int32_t width = 0;
         int32_t height = 0;
         epd_get_text_dimensions(font, label, &width, &height);
-
         int cursor_x = x - (width / 2);
         int cursor_y = y + (height / 2);
         write_mode(
@@ -61,7 +61,6 @@ void epd_draw_circle_button_label(
             WHITE_ON_BLACK,
             properties
         );
-        
         delete properties;
 }
 
@@ -76,8 +75,9 @@ void epd_draw_circle_button_icon(
     uint8_t *framebuffer,
     void (*function)()) {
         Rect_t area = {x - radius, y - radius, radius * 2, radius * 2};
-        AddTouchPoint(area, function);
+        addTouchPoint(area, function);
 
+        // Background
         if (bgColor == 15) {
             epd_draw_circle(x, y, radius, 0, framebuffer);
         } else {
@@ -87,6 +87,7 @@ void epd_draw_circle_button_icon(
             epd_fill_circle(x, y, radius, epdColor, framebuffer);
         }
 
+        // Icon
         Rect_t iconArea = {
             .x = x - image_width / 2,
             .y = y - image_height / 2,
@@ -112,13 +113,14 @@ void epd_draw_tertiary_button_icon(
         int text_width;
         int text_height;
         epd_get_text_dimensions(font, label, &text_width, &text_height);
-
         Rect_t area = {x, y - 5, image_width + text_width + 10, image_height + 10};
-        AddTouchPoint(area, function);
+        addTouchPoint(area, function);
 
+        // Background
         uint8_t epdColor = epd_convert_font_color(bgColor);
         epd_fill_rect(area.x, area.y, area.width, area.height, epdColor, framebuffer);
 
+        // Icon
         Rect_t iconArea = {
             .x = x,
             .y = y,
@@ -127,11 +129,10 @@ void epd_draw_tertiary_button_icon(
         };
         epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
 
-
+        // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-
         int cursor_x = x + image_width + 10;
         int cursor_y = y + image_height / 2 + text_height / 2;
         write_mode(
@@ -143,7 +144,6 @@ void epd_draw_tertiary_button_icon(
             drawMode,
             properties
         );
-        
         delete properties;
 }
 
@@ -163,9 +163,9 @@ void epd_draw_button_icon(
         int text_width;
         int text_height;
         epd_get_text_dimensions(font, label, &text_width, &text_height);
+        addTouchPoint(rectArea, function);
 
-        AddTouchPoint(rectArea, function);
-
+        // Background
         if (bgColor == 15) {
             epd_draw_rounded_rect(
                 rectArea.x, 
@@ -191,6 +191,7 @@ void epd_draw_button_icon(
             );
         }
 
+        // Icon
         Rect_t iconArea = {
             .x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2,
             .y = rectArea.y + rectArea.height / 2 - image_height / 2,
@@ -199,11 +200,10 @@ void epd_draw_button_icon(
         };
         epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
 
-
+        // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-
         int cursor_x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2 + image_width + 20;
         int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2;
         write_mode(
@@ -215,7 +215,6 @@ void epd_draw_button_icon(
             drawMode,
             properties
         );
-        
         delete properties;
 }
 
@@ -229,12 +228,9 @@ void epd_draw_button(
     DrawMode_t drawMode,
     uint8_t *framebuffer,
     void (*function)()) {
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(font, label, &text_width, &text_height);
+        addTouchPoint(rectArea, function);
 
-        AddTouchPoint(rectArea, function);
-
+        // Background
         if (bgColor == 15) {
             epd_draw_rounded_rect(
                 rectArea.x, 
@@ -260,10 +256,13 @@ void epd_draw_button(
             );
         }
 
+        // Text
+        int text_width;
+        int text_height;
+        epd_get_text_dimensions(font, label, &text_width, &text_height);
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-
         int cursor_x = rectArea.x + rectArea.width / 2 - text_width / 2;
         int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2;
         write_mode(
@@ -275,6 +274,5 @@ void epd_draw_button(
             drawMode,
             properties
         );
-        
         delete properties;
 }

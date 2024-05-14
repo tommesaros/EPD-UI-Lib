@@ -88,7 +88,7 @@ void toggleLights() {
 }
 
 void updateTimeHomeScreen(void *parameter) {
-    uint8_t *mainFramebuffer = GetMainFramebuffer();
+    uint8_t *mainFramebuffer = getMainFramebuffer();
     
     Rect_t timeArea = {
         0, 
@@ -117,9 +117,9 @@ void updateTimeHomeScreen(void *parameter) {
             mainFramebuffer
         );
 
-        hour = TimeGetHour();
-        minute = TimeGetMinute();
-        sprintf(time, "%02d:%02d", TimeGetHour(), TimeGetMinute());
+        hour = timeGetHour();
+        minute = timeGetMinute();
+        sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
 
         epd_get_text_dimensions(HEADLINE_FONT, time, &width, &height);
         x = EPD_WIDTH / 8 - width / 2;
@@ -146,9 +146,9 @@ void updateTimeHomeScreen(void *parameter) {
 }
 
 void ScreenHome() {
-    uint8_t *mainFramebuffer = GetMainFramebuffer();
-    ClearTouchPoints();
-    CleanFramebuffer(mainFramebuffer, epd_full_screen());
+    uint8_t *mainFramebuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());
 
     if (updateTimeHomeScreenHandle == NULL) {
         xTaskCreatePinnedToCore(

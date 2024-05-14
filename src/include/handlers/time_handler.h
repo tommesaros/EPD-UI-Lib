@@ -7,21 +7,21 @@
  * This function initializes the connection to a NTP server allowing the 
  * user to get current time.
  */
-void TimeSetup();
+void timeSetup();
 
 /**
  * Gets the current hour.
  * 
  * @return The current hour as an integer.
  */
-int TimeGetHour();
+int timeGetHour();
 
 /**
  * Gets the current minute.
  * 
  * @return The current minute as an integer.
  */
-int TimeGetMinute();
+int timeGetMinute();
 
 /**
  * Gets the current time and date formatted as "DD.MM.RRRR"

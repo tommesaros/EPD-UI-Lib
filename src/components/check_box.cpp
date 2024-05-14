@@ -36,13 +36,14 @@ void epd_draw_check_box(
         int text_height;
         epd_get_text_dimensions(font, label, &text_width, &text_height);
         Rect_t squareArea = {x, y, CHECK_BOX_SIZE, CHECK_BOX_SIZE};
-
         Rect_t touchArea = {x, y, squareArea.width + text_width + 10, squareArea.height};
-        AddTouchPoint(touchArea, function);
+        addTouchPoint(touchArea, function);
 
+        // Background
         epd_fill_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 255, framebuffer);
         epd_draw_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 0, framebuffer);
 
+        // Check in the middle
         if (checked) {
             epd_fill_rect(
                 squareArea.x + 5, 
@@ -54,10 +55,10 @@ void epd_draw_check_box(
             );
         }
 
+        // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-
         int cursor_x = x + squareArea.width + 10;
         int cursor_y = y + squareArea.height / 2 + text_height / 2;
         write_mode(
@@ -69,6 +70,5 @@ void epd_draw_check_box(
             drawMode,
             properties
         );
-        
         delete properties;
 }

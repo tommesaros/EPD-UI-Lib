@@ -29,7 +29,7 @@ const int MAX_TOUCH_POINTS = 30;
 TouchPoint touchPoints[MAX_TOUCH_POINTS];
 int numTouchPoints = 0;
 
-void TouchLoop(void *parameters) {
+void touchLoop(void *parameters) {
     uint16_t  x, y;
     while (true) {
         
@@ -56,7 +56,7 @@ void TouchLoop(void *parameters) {
     }
 }
 
-TouchClass TouchSetup() {
+TouchClass touchSetup() {
     pinMode(TOUCH_INT, INPUT_PULLUP);
     Wire.begin(TOUCH_SDA, TOUCH_SCL);
 
@@ -66,8 +66,8 @@ TouchClass TouchSetup() {
     }
     
     xTaskCreatePinnedToCore(
-        TouchLoop,    // Task function
-        "TouchLoop",  // Task name
+        touchLoop,    // Task function
+        "touchLoop",  // Task name
         10000,              // Stack size (in words)
         NULL,              // Task parameter
         1,                 // Task priority
@@ -78,8 +78,7 @@ TouchClass TouchSetup() {
     return (touch);
 }
 
-//TODO rename
-void AddTouchPoint(Rect_t area, void (*function)()) {
+void addTouchPoint(Rect_t area, void (*function)()) {
     if (numTouchPoints < MAX_TOUCH_POINTS) {
         touchPoints[numTouchPoints].x = area.x;
         touchPoints[numTouchPoints].y = area.y;
@@ -89,8 +88,8 @@ void AddTouchPoint(Rect_t area, void (*function)()) {
         numTouchPoints++;
     }
 }
-//TODO RENAME
-void ClearTouchPoints() {
+
+void clearTouchPoints() {
     memset(touchPoints, 0, sizeof(touchPoints));
     numTouchPoints = 0; // Reset the count of touch points
 }
