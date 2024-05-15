@@ -13,6 +13,7 @@
 #include "../include/fonts.h"
 #include "../include/colors.h"
 #include "../include/components.h"
+#include "../include/components/status_bar.h"
 #include "../include/components/notification.h"
 
 // ----------------------------
@@ -23,6 +24,7 @@
 #include "../include/handlers/framebuffer_handler.h"
 
 void epd_clear_notification(void *parameter) {
+    vTaskSuspend(updateTimeStatusBarHandle);
     vTaskDelay(pdMS_TO_TICKS(NOTIFICATION_DURATION));
     Rect_t notificationArea = {
             .x = 10,
@@ -32,6 +34,7 @@ void epd_clear_notification(void *parameter) {
         };
     epd_clear_area_cycles(notificationArea, 2, 50);
     epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
+    vTaskResume(updateTimeStatusBarHandle);
     vTaskDelete(NULL);
 }
 

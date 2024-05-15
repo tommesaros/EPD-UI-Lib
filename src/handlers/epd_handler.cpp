@@ -104,5 +104,7 @@ void epd_draw_framebuffer(uint8_t *framebuffer) {
     epd_draw_grayscale_image(epd_full_screen(), framebuffer);
     epd_poweroff();
     epdCurrentlyRefreshing = false;
-    //TODO if popup is open, dont draw
+    //TODO if popup is open, dont draw /get popup status
+    //TODO make control panel a popup
+    //TODO vTaskSuspend(updateTimeStatusBarHandle);, vTaskResume(updateTimeStatusBarHandle);
 }

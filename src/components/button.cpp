@@ -11,6 +11,8 @@
 // Internal libraries
 // ----------------------------
 #include "../include/fonts.h"
+#include "../include/components.h"
+#include "../include/colors.h"
 #include "../include/components/button.h"
 
 // ----------------------------
@@ -34,13 +36,14 @@ void epd_draw_circle_button(
         addTouchPoint(area, function);
 
         // Background
-        if (bgColor == 15) {
-            epd_draw_circle(x, y, radius, 0, framebuffer);
+        // Needs to convert color from range 0-15 to 0-255
+        // as epd_fill_circle takes different color range
+        if (bgColor == WHITE) {
+            // Drawing a border around the button
+            epd_draw_circle(x, y, radius, epd_convert_font_color(WHITE), framebuffer);
+            epd_draw_circle(x, y, radius, epd_convert_font_color(BLACK), framebuffer);
         } else {
-            // Needs to convert color from range 0-15 to 0-255
-            // as epd_fill_circle takes different color range
-            uint8_t epdColor = epd_convert_font_color(bgColor);
-            epd_fill_circle(x, y, radius, epdColor, framebuffer);
+            epd_fill_circle(x, y, radius, epd_convert_font_color(bgColor), framebuffer);
         }
 
         // Text
@@ -78,13 +81,14 @@ void epd_draw_circle_button_icon(
         addTouchPoint(area, function);
 
         // Background
-        if (bgColor == 15) {
-            epd_draw_circle(x, y, radius, 0, framebuffer);
+        // Needs to convert color from range 0-15 to 0-255
+        // as epd_fill_circle takes different color range
+        if (bgColor == WHITE) {
+            // Drawing a border around the button
+            epd_draw_circle(x, y, radius, epd_convert_font_color(WHITE), framebuffer);
+            epd_draw_circle(x, y, radius, epd_convert_font_color(BLACK), framebuffer);
         } else {
-            // Needs to convert color from range 0-15 to 0-255
-            // as epd_fill_circle takes different color range
-            uint8_t epdColor = epd_convert_font_color(bgColor);
-            epd_fill_circle(x, y, radius, epdColor, framebuffer);
+            epd_fill_circle(x, y, radius, epd_convert_font_color(bgColor), framebuffer);
         }
 
         // Icon
@@ -117,8 +121,16 @@ void epd_draw_tertiary_button_icon(
         addTouchPoint(area, function);
 
         // Background
-        uint8_t epdColor = epd_convert_font_color(bgColor);
-        epd_fill_rect(area.x, area.y, area.width, area.height, epdColor, framebuffer);
+        // Needs to convert color from range 0-15 to 0-255
+        // as epd_fill_circle takes different color range
+        epd_fill_rect(
+            area.x, 
+            area.y, 
+            area.width, 
+            area.height, 
+            epd_convert_font_color(bgColor), 
+            framebuffer
+        );
 
         // Icon
         Rect_t iconArea = {
@@ -166,27 +178,36 @@ void epd_draw_button_icon(
         addTouchPoint(rectArea, function);
 
         // Background
-        if (bgColor == 15) {
+        // Needs to convert color from range 0-15 to 0-255
+        // as epd_fill_circle takes different color range
+        if (bgColor == WHITE) {
+            // Drawing a border around the button
             epd_draw_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                0, 
+                epd_convert_font_color(BLACK), 
+                framebuffer
+            );
+            epd_fill_rounded_rect(
+                rectArea.x - 2, 
+                rectArea.y - 2, 
+                rectArea.width - 4, 
+                rectArea.height - 4, 
+                radius, 
+                epd_convert_font_color(WHITE), 
                 framebuffer
             );
         } else {
-            // Needs to convert color from range 0-15 to 0-255
-            // as epd_fill_rounded_rect takes different color range
-            uint8_t epdColor = epd_convert_font_color(bgColor);
             epd_fill_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epdColor, 
+                epd_convert_font_color(bgColor), 
                 framebuffer
             );
         }
@@ -194,7 +215,7 @@ void epd_draw_button_icon(
         // Icon
         Rect_t iconArea = {
             .x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2,
-            .y = rectArea.y + rectArea.height / 2 - image_height / 2,
+            .y = rectArea.y + rectArea.height / 2 - image_height / 2 + 2,
             .width = image_width,
             .height =  image_height
         };
@@ -205,7 +226,7 @@ void epd_draw_button_icon(
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
         int cursor_x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2 + image_width + 20;
-        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2;
+        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2 + 2;
         write_mode(
             font, 
             label, 
@@ -231,27 +252,36 @@ void epd_draw_button(
         addTouchPoint(rectArea, function);
 
         // Background
-        if (bgColor == 15) {
+        // Needs to convert color from range 0-15 to 0-255
+        // as epd_fill_circle takes different color range
+        if (bgColor == WHITE) {
+            // Drawing a border around the button
             epd_draw_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                0, 
+                epd_convert_font_color(BLACK), 
+                framebuffer
+            );
+            epd_fill_rounded_rect(
+                rectArea.x - 2, 
+                rectArea.y - 2, 
+                rectArea.width - 4, 
+                rectArea.height - 4, 
+                radius, 
+                epd_convert_font_color(WHITE), 
                 framebuffer
             );
         } else {
-            // Needs to convert color from range 0-15 to 0-255
-            // as epd_fill_rounded_rect takes different color range
-            uint8_t epdColor = epd_convert_font_color(bgColor);
             epd_fill_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epdColor, 
+                epd_convert_font_color(bgColor), 
                 framebuffer
             );
         }

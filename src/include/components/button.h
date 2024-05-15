@@ -3,6 +3,7 @@
 
 /**
  * Draws a circular button with a label.
+ * When bgColor = white, a black border is drawn around the button.
  * 
  * @param buttonText The text to be displayed on the button.
  * @param font The font to be used for the label.
@@ -28,6 +29,7 @@ void epd_draw_circle_button(
 
 /**
  * Draws a circular button with an icon.
+ * When bgColor = white, a black border is drawn around the button.
  * 
  * @param image_data The image data of the icon.
  * @param image_width The width of the icon.
@@ -84,6 +86,7 @@ void epd_draw_tertiary_button_icon(
 
 /**
  * Draws a button with an icon.
+ * When bgColor = white, a black border is drawn around the button.
  * 
  * @param image_data The image data of the icon.
  * @param image_width The width of the icon.
@@ -115,6 +118,7 @@ void epd_draw_button_icon(
 
 /**
  * Draws a button with a label.
+ * When bgColor = white, a black border is drawn around the button.
  * 
  * @param label The label to be displayed on the button.
  * @param font The font to be used for the label.

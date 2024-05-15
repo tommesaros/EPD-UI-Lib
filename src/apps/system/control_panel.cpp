@@ -15,14 +15,15 @@
 // ----------------------------
 // Internal libraries
 // ----------------------------
-#include "include/fonts.h"
-#include "include/components.h"
-#include "include/colors.h"
+#include "../../include/fonts.h"
+#include "../../include/components.h"
+#include "../../include/colors.h"
 
 // ----------------------------
 // Images
 // ----------------------------
-//TODO: Add images
+#include "../../../image/black_bg/padlock_small_icon.h"
+#include "../../../image/white_bg/power_icon.h"
 
 // ----------------------------
 // Handlers
@@ -48,6 +49,17 @@ bool secondCheckBox = false;
 
 void toggle() {
     //TODO draw opposite of what it is
+}
+
+void openPowerOffPopup() {
+    epd_trigger_notification(
+        // Here would be the function that opens the door
+        const_cast<uint8_t*>(padlock_small_icon_data),
+        padlock_small_icon_width,
+        padlock_small_icon_height,
+        "Door opened", 
+        "Hallway door is open for 30 seconds." 
+    );
 }
 
 void displayControlPanel() {
@@ -141,9 +153,32 @@ void displayControlPanel() {
     epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(13), mainFramebuffer);
     epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(14), mainFramebuffer);
 
+    Rect_t powerOffButtonArea = {
+        .x = EPD_WIDTH - 230,
+        .y = EPD_HEIGHT - 90,
+        .width = 200,
+        .height = 70
+    };
 
+    epd_draw_button_icon(
+        const_cast<uint8_t*>(power_icon_data),
+        power_icon_width,
+        power_icon_height,
+        "Power off",
+        TEXT_FONT,
+        powerOffButtonArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        openPowerOffPopup
+    );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+
+
+
     //TODO power off popup and then show image 
     // epd_sleep();
 }

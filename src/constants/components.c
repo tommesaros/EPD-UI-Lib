@@ -14,7 +14,7 @@ const int UPPER_BUTTON_ROW_Y = STATUS_BAR_HEIGHT + 20;
 const int SMALL_CARD_WIDTH = 300;
 const int SMALL_CARD_HEIGHT = 100;
 const int CARD_PADDING = 20;
-//TODO , square card, big horizontal card
+//TODO , square card, big horizontal card Rect_t area
 
 // Check box
 const int CHECK_BOX_SIZE = 40;
