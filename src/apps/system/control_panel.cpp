@@ -51,7 +51,11 @@ void toggle() {
 }
 
 void displayControlPanel() {
-    //TODO popup framebuffer
+    //TODO white cards 
+    //TODO slider for volume
+    //TODO wireless toggle
+    //TODO window blinds radion buttons
+    //TODO ?? checkboxes
     uint8_t *mainFramebuffer = getMainFramebuffer();
     clearTouchPoints();
     cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());

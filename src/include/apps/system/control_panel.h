@@ -3,6 +3,7 @@
 
 /**
  * Displays the control panel with settings.
+ * //TODO what does it demonstrate?
  */
 void displayControlPanel();
 

@@ -21,7 +21,6 @@
 // ----------------------------
 #include "include/credentials.h"
 #include "include/fonts.h"
-#include "include/dimensions.h"
 #include "include/components.h"
 
 // ----------------------------

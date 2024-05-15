@@ -67,4 +67,39 @@ void epd_draw_vertical_card(
     void (*function)()
 );
 
+/**
+ * Draws a card with multi-line string on an EPD display.
+ *
+ * @param image_data Pointer to the image data.
+ * @param image_width Width of the image in pixels.
+ * @param image_height Height of the image in pixels.
+ * @param primaryLabel The primary label to be displayed on the card.
+ * @param secondaryLabel The secondary label to be displayed on the card.
+ * @param primaryFont Pointer to the primary font to be used for the labels.
+ * @param secondaryFont Pointer to the secondary font to be used for the labels.
+ * @param rectArea The rectangular area where the card will be drawn.
+ * @param radius The radius of the card's corners.
+ * @param bgColor The background color of the card.
+ * @param textColor The text color of the labels.
+ * @param drawMode The draw mode to be used for drawing the card.
+ * @param framebuffer Pointer to the framebuffer where the card will be drawn.
+ * @param function Pointer to a function that will be called after the card is touched.
+ */
+void epd_draw_multi_line_card(
+    uint8_t *image_data,
+    int32_t image_width,
+    int32_t image_height,
+    const char * primaryLabel, 
+    const char * secondaryLabel, 
+    const GFXfont *primaryFont,
+    const GFXfont *secondaryFont,
+    Rect_t rectArea,
+    int32_t radius, 
+    uint8_t bgColor,
+    uint8_t textColor, 
+    DrawMode_t drawMode,
+    uint8_t *framebuffer,
+    void (*function)()
+); 
+
 #endif // CARD_H
