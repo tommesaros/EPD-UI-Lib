@@ -215,7 +215,7 @@ void epd_draw_button_icon(
         // Icon
         Rect_t iconArea = {
             .x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2,
-            .y = rectArea.y + rectArea.height / 2 - image_height / 2 + 2,
+            .y = rectArea.y + rectArea.height / 2 - image_height / 2 - 2,
             .width = image_width,
             .height =  image_height
         };
@@ -226,7 +226,7 @@ void epd_draw_button_icon(
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
         int cursor_x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2 + image_width + 20;
-        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2 + 2;
+        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2 - 2;
         write_mode(
             font, 
             label, 
@@ -294,7 +294,7 @@ void epd_draw_button(
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
         int cursor_x = rectArea.x + rectArea.width / 2 - text_width / 2;
-        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2;
+        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2 - 2;
         write_mode(
             font, 
             label, 

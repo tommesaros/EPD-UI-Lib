@@ -154,9 +154,9 @@ void displayControlPanel() {
     epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(14), mainFramebuffer);
 
     Rect_t powerOffButtonArea = {
-        .x = EPD_WIDTH - 230,
+        .x = EPD_WIDTH - 260,
         .y = EPD_HEIGHT - 90,
-        .width = 200,
+        .width = 230,
         .height = 70
     };
 
