@@ -49,6 +49,8 @@
 TaskHandle_t updateTimeHomeScreenHandle = NULL;
 
 void homeExit() {
+    vTaskDelete(updateTimeHomeScreenHandle);
+    updateTimeHomeScreenHandle = NULL;
     // epd_sleep();
 }
 
