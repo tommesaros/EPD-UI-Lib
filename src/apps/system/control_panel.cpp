@@ -51,9 +51,14 @@ void toggle() {
 }
 
 void displayControlPanel() {
-    //TODO black background
     //TODO popup framebuffer
     uint8_t *mainFramebuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, BLACK, mainFramebuffer);
+    epd_draw_status_bar(dummyFunction);
+
+
     epd_draw_check_box(
         "Ahoj", 
         (GFXfont *)&OpenSans12B,
@@ -127,6 +132,8 @@ void displayControlPanel() {
     epd_fill_rounded_rect(120, 420, 100, 20,5, epd_convert_font_color(12), mainFramebuffer);
     epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(13), mainFramebuffer);
     epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(14), mainFramebuffer);
+
+
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 }

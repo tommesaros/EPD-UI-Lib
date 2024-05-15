@@ -23,7 +23,7 @@ const int CHECK_BOX_SIZE = 40;
 const int NOTIFICATION_DURATION = 5000;
 
 // Progress bar
-const int PROGRESS_BAR_HEIGHT = 20;
+const int PROGRESS_BAR_HEIGHT = 30;
 
 // Radio button
 const int RADIO_BUTTON_RADIUS = 20;

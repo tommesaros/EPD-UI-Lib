@@ -56,6 +56,10 @@ void exitAppAndGoToAppMenu() {
     // more apps than can fit on the homescreen
 }
 
+void exitAppAndGoToControlPanel() {
+    exitFunction();
+    displayControlPanel();
+}
 
 void updateTimeStatusBar(void *parameter) {
     uint8_t *mainFramebuffer = getMainFramebuffer();
@@ -207,17 +211,17 @@ void epd_draw_status_bar(void (*function)()) {
 
     statusBarIconArea.x = EPD_WIDTH - 145 - width;
     statusBarIconArea.width = 145 + width;
-    addTouchPoint(statusBarIconArea, displayControlPanel);
+    addTouchPoint(statusBarIconArea, exitAppAndGoToControlPanel);
     
     if (updateTimeStatusBarHandle == NULL) {
         xTaskCreatePinnedToCore(
-            updateTimeStatusBar,    // Task function
-            "updateTimeStatusBar",  // Task name
-            5000,              // Stack size (in words)
-            NULL,              // Task parameter
-            1,                 // Task priority
-            &updateTimeStatusBarHandle,              // Task handle
-            tskNO_AFFINITY     // Core number (0 or 1)
+            updateTimeStatusBar,        // Task function
+            "updateTimeStatusBar",      // Task name
+            5000,                       // Stack size (in words)
+            NULL,                       // Task parameter
+            1,                          // Task priority
+            &updateTimeStatusBarHandle, // Task handle
+            tskNO_AFFINITY              // Core number (0 or 1)
         );
     }
 
