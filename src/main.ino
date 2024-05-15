@@ -21,6 +21,7 @@
 // ----------------------------
 #include "include/credentials.h"
 #include "include/fonts.h"
+#include "include/dimensions.h"
 #include "include/components.h"
 
 // ----------------------------
@@ -51,7 +52,7 @@ void setup()
 {
     Serial.begin(115200);
     wifiSetup();
-    EPDSetup();
+    epdSetup();
     framebufferSetup();
     displayWiFiInitMessage();
     spotifySetup();

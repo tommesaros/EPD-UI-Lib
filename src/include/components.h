@@ -12,6 +12,9 @@
  * To prevent display damage and ghost images, components should not be drawn directly 
  * to the display, but a framebuffer should be used instead.
  * 
+ * Before drawing anything that is not black, the area needs to be refreshed
+ * by calling the clearArea function from the epd_handler.h file.
+ * 
  * Take a look at Figma prototype to see how the components look like.
  * https://www.figma.com/file/5f3T7Kzn7FPU1AODnGr8Qp/EPD-UI-library?type=design\&node-id=0\%3A1\&mode=design\&t=BmxetsLEClQbiwkX-1
  * 
@@ -36,5 +39,31 @@
 #include "components/slider.h"
 #include "components/status_bar.h"
 #include "components/toggle.h"
+
+extern const int CORNER_RADIUS;
+
+// Button
+extern const int UPPER_BUTTON_ROW_Y;
+
+// Card
+extern const int SMALL_CARD_WIDTH;
+extern const int SMALL_CARD_HEIGHT;
+extern const int CARD_PADDING;
+
+// Check box
+extern const int CHECK_BOX_SIZE;
+
+// Notification
+extern const int NOTIFICATION_DURATION;
+
+// Progress bar
+extern const int PROGRESS_BAR_HEIGHT;
+
+// Radio button
+extern const int RADIO_BUTTON_RADIUS;
+
+// Status bar
+extern const int STATUS_BAR_HEIGHT;
+extern const int SCREEN_MIDDLE_WITH_STATUS_BAR;
 
 #endif // COMPONENTS_H

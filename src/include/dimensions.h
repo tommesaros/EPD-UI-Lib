@@ -1,6 +1,6 @@
 #ifndef DIMENSIONS_H
 #define DIMENSIONS_H
-
+/*
 extern const int CORNER_RADIUS;
 
 // Status bar dimensions
@@ -20,5 +20,5 @@ extern const int UPPER_BUTTON_ROW_Y;
 extern const int SMALL_CARD_WIDTH;
 extern const int SMALL_CARD_HEIGHT;
 extern const int CARD_PADDING;
-
+*/
 #endif // DIMENSIONS_H

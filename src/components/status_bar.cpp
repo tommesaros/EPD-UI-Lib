@@ -12,7 +12,7 @@
 // ----------------------------
 #include "../include/fonts.h"
 #include "../include/components/status_bar.h"
-#include "../include/dimensions.h"
+#include "../include/components.h"
 #include "../include/colors.h"
 
 // ----------------------------
@@ -69,8 +69,8 @@ void updateTimeStatusBar(void *parameter) {
     
     char time[6];
     FontProperties *properties = new FontProperties();
-    properties->fg_color = 15;
-    properties->bg_color = 0;
+    properties->fg_color = WHITE;
+    properties->bg_color = BLACK;
 
     int hour;
     int minute;
@@ -152,8 +152,8 @@ void epd_draw_status_bar(void (*function)()) {
     addTouchPoint(statusBarIconArea, exitAppAndGoToAppMenu);
 
     FontProperties *properties = new FontProperties();
-    properties->fg_color = 15;
-    properties->bg_color = 0;
+    properties->fg_color = WHITE;
+    properties->bg_color = BLACK;
 
     // Date
     int x = 150;

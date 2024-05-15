@@ -19,7 +19,6 @@
 // ----------------------------
 #include "include/fonts.h"
 #include "include/components.h"
-#include "include/dimensions.h"
 #include "include/colors.h"
 
 // ----------------------------
@@ -27,6 +26,7 @@
 // ----------------------------
 #include "../../../image/black_bg/alarm_icon.h"
 #include "../../../image/black_bg/spotify_line_icon.h"
+#include "../../../image/black_bg/bus_icon.h"
 
 // ----------------------------
 // Handlers
@@ -42,6 +42,7 @@
 // Apps
 // ----------------------------
 #include "../../include/apps/system/homescreen.h"
+#include "../../include/apps/system/control_panel.h"
 #include "../../include/apps/spotify/spotify.h"
 #include "../../include/apps/weather/weather.h"
 
@@ -72,7 +73,7 @@ void openWeather() {
 void openControlPanel() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    //TODO displayControlPanel();
+    displayControlPanel();
 }
 
 void openBusDepartures() {
@@ -177,8 +178,8 @@ void displayHomeScreen() {
         alarm_icon_height,
         "Alarm",
         "tomorrow 7:20", // dummy data
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
         CORNER_RADIUS,
         BLACK,
@@ -197,8 +198,8 @@ void displayHomeScreen() {
         alarm_icon_height,
         "Weather",
         current->temperature.c_str(),
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
         CORNER_RADIUS,
         BLACK,
@@ -220,8 +221,8 @@ void displayHomeScreen() {
         alarm_icon_height,
         "Spotify",
         trackName,
-        (GFXfont *)&OpenSans12B,
-        (GFXfont *)&OpenSans12,
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
         cardArea,
         CORNER_RADIUS,
         BLACK,
@@ -229,6 +230,25 @@ void displayHomeScreen() {
         WHITE_ON_BLACK,
         mainFramebuffer,
         openSpotify
+    );
+
+    // Bus departures card
+    cardArea.x = EPD_WIDTH / 2 + SMALL_CARD_WIDTH / 2 + CARD_PADDING;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING;
+    cardArea.width = SMALL_CARD_HEIGHT;
+    epd_draw_vertical_card(
+        const_cast<uint8_t *>(bus_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "",
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        openBusDepartures
     );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 

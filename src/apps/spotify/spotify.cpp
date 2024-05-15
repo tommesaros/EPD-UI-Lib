@@ -16,7 +16,6 @@
 // ----------------------------
 #include "include/fonts.h"
 #include "include/components.h"
-#include "include/dimensions.h"
 #include "include/colors.h"
 
 // ----------------------------

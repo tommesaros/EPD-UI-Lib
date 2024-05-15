@@ -20,4 +20,9 @@
 #include "../include/handlers/touch_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 
+//full black screen
+//then status bac
+//then big whote card with write_string 
+//and button at the end
+//secondary touchpoints
 // IF provided aditional text (desc), make space for it

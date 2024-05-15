@@ -19,7 +19,7 @@ extern const int EPD_MAX_QUICK_REFRESHES;
  * 
  * This function initializes the communication with the Electronic Paper Display.
  */
-void EPDSetup();
+void epdSetup();
 
 /**
  * Draws a rounded rectangle with filled background.

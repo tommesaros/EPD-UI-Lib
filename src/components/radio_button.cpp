@@ -12,7 +12,7 @@
 // ----------------------------
 #include "../include/fonts.h"
 #include "../include/components/radio_button.h"
-#include "../include/dimensions.h"
+#include "../include/components.h"
 
 // ----------------------------
 // Handlers

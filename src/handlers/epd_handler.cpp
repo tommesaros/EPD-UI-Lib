@@ -10,7 +10,7 @@
 const int EPD_MAX_QUICK_REFRESHES = 20;
 bool epdCurrentlyRefreshing = false;
 
-void EPDSetup() {
+void epdSetup() {
     epd_init();
     epd_poweron();
     epd_clear();

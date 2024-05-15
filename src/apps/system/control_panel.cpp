@@ -17,7 +17,6 @@
 // ----------------------------
 #include "include/fonts.h"
 #include "include/components.h"
-#include "include/dimensions.h"
 #include "include/colors.h"
 
 // ----------------------------
@@ -112,16 +111,22 @@ void displayControlPanel() {
         300, 
         300, 
         15, 
-        15, 
-        3, 
+        GRAY, 
+        BLACK, 
         mainFramebuffer
     );
 
-    epd_fill_rect(20, 380, 100, 20, 100, mainFramebuffer);
-    epd_fill_rect(20, 400, 100, 20, 200, mainFramebuffer);
-    epd_fill_rect(20, 420, 100, 20, 220, mainFramebuffer);
-    epd_fill_rect(20, 440, 100, 20, 240, mainFramebuffer);
-    epd_fill_rect(20, 440, 100, 20, 150, mainFramebuffer);
+    epd_fill_rounded_rect(20, 380, 100, 20, 5,100, mainFramebuffer);
+    epd_fill_rounded_rect(20, 400, 100, 20, 5,200, mainFramebuffer);
+    epd_fill_rounded_rect(20, 420, 100, 20, 5,220, mainFramebuffer);
+    epd_fill_rounded_rect(20, 440, 100, 20, 5,240, mainFramebuffer);
+    epd_fill_rounded_rect(20, 440, 100, 20, 5,150, mainFramebuffer);
+5,
+    epd_fill_rounded_rect(120, 380, 100, 20,5, epd_convert_font_color(10), mainFramebuffer);
+    epd_fill_rounded_rect(120, 400, 100, 20,5, epd_convert_font_color(11), mainFramebuffer);
+    epd_fill_rounded_rect(120, 420, 100, 20,5, epd_convert_font_color(12), mainFramebuffer);
+    epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(13), mainFramebuffer);
+    epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(14), mainFramebuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 }

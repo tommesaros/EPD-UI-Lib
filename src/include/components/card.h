@@ -56,7 +56,7 @@ void epd_draw_vertical_card(
     uint8_t *image_data,
     int32_t image_width,
     int32_t image_height,
-    char* label, 
+    const char* label, 
     const GFXfont *font,
     Rect_t rectArea,
     int32_t radius, 
