@@ -62,3 +62,4 @@ const char* WEATHER_LON = "16.599009032596893";
 
 const char* WEATHER_UNITS = "metric";  // or "imperial"
 const char* WEATHER_LANG = "en";   // see OpenWeather API notes
+const unsigned long WEATHER_TIME_OFFSET = 1UL * 3600UL; // UTC + 0 hour
