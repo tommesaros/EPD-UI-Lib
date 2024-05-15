@@ -27,7 +27,8 @@
 #include "../../../image/black_bg/alarm_icon.h"
 #include "../../../image/black_bg/spotify_line_icon.h"
 #include "../../../image/black_bg/bus_icon.h"
-#include "../../../image/black_bg/home_icon.h"
+#include "../../../image/black_bg/padlock_icon.h"
+#include "../../../image/black_bg/padlock_small_icon.h"
 
 // ----------------------------
 // Handlers
@@ -52,8 +53,6 @@ TaskHandle_t updateTimeHomeScreenHandle = NULL;
 void homeExit() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    //TODO power off popup and then show image 
-    // epd_sleep();
 }
 
 void openAlarm() {
@@ -94,9 +93,10 @@ void toggleLights() {
 
 void triggerDoorLock() {
     epd_trigger_notification(
-        const_cast<uint8_t*>(home_icon_data),
-        home_icon_width,
-        home_icon_height,
+        // Here would be the function that opens the door
+        const_cast<uint8_t*>(padlock_small_icon_data),
+        padlock_small_icon_width,
+        padlock_small_icon_height,
         "Door opened", 
         "Hallway door is open for 30 seconds." 
     );
@@ -269,9 +269,9 @@ void displayHomeScreen() {
     cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2;
     cardArea.width = SMALL_CARD_HEIGHT;
     epd_draw_vertical_card(
-        const_cast<uint8_t *>(bus_icon_data),
-        alarm_icon_width,
-        alarm_icon_height,
+        const_cast<uint8_t *>(padlock_icon_data),
+        padlock_icon_width,
+        padlock_icon_height,
         "",
         TEXT_FONT,
         cardArea,

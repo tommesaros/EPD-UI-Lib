@@ -33,5 +33,5 @@ void epd_draw_progress_bar(
         epd_fill_rounded_rect(x, y, width, PROGRESS_BAR_HEIGHT, 15, epd_convert_font_color(bgColor), framebuffer);
         int32_t progressWidth = (width / 100) * progress;
         // Make the progress rectangle a bit smaller so the background rectangle creates a border
-        epd_fill_rounded_rect(x + 2, y + 2, progressWidth - 4, PROGRESS_BAR_HEIGHT - 4, 15, epd_convert_font_color(progressColor), framebuffer);
+        epd_fill_rounded_rect(x + 2, y + 2, progressWidth - 4, PROGRESS_BAR_HEIGHT - 4, 12, epd_convert_font_color(progressColor), framebuffer);
 }

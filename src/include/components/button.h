@@ -14,7 +14,7 @@
  * @param framebuffer The framebuffer to draw on.
  * @param function The function to be called when the button is pressed.
  */
-void epd_draw_circle_button_label(
+void epd_draw_circle_button(
     char* buttonText, 
     const GFXfont *font,
     int32_t x,

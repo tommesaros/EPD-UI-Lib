@@ -45,7 +45,7 @@
 //tertiary button to add new alarm, card for each alarm
 
 /*
-epd_draw_circle_button_label(
+epd_draw_circle_button(
         "ahoj", 
         (GFXfont *)&OpenSans10B,
         100, 
@@ -57,7 +57,7 @@ epd_draw_circle_button_label(
         openSpotify
     );
     
-    epd_draw_circle_button_label(
+    epd_draw_circle_button(
         "9", 
         (GFXfont *)&OpenSans16B,
         230, 

@@ -20,7 +20,7 @@
 #include "../include/handlers/touch_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 
-void epd_draw_circle_button_label(
+void epd_draw_circle_button(
     char* label, 
     const GFXfont *font,
     int32_t x, 

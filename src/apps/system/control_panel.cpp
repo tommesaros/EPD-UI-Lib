@@ -47,7 +47,7 @@ bool firstCheckBox = true;
 bool secondCheckBox = false;
 
 void toggle() {
-    //draw opposite of what it is
+    //TODO draw opposite of what it is
 }
 
 void displayControlPanel() {
@@ -58,7 +58,7 @@ void displayControlPanel() {
     epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, BLACK, mainFramebuffer);
     epd_draw_status_bar(dummyFunction);
 
-
+    //TODO Logic for control panel
     epd_draw_check_box(
         "Ahoj", 
         (GFXfont *)&OpenSans12B,
@@ -111,6 +111,7 @@ void displayControlPanel() {
         toggle
     );
 
+    // TODO Remaining coffee machine water?
     epd_draw_progress_bar(
         20, 
         300, 
@@ -120,6 +121,9 @@ void displayControlPanel() {
         BLACK, 
         mainFramebuffer
     );
+    // TODO Make cofee button
+
+    //TODO Power off button -> popup dialog/card
 
     epd_fill_rounded_rect(20, 380, 100, 20, 5,100, mainFramebuffer);
     epd_fill_rounded_rect(20, 400, 100, 20, 5,200, mainFramebuffer);
@@ -136,4 +140,6 @@ void displayControlPanel() {
 
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+    //TODO power off popup and then show image 
+    // epd_sleep();
 }
