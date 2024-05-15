@@ -24,7 +24,15 @@
 
 void epd_clear_notification(void *parameter) {
     vTaskDelay(pdMS_TO_TICKS(NOTIFICATION_DURATION));
+    Rect_t notificationArea = {
+            .x = 10,
+            .y = 10,
+            .width = EPD_WIDTH - 20,
+            .height = 50
+        };
+    epd_clear_area_cycles(notificationArea, 2, 50);
     epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
+    vTaskDelete(NULL);
 }
 
 void epd_trigger_notification(
@@ -34,10 +42,25 @@ void epd_trigger_notification(
     const char * primaryLabel, 
     const char * secondaryLabel) {
         uint8_t *framebuffer = getNotificationFramebuffer();
-        // Clear notification area
+        Rect_t notificationArea = {
+            .x = 10,
+            .y = 10,
+            .width = EPD_WIDTH - 20,
+            .height = 50
+        };
+
+        cleanFramebufferAndEPD(framebuffer, notificationArea);
 
         // Background
-        epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, 20, BLACK, framebuffer);
+        epd_fill_rounded_rect(
+            notificationArea.x, 
+            notificationArea.y, 
+            notificationArea.width, 
+            notificationArea.height, 
+            20, 
+            BLACK, 
+            framebuffer
+        );
 
         // Icon
         Rect_t notificationIconArea = {
@@ -69,7 +92,7 @@ void epd_trigger_notification(
         // Text
         x += 20;
         write_mode(
-            TEXT_FONT_BOLD, 
+            TEXT_FONT, 
             secondaryLabel, 
             &x, 
             &y, 
@@ -81,14 +104,14 @@ void epd_trigger_notification(
         epd_draw_grayscale_image(epd_full_screen(), framebuffer);
 
         xTaskCreatePinnedToCore(
-            epd_clear_notification,    // Task function
-            "epd_clear_notification",  // Task name
-            5000,              // Stack size (in words)
-            NULL,              // Task parameter
-            1,                 // Task priority
-            NULL,              // Task handle
-            tskNO_AFFINITY     // Core number (0 or 1)
-        );
+            epd_clear_notification,     // Task function
+            "epd_clear_notification",   // Task name
+            5000,                       // Stack size (in words)
+            NULL,                       // Task parameter
+            1,                          // Task priority
+            NULL,                       // Task handle
+            tskNO_AFFINITY              // Core number (0 or 1)
+        );          
 
         delete properties;
 }

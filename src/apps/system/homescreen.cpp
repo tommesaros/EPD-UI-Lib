@@ -27,6 +27,7 @@
 #include "../../../image/black_bg/alarm_icon.h"
 #include "../../../image/black_bg/spotify_line_icon.h"
 #include "../../../image/black_bg/bus_icon.h"
+#include "../../../image/black_bg/home_icon.h"
 
 // ----------------------------
 // Handlers
@@ -51,6 +52,7 @@ TaskHandle_t updateTimeHomeScreenHandle = NULL;
 void homeExit() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
+    //TODO power off popup and then show image 
     // epd_sleep();
 }
 
@@ -88,6 +90,16 @@ void toggleLights() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
     //TODO toggle button;
+}
+
+void triggerDoorLock() {
+    epd_trigger_notification(
+        const_cast<uint8_t*>(home_icon_data),
+        home_icon_width,
+        home_icon_height,
+        "Door opened", 
+        "Hallway door is open for 30 seconds." 
+    );
 }
 
 void updateTimeHomeScreen(void *parameter) {
@@ -251,6 +263,24 @@ void displayHomeScreen() {
         WHITE_ON_BLACK,
         mainFramebuffer,
         openBusDepartures
+    );
+
+    // Doorlock card
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2;
+    cardArea.width = SMALL_CARD_HEIGHT;
+    epd_draw_vertical_card(
+        const_cast<uint8_t *>(bus_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "",
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        triggerDoorLock
     );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 
