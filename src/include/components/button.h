@@ -16,7 +16,7 @@
  * @param function The function to be called when the button is pressed.
  */
 void epd_draw_circle_button(
-    char* buttonText, 
+    const char* buttonText, 
     const GFXfont *font,
     int32_t x,
     int32_t y,
@@ -105,7 +105,7 @@ void epd_draw_button_icon(
     uint8_t *image_data,
     int32_t image_width,
     int32_t image_height,
-    char* label,
+    const char* label,
     const GFXfont *font,
     Rect_t rectArea,
     int32_t radius,
@@ -131,7 +131,7 @@ void epd_draw_button_icon(
  * @param function The function to be called when the button is pressed.
  */
 void epd_draw_button(
-    char* label,
+    const char* label,
     const GFXfont *font,
     Rect_t rectArea,
     int32_t radius,

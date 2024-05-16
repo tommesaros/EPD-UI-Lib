@@ -53,8 +53,8 @@ void epd_draw_horizontal_card(
                 framebuffer
             );
             epd_draw_rounded_rect(
-                rectArea.x - BORDER_WIDTH, 
-                rectArea.y - BORDER_WIDTH, 
+                rectArea.x + BORDER_WIDTH, 
+                rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
@@ -150,8 +150,8 @@ void epd_draw_vertical_card(
                 framebuffer
             );
             epd_draw_rounded_rect(
-                rectArea.x - BORDER_WIDTH, 
-                rectArea.y - BORDER_WIDTH, 
+                rectArea.x + BORDER_WIDTH, 
+                rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
@@ -228,8 +228,8 @@ void epd_draw_multi_line_card(
                 framebuffer
             );
             epd_fill_rounded_rect(
-                rectArea.x - BORDER_WIDTH, 
-                rectArea.y - BORDER_WIDTH, 
+                rectArea.x + BORDER_WIDTH, 
+                rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 

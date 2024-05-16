@@ -124,4 +124,7 @@ void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)());
  */
 void epd_draw_framebuffer(uint8_t *framebuffer);
 
+//TODO DESCRIPTION
+void epd_draw_overlay_framebuffer();
+
 #endif // EPD_HANDLER_H

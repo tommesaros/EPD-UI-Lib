@@ -52,6 +52,6 @@ uint8_t* getNotificationFramebuffer();
  *
  * @return A pointer to the popup framebuffer.
  */
-uint8_t* getPopupFramebuffer();
+uint8_t* getOverlayFramebuffer();
 
 #endif // FRAMEBUFFER_HANDLER_H

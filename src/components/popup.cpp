@@ -30,60 +30,92 @@
 //secondary touchpoints
 // IF provided aditional text (desc), make space for it
 
-void epd_clear_popup(void *parameter) {
-    vTaskSuspend(updateTimeStatusBarHandle);
-    vTaskDelay(pdMS_TO_TICKS(NOTIFICATION_DURATION));
-    Rect_t notificationArea = {
-            .x = 10,
-            .y = 10,
-            .width = EPD_WIDTH - 20,
-            .height = 50
-        };
-    epd_clear_area_cycles(notificationArea, 2, 50);
+void epd_clear_popup() {
+    setOverlayActive(false);
+    clearOverlayTouchPoints();
+    epd_clear();
     epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
-    vTaskResume(updateTimeStatusBarHandle);
-    vTaskDelete(NULL);
 }
 
 void epd_trigger_popup(
     uint8_t *imageData,
     int32_t imageWidth,
     int32_t imageHeight,
-    const char * title, 
-    const char * text, 
+    const char *title, 
+    const char *text, 
     uint8_t *primaryButtonIconData,
     int32_t primaryButtonIconWidth,
     int32_t primaryButtonIconHeight,
-    const char * primaryButtonLabel, 
+    const char *primaryButtonLabel, 
+    void (*primaryFunction)(),
     uint8_t *secondaryButtonIconData,
     int32_t secondaryButtonIconWidth,
     int32_t secondaryButtonIconHeight,
-    const char * secondaryButtonLabel, 
-    void (*function)()) {
-        uint8_t *framebuffer = getNotificationFramebuffer();
-        Rect_t notificationArea = {
-            .x = 10,
-            .y = 10,
-            .width = EPD_WIDTH - 20,
-            .height = 50
-        };
+    const char *secondaryButtonLabel, 
+    void (*secondaryFunction)()) {
+        uint8_t *framebuffer = getOverlayFramebuffer();
 
-        cleanFramebufferAndEPD(framebuffer, notificationArea);
-/*
+        // Background
         epd_draw_multi_line_card(
-        (uint8_t*)power_big_icon_data,
-        power_big_icon_width,
-        power_big_icon_height,
-        "Power off the device?",
-        "Are you sure you want to power off the device?\nThis will close all running apps and turn off the\ndisplay. You can turn it back on by pressing the \nmost right button above the screen.",
-        TITLE_FONT,
-        TEXT_FONT,
-        popupArea,
-        CORNER_RADIUS,
-        WHITE,
-        BLACK,
-        BLACK_ON_WHITE,
-        getMainFramebuffer(),
-        dummyFunction
-    );*/
+            (uint8_t*)imageData,
+            imageWidth,
+            imageHeight,
+            title,
+            text,
+            TITLE_FONT,
+            TEXT_FONT,
+            POPUP_AREA,
+            CORNER_RADIUS,
+            WHITE,
+            BLACK,
+            BLACK_ON_WHITE,
+            framebuffer,
+            dummyFunction
+        );
+
+        // Primary button
+        int textWidth = 0;
+        int textHeight = 0;
+        epd_get_text_dimensions(TEXT_FONT, primaryButtonLabel, &textWidth, &textHeight);
+        Rect_t buttonArea = {
+            .x = POPUP_AREA.x + POPUP_AREA.width - CARD_PADDING * 3 - textWidth - primaryButtonIconWidth,
+            .y = POPUP_AREA.y + POPUP_AREA.height - CARD_PADDING - 50,
+            .width = textWidth + primaryButtonIconWidth + CARD_PADDING * 3,
+            .height = 60
+        };
+        epd_draw_button_icon(
+            primaryButtonIconData, 
+            primaryButtonIconWidth,
+            primaryButtonIconHeight,
+            primaryButtonLabel,
+            TEXT_FONT,
+            buttonArea, 
+            CORNER_RADIUS, 
+            BLACK, 
+            WHITE,
+            WHITE_ON_BLACK, 
+            framebuffer,
+            dummyFunction
+        );
+        addOverlayTouchPoint(buttonArea, primaryFunction);
+
+        // Secondary button
+        epd_get_text_dimensions(TEXT_FONT, secondaryButtonLabel, &textWidth, &textHeight);
+        buttonArea.x -= textWidth + CARD_PADDING * 3 + secondaryButtonIconWidth;
+        buttonArea.width = textWidth + secondaryButtonIconWidth + CARD_PADDING * 3;
+        epd_draw_button_icon(
+            secondaryButtonIconData, 
+            secondaryButtonIconWidth,
+            secondaryButtonIconHeight,
+            secondaryButtonLabel,
+            TEXT_FONT,
+            buttonArea, 
+            CORNER_RADIUS, 
+            WHITE, 
+            BLACK,
+            WHITE_ON_BLACK, 
+            framebuffer,
+            dummyFunction
+        );
+        addOverlayTouchPoint(buttonArea, secondaryFunction);
 }

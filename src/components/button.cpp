@@ -23,7 +23,7 @@
 #include "../include/handlers/framebuffer_handler.h"
 
 void epd_draw_circle_button(
-    char* label, 
+    const char* label, 
     const GFXfont *font,
     int32_t x, 
     int32_t y, 
@@ -163,7 +163,7 @@ void epd_draw_button_icon(
     uint8_t *imageData,
     int32_t imageWidth,
     int32_t imageHeight,
-    char* label, 
+    const char* label, 
     const GFXfont *font,
     Rect_t rectArea,
     int32_t radius, 
@@ -192,8 +192,8 @@ void epd_draw_button_icon(
                 framebuffer
             );
             epd_fill_rounded_rect(
-                rectArea.x - BORDER_WIDTH, 
-                rectArea.y - BORDER_WIDTH, 
+                rectArea.x + BORDER_WIDTH, 
+                rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
@@ -240,7 +240,7 @@ void epd_draw_button_icon(
 }
 
 void epd_draw_button(
-    char* label, 
+    const char* label, 
     const GFXfont *font,
     Rect_t rectArea,
     int32_t radius, 
@@ -266,8 +266,8 @@ void epd_draw_button(
                 framebuffer
             );
             epd_fill_rounded_rect(
-                rectArea.x - BORDER_WIDTH, 
-                rectArea.y - BORDER_WIDTH, 
+                rectArea.x + BORDER_WIDTH, 
+                rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 

@@ -343,8 +343,8 @@ void displayHomeScreen() {
 
     cardArea.x = EPD_WIDTH / 2 + SMALL_CARD_WIDTH / 2 + SMALL_CARD_HEIGHT + CARD_PADDING * 2 - 70;
     cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING;
-    cardArea.width = SMALL_CARD_HEIGHT * 2 + CARD_PADDING;
-    cardArea.height = cardArea.width;
+    cardArea.width = SQUARE_CARD_SIZE;
+    cardArea.height = SQUARE_CARD_SIZE;
     epd_draw_horizontal_card(
         const_cast<uint8_t *>(ac_icon_data),
         alarm_icon_width,

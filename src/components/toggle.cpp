@@ -37,7 +37,7 @@ void epd_draw_toggle(
             toggleArea.y, 
             toggleArea.width,
             toggleArea.height,
-            20,
+            15,
             epd_convert_font_color(BLACK), 
             framebuffer
         );
@@ -47,7 +47,7 @@ void epd_draw_toggle(
             toggleArea.y + BORDER_WIDTH, 
             toggleArea.width - BORDER_WIDTH * 2,
             toggleArea.height - BORDER_WIDTH * 2,
-            20,
+            15,
             epd_convert_font_color(WHITE), 
             framebuffer
         );

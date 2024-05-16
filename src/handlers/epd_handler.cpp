@@ -5,7 +5,6 @@
 #include "../include/handlers/framebuffer_handler.h"
 #include "../include/handlers/touch_handler.h"
 #include "../include/components/status_bar.h"
-#include "../include/fonts.h"
 
 const int EPD_MAX_QUICK_REFRESHES = 20;
 bool epdCurrentlyRefreshing = false;
@@ -94,7 +93,7 @@ void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)()) {
     cleanFramebufferAndEPD(framebuffer, epd_full_screen());
     epd_draw_status_bar(exitFunction);
 }
-
+//TODO rename to draw mainfb
 void epd_draw_framebuffer(uint8_t *framebuffer) {
     while (epdCurrentlyRefreshing) {
         vTaskDelay(pdMS_TO_TICKS(1000));
@@ -107,4 +106,11 @@ void epd_draw_framebuffer(uint8_t *framebuffer) {
     //TODO if popup is open, dont draw /get popup status
     //TODO make control panel a popup
     //TODO vTaskSuspend(updateTimeStatusBarHandle);, vTaskResume(updateTimeStatusBarHandle);
+    //TODO only if overlayActive == false;
+}
+
+void epd_draw_overlay_framebuffer() {
+    epd_poweron();
+    epd_draw_grayscale_image(epd_full_screen(), getOverlayFramebuffer());
+    epd_poweroff();
 }

@@ -52,39 +52,36 @@ void toggle() {
     //TODO draw opposite of what it is
 }
 
+void powerOff() {
+    //TODO draw image and power off
+    //TODO power off popup and then show image 
+    // epd_sleep();
+}
+
 void openPowerOffPopup() {
-    uint8_t *mainFramebuffer = getMainFramebuffer(); //TODO POPUP FB
-    Rect_t popupArea = {
-        .x = CARD_PADDING * 3,
-        .y = STATUS_BAR_SAFE_ZONE + CARD_PADDING * 3,
-        .width = EPD_WIDTH - CARD_PADDING * 6,
-        .height = EPD_HEIGHT - STATUS_BAR_SAFE_ZONE - CARD_PADDING * 6
-    };
+    epd_clear();
+    setOverlayActive(true);
+    clearOverlayTouchPoints();
 
-    epd_clear_area(popupArea);
-
-    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), mainFramebuffer);
-
-    epd_draw_status_bar(dummyFunction);
-
-    epd_draw_multi_line_card(
+    epd_trigger_popup(
         (uint8_t*)power_big_icon_data,
         power_big_icon_width,
         power_big_icon_height,
         "Power off the device?",
         "Are you sure you want to power off the device?\nThis will close all running apps and turn off the\ndisplay. You can turn it back on by pressing the \nmost right button above the screen.",
-        TITLE_FONT,
-        TEXT_FONT,
-        popupArea,
-        CORNER_RADIUS,
-        WHITE,
-        BLACK,
-        BLACK_ON_WHITE,
-        getMainFramebuffer(),
-        dummyFunction
+        (uint8_t*)power_icon_data,
+        power_icon_width,
+        power_icon_height,
+        "Power off", 
+        powerOff,
+        (uint8_t*)power_icon_data,
+        power_icon_width,
+        power_icon_height,
+        "Cancel", 
+        epd_clear_popup
     );
 
-    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+    epd_draw_overlay_framebuffer();
 }
 
 void displayControlPanel() {
@@ -201,9 +198,4 @@ void displayControlPanel() {
     );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
-
-
-
-    //TODO power off popup and then show image 
-    // epd_sleep();
 }

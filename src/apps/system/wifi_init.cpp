@@ -33,7 +33,7 @@
 #include "../../include/apps/system/wifi_init.h"
 
 void displayWiFiInitMessage() {
-    uint8_t *framebuffer = getPopupFramebuffer();
+    uint8_t *framebuffer = getOverlayFramebuffer();
     cleanFramebufferAndEPD(framebuffer, epd_full_screen());
 
     int32_t textX = 100;

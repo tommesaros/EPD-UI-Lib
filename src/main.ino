@@ -44,8 +44,6 @@
 #include "include/components/status_bar.h"
 #include "include/apps/system/homescreen.h"
 
-uint8_t *mainFramebuffer;
-
 // This is all the code that is run during the startup process.
 void setup()
 {

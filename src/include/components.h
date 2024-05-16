@@ -47,9 +47,14 @@ extern const int CORNER_RADIUS;
 extern const int UPPER_BUTTON_ROW_Y;
 
 // Card
+extern const int CARD_PADDING;
+
 extern const int SMALL_CARD_WIDTH;
 extern const int SMALL_CARD_HEIGHT;
-extern const int CARD_PADDING;
+
+extern const int SQUARE_CARD_SIZE;
+
+extern const Rect_t BIG_CARD_AREA;
 
 // Check box
 extern const int CHECK_BOX_SIZE;
@@ -57,6 +62,9 @@ extern const int CHECK_BOX_INNER_PADDING;
 
 // Notification
 extern const int NOTIFICATION_DURATION;
+
+// Popup
+extern const Rect_t POPUP_AREA;
 
 // Progress bar
 extern const int PROGRESS_BAR_HEIGHT;

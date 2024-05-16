@@ -29,6 +29,10 @@ const int MAX_TOUCH_POINTS = 30;
 TouchPoint touchPoints[MAX_TOUCH_POINTS];
 int numTouchPoints = 0;
 
+bool overlayActive = false;
+TouchPoint overlayTouchPoints[MAX_TOUCH_POINTS];
+int numOverlayTouchPoints = 0;
+
 void touchLoop(void *parameters) {
     uint16_t  x, y;
     while (true) {
@@ -38,10 +42,19 @@ void touchLoop(void *parameters) {
                 touch.getPoint(x, y, 0);
                 y = EPD_HEIGHT - y;
 
-                for (int i = 0; i < numTouchPoints; i++) {
-                    if ((x > touchPoints[i].x && x < (touchPoints[i].x + touchPoints[i].width)) 
-                        && (y > touchPoints[i].y && y < (touchPoints[i].y + touchPoints[i].height))) {
-                        touchPoints[i].function();
+                if (overlayActive) {
+                    for (int i = 0; i < numOverlayTouchPoints; i++) {
+                        if ((x > overlayTouchPoints[i].x && x < (overlayTouchPoints[i].x + overlayTouchPoints[i].width)) 
+                            && (y > overlayTouchPoints[i].y && y < (overlayTouchPoints[i].y + overlayTouchPoints[i].height))) {
+                            overlayTouchPoints[i].function();
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < numTouchPoints; i++) {
+                        if ((x > touchPoints[i].x && x < (touchPoints[i].x + touchPoints[i].width)) 
+                            && (y > touchPoints[i].y && y < (touchPoints[i].y + touchPoints[i].height))) {
+                            touchPoints[i].function();
+                        }
                     }
                 }
                 
@@ -91,7 +104,27 @@ void addTouchPoint(Rect_t area, void (*function)()) {
 
 void clearTouchPoints() {
     memset(touchPoints, 0, sizeof(touchPoints));
-    numTouchPoints = 0; // Reset the count of touch points
+    numTouchPoints = 0;
+}
+
+void setOverlayActive(bool state) {
+    overlayActive = state;
+}
+
+void addOverlayTouchPoint(Rect_t area, void (*function)()) {
+    if (numOverlayTouchPoints < MAX_TOUCH_POINTS) {
+        overlayTouchPoints[numOverlayTouchPoints].x = area.x;
+        overlayTouchPoints[numOverlayTouchPoints].y = area.y;
+        overlayTouchPoints[numOverlayTouchPoints].width = area.width;
+        overlayTouchPoints[numOverlayTouchPoints].height = area.height;
+        overlayTouchPoints[numOverlayTouchPoints].function = function;
+        numOverlayTouchPoints++;
+    }
+}
+
+void clearOverlayTouchPoints() {
+    memset(overlayTouchPoints, 0, sizeof(overlayTouchPoints));
+    numOverlayTouchPoints = 0;
 }
 
 void dummyFunction() {
