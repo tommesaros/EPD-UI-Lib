@@ -43,10 +43,10 @@ void epd_draw_toggle(
         );
         // Make the progress rectangle a bit smaller so the background rectangle creates a border
         epd_fill_rounded_rect(
-            toggleArea.x + 2, 
-            toggleArea.y + 2, 
-            toggleArea.width - 4,
-            toggleArea.height - 4,
+            toggleArea.x + BORDER_WIDTH, 
+            toggleArea.y + BORDER_WIDTH, 
+            toggleArea.width - BORDER_WIDTH * 2,
+            toggleArea.height - BORDER_WIDTH * 2,
             20,
             epd_convert_font_color(WHITE), 
             framebuffer

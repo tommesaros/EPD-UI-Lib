@@ -40,6 +40,7 @@
 #include "components/status_bar.h"
 #include "components/toggle.h"
 
+extern const int BORDER_WIDTH;
 extern const int CORNER_RADIUS;
 
 // Button

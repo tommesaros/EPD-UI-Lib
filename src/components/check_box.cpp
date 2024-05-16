@@ -40,9 +40,25 @@ void epd_draw_check_box(
         Rect_t touchArea = {x, y, squareArea.width + text_width + 10, squareArea.height};
         addTouchPoint(touchArea, function);
 
-        // Background
-        epd_fill_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, WHITE, framebuffer);
-        epd_draw_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, BLACK, framebuffer);
+        // Background with a border
+        // Needs to convert color from range 0-15 to 0-255
+        // as epd_fill_rounded_rect takes different color range
+        epd_draw_rect(
+            squareArea.x, 
+            squareArea.y, 
+            squareArea.width, 
+            squareArea.height, 
+            epd_convert_font_color(BLACK), 
+            framebuffer
+        );
+        epd_fill_rect(
+            squareArea.x + BORDER_WIDTH, 
+            squareArea.y + BORDER_WIDTH, 
+            squareArea.width - BORDER_WIDTH * 2, 
+            squareArea.height - BORDER_WIDTH * 2, 
+            epd_convert_font_color(WHITE), 
+            framebuffer
+        );
 
         // Check in the middle
         if (checked) {
@@ -51,7 +67,7 @@ void epd_draw_check_box(
                 squareArea.y + 5, 
                 squareArea.width - 10, 
                 squareArea.height - 10, 
-                BLACK, 
+                epd_convert_font_color(BLACK), 
                 framebuffer
             );
         }

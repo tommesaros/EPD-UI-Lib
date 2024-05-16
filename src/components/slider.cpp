@@ -44,10 +44,10 @@ void epd_draw_slider(
         );
         // Make the progress rectangle a bit smaller so the background rectangle creates a border
         epd_fill_rounded_rect(
-            sliderArea.x + 2, 
-            sliderArea.y + 2, 
-            sliderArea.width - 4, 
-            sliderArea.height - 4, 
+            sliderArea.x + BORDER_WIDTH, 
+            sliderArea.y + BORDER_WIDTH, 
+            sliderArea.width - BORDER_WIDTH * 2, 
+            sliderArea.height - BORDER_WIDTH * 2, 
             CORNER_RADIUS, 
             epd_convert_font_color(WHITE), 
             framebuffer

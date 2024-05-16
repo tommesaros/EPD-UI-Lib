@@ -40,8 +40,8 @@ void epd_draw_circle_button(
         // as epd_fill_circle takes different color range
         if (bgColor == WHITE) {
             // Drawing a border around the button
-            epd_draw_circle(x, y, radius, epd_convert_font_color(WHITE), framebuffer);
             epd_draw_circle(x, y, radius, epd_convert_font_color(BLACK), framebuffer);
+            epd_draw_circle(x, y, radius - BORDER_WIDTH, epd_convert_font_color(WHITE), framebuffer);
         } else {
             epd_fill_circle(x, y, radius, epd_convert_font_color(bgColor), framebuffer);
         }
@@ -85,8 +85,8 @@ void epd_draw_circle_button_icon(
         // as epd_fill_circle takes different color range
         if (bgColor == WHITE) {
             // Drawing a border around the button
-            epd_draw_circle(x, y, radius, epd_convert_font_color(WHITE), framebuffer);
             epd_draw_circle(x, y, radius, epd_convert_font_color(BLACK), framebuffer);
+            epd_draw_circle(x, y, radius - BORDER_WIDTH, epd_convert_font_color(WHITE), framebuffer);
         } else {
             epd_fill_circle(x, y, radius, epd_convert_font_color(bgColor), framebuffer);
         }
@@ -192,10 +192,10 @@ void epd_draw_button_icon(
                 framebuffer
             );
             epd_fill_rounded_rect(
-                rectArea.x - 2, 
-                rectArea.y - 2, 
-                rectArea.width - 4, 
-                rectArea.height - 4, 
+                rectArea.x - BORDER_WIDTH, 
+                rectArea.y - BORDER_WIDTH, 
+                rectArea.width - BORDER_WIDTH * 2, 
+                rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
                 epd_convert_font_color(WHITE), 
                 framebuffer
@@ -266,10 +266,10 @@ void epd_draw_button(
                 framebuffer
             );
             epd_fill_rounded_rect(
-                rectArea.x - 2, 
-                rectArea.y - 2, 
-                rectArea.width - 4, 
-                rectArea.height - 4, 
+                rectArea.x - BORDER_WIDTH, 
+                rectArea.y - BORDER_WIDTH, 
+                rectArea.width - BORDER_WIDTH * 2, 
+                rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
                 epd_convert_font_color(WHITE), 
                 framebuffer

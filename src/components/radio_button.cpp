@@ -40,19 +40,19 @@ void epd_draw_radio_button(
         Rect_t touchArea = {x, y, circleArea.width + text_width + 10, circleArea.height};
         addTouchPoint(touchArea, function);
 
-        // Background
-        epd_fill_circle(
-            circleArea.x + RADIO_BUTTON_RADIUS, 
-            circleArea.y + RADIO_BUTTON_RADIUS, 
-            RADIO_BUTTON_RADIUS, 
-            WHITE, 
-            framebuffer
-        );
+        // Background with a border
         epd_draw_circle(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS, 
-            BLACK, 
+            epd_convert_font_color(BLACK), 
+            framebuffer
+        );
+        epd_fill_circle(
+            circleArea.x + RADIO_BUTTON_RADIUS, 
+            circleArea.y + RADIO_BUTTON_RADIUS, 
+            RADIO_BUTTON_RADIUS - BORDER_WIDTH, 
+            epd_convert_font_color(WHITE), 
             framebuffer
         );
 
@@ -62,7 +62,7 @@ void epd_draw_radio_button(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS - 5, 
-            BLACK, 
+            epd_convert_font_color(BLACK), 
             framebuffer
         );
         }
