@@ -53,6 +53,7 @@ extern const int CARD_PADDING;
 
 // Check box
 extern const int CHECK_BOX_SIZE;
+extern const int CHECK_BOX_INNER_PADDING;
 
 // Notification
 extern const int NOTIFICATION_DURATION;
@@ -70,8 +71,10 @@ extern const char *SLIDER_UPPER_LABEL;
 extern const char *SLIDER_LOWER_LABEL;
 
 // Status bar
-extern const int STATUS_BAR_HEIGHT;
+extern const int STATUS_BAR_SAFE_ZONE;
 extern const int SCREEN_MIDDLE_WITH_STATUS_BAR;
+extern const int STATUS_BAR_PADDING;
+extern const int STATUS_BAR_HEIGHT;
 
 // Toggle
 extern const int TOGGLE_WIDTH;

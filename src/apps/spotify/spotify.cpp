@@ -96,7 +96,7 @@ void spotifyToggleShuffle() {
     if (shuffle) {
         Rect_t shuffleDotArea = {
             .x = EPD_WIDTH - 160,
-            .y = STATUS_BAR_HEIGHT + 30,
+            .y = STATUS_BAR_SAFE_ZONE + 30,
             .width = 15,
             .height = 12
         };
@@ -105,7 +105,7 @@ void spotifyToggleShuffle() {
         spotifyAgent.toggleShuffle(false);
         shuffle = false;
     } else {
-        epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_HEIGHT + 36, 5, BLACK, spotifyFrameBuffer);
+        epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_SAFE_ZONE + 36, 5, BLACK, spotifyFrameBuffer);
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 
         spotifyAgent.toggleShuffle(true);
@@ -118,7 +118,7 @@ void spotifyToggleRepeat() {
     if (repeat) {
         Rect_t repeatDotArea = {
             .x = EPD_WIDTH - 318,
-            .y = STATUS_BAR_HEIGHT + 30,
+            .y = STATUS_BAR_SAFE_ZONE + 30,
             .width = 15,
             .height =  12
         };
@@ -127,7 +127,7 @@ void spotifyToggleRepeat() {
         spotifyAgent.setRepeatMode(repeat_off);
         repeat = false;
     } else {
-        epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_HEIGHT + 36, 5, BLACK, spotifyFrameBuffer);
+        epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_SAFE_ZONE + 36, 5, BLACK, spotifyFrameBuffer);
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 
         spotifyAgent.setRepeatMode(repeat_track);

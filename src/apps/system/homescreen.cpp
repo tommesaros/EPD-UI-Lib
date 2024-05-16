@@ -95,7 +95,7 @@ void toggleLights() {
         SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT + CARD_PADDING - TOGGLE_HEIGHT / 2, 
         TOGGLE_WIDTH, 
         TOGGLE_HEIGHT
-    };
+    }; //TODO CHANGE TOGGLE AREA
 
     epd_clear_area(toggleArea);
     epd_fill_rect(

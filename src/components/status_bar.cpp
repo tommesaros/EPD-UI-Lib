@@ -68,8 +68,8 @@ void updateTimeStatusBar(void *parameter) {
     int32_t y = 45;
     int32_t width = 0;
     int32_t height = 0;
-    Rect_t dateArea = {150, 10, 200, 50};
-    Rect_t timeArea = {EPD_WIDTH / 2 - 40, 10, 80, 50};
+    Rect_t dateArea = {150, STATUS_BAR_PADDING, 200, STATUS_BAR_HEIGHT};
+    Rect_t timeArea = {EPD_WIDTH / 2 - 50, STATUS_BAR_PADDING, 100, STATUS_BAR_HEIGHT};
     
     char time[6];
     FontProperties *properties = new FontProperties();
@@ -98,7 +98,14 @@ void updateTimeStatusBar(void *parameter) {
         // Update date at midnight
         if (hour == 0 && minute == 0) {
             epd_clear_area_cycles(dateArea, 2, 50);
-            epd_fill_rect(150, 11, 200, 49, 0, mainFramebuffer);
+            epd_fill_rect(
+                dateArea.x, 
+                dateArea.y + 1, // + 1 to avoid imperfections in the straight line of the status bar 
+                dateArea.width, 
+                dateArea.height - 1,  //TODO SB HEIGHT - 1
+                epd_convert_font_color(BLACK), 
+                mainFramebuffer
+            );
 
             x = 150;
             write_mode(
@@ -113,7 +120,14 @@ void updateTimeStatusBar(void *parameter) {
         }
 
         // Background
-        epd_fill_rect(EPD_WIDTH / 2 - 40, 11, 80, 49, 0, mainFramebuffer);
+        epd_fill_rect(
+            timeArea.x, 
+            timeArea.y + 1, // + 1 to avoid imperfections in the straight line of the status bar
+            timeArea.width, 
+            timeArea.height - 1, //TODO SB HEIGHT - 1
+            epd_convert_font_color(BLACK), 
+            mainFramebuffer
+        );
         
         // Updated time
         sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
@@ -139,12 +153,20 @@ void epd_draw_status_bar(void (*function)()) {
     uint8_t *mainFramebuffer = getMainFramebuffer();
 
     // Background
-    epd_fill_rounded_rect(10, 10, EPD_WIDTH - 20, 50, 20, BLACK, mainFramebuffer);
+    epd_fill_rounded_rect(
+        STATUS_BAR_PADDING, 
+        STATUS_BAR_PADDING, 
+        EPD_WIDTH - STATUS_BAR_PADDING * 2, 
+        STATUS_BAR_HEIGHT, 
+        20, 
+        epd_convert_font_color(BLACK), 
+        mainFramebuffer
+    );
 
     // Homescreen and menu icons
     Rect_t statusBarIconArea = {
-        .x = 30,
-        .y = 20,
+        .x = STATUS_BAR_PADDING * 3,
+        .y = STATUS_BAR_PADDING * 2,
         .width = home_icon_width,
         .height = home_icon_height
     };
@@ -161,7 +183,7 @@ void epd_draw_status_bar(void (*function)()) {
 
     // Date
     int x = 150;
-    int y = 45;
+    int y = STATUS_BAR_HEIGHT - 5;
     write_mode(
         TEXT_FONT_BOLD, 
         getTimeDate(), 

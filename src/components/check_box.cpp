@@ -63,10 +63,10 @@ void epd_draw_check_box(
         // Check in the middle
         if (checked) {
             epd_fill_rect(
-                squareArea.x + 5, 
-                squareArea.y + 5, 
-                squareArea.width - 10, 
-                squareArea.height - 10, 
+                squareArea.x + CHECK_BOX_INNER_PADDING, 
+                squareArea.y + CHECK_BOX_INNER_PADDING, 
+                squareArea.width - CHECK_BOX_INNER_PADDING * 2, 
+                squareArea.height - CHECK_BOX_INNER_PADDING * 2, 
                 epd_convert_font_color(BLACK), 
                 framebuffer
             );

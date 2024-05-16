@@ -27,10 +27,10 @@ void epd_clear_notification(void *parameter) {
     vTaskSuspend(updateTimeStatusBarHandle);
     vTaskDelay(pdMS_TO_TICKS(NOTIFICATION_DURATION));
     Rect_t notificationArea = {
-            .x = 10,
-            .y = 10,
-            .width = EPD_WIDTH - 20,
-            .height = 50
+            .x = STATUS_BAR_PADDING,
+            .y = STATUS_BAR_PADDING,
+            .width = EPD_WIDTH - STATUS_BAR_PADDING * 2,
+            .height = STATUS_BAR_HEIGHT
         };
     epd_clear_area_cycles(notificationArea, 2, 50);
     epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
@@ -46,10 +46,10 @@ void epd_trigger_notification(
     const char * secondaryLabel) {
         uint8_t *framebuffer = getNotificationFramebuffer();
         Rect_t notificationArea = {
-            .x = 10,
-            .y = 10,
-            .width = EPD_WIDTH - 20,
-            .height = 50
+            .x = STATUS_BAR_PADDING,
+            .y = STATUS_BAR_PADDING,
+            .width = EPD_WIDTH - STATUS_BAR_PADDING * 2,
+            .height = STATUS_BAR_HEIGHT
         };
 
         cleanFramebufferAndEPD(framebuffer, notificationArea);
@@ -67,8 +67,8 @@ void epd_trigger_notification(
 
         // Icon
         Rect_t notificationIconArea = {
-            .x = 30,
-            .y = 20,
+            .x = STATUS_BAR_PADDING * 3,
+            .y = STATUS_BAR_PADDING * 2,
             .width = image_width,
             .height = image_height
         };
@@ -80,8 +80,8 @@ void epd_trigger_notification(
         properties->bg_color = BLACK;
 
         // Title
-        int x = 30 + image_width + 20;
-        int y = 45;
+        int x = STATUS_BAR_PADDING * 3 + image_width + STATUS_BAR_PADDING * 2;
+        int y = STATUS_BAR_HEIGHT - 5;
         write_mode(
             TITLE_FONT, 
             primaryLabel, 

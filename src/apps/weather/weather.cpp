@@ -285,7 +285,7 @@ void displayWeather() {
 
     // Title
     int x = 30; 
-    int y = STATUS_BAR_HEIGHT + 50;
+    int y = STATUS_BAR_SAFE_ZONE + 50;
     writeln(TITLE_FONT, "Current weather ", &x, &y, framebuffer);
 
     // Buttons for daily and hourly weather
