@@ -53,13 +53,13 @@ void epd_draw_circle_button(
         int32_t width = 0;
         int32_t height = 0;
         epd_get_text_dimensions(font, label, &width, &height);
-        int cursor_x = x - (width / 2);
-        int cursor_y = y + (height / 2);
+        int textX = x - (width / 2);
+        int textY = y + (height / 2);
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             WHITE_ON_BLACK,
             properties
@@ -68,9 +68,9 @@ void epd_draw_circle_button(
 }
 
 void epd_draw_circle_button_icon(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     int32_t x, 
     int32_t y, 
     int32_t radius, 
@@ -93,18 +93,18 @@ void epd_draw_circle_button_icon(
 
         // Icon
         Rect_t iconArea = {
-            .x = x - image_width / 2,
-            .y = y - image_height / 2,
-            .width = image_width,
-            .height =  image_height
+            .x = x - imageWidth / 2,
+            .y = y - imageHeight / 2,
+            .width = imageWidth,
+            .height =  imageHeight
         };
-        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) imageData, framebuffer);
 }
 
 void epd_draw_tertiary_button_icon(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     const char* label, 
     const GFXfont *font,
     int32_t x, 
@@ -114,10 +114,10 @@ void epd_draw_tertiary_button_icon(
     DrawMode_t drawMode,
     uint8_t *framebuffer,
     void (*function)()) {
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(font, label, &text_width, &text_height);
-        Rect_t area = {x, y - 5, image_width + text_width + 10, image_height + 10};
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(font, label, &textWidth, &textHeight);
+        Rect_t area = {x, y - 5, imageWidth + textWidth + 10, imageHeight + 10};
         addTouchPoint(area, function);
 
         // Background
@@ -136,22 +136,22 @@ void epd_draw_tertiary_button_icon(
         Rect_t iconArea = {
             .x = x,
             .y = y,
-            .width = image_width,
-            .height =  image_height
+            .width = imageWidth,
+            .height =  imageHeight
         };
-        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) imageData, framebuffer);
 
         // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-        int cursor_x = x + image_width + 10;
-        int cursor_y = y + image_height / 2 + text_height / 2 - 2;
+        int textX = x + imageWidth + 10;
+        int textY = y + imageHeight / 2 + textHeight / 2 - 2;
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties
@@ -160,9 +160,9 @@ void epd_draw_tertiary_button_icon(
 }
 
 void epd_draw_button_icon(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     char* label, 
     const GFXfont *font,
     Rect_t rectArea,
@@ -172,9 +172,9 @@ void epd_draw_button_icon(
     DrawMode_t drawMode,
     uint8_t *framebuffer,
     void (*function)()) {
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(font, label, &text_width, &text_height);
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(font, label, &textWidth, &textHeight);
         addTouchPoint(rectArea, function);
 
         // Background
@@ -214,24 +214,24 @@ void epd_draw_button_icon(
 
         // Icon
         Rect_t iconArea = {
-            .x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2,
-            .y = rectArea.y + rectArea.height / 2 - image_height / 2 - 2,
-            .width = image_width,
-            .height =  image_height
+            .x = rectArea.x + rectArea.width / 2 - (imageWidth + textWidth + 20) / 2,
+            .y = rectArea.y + rectArea.height / 2 - imageHeight / 2 - 2,
+            .width = imageWidth,
+            .height =  imageHeight
         };
-        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) imageData, framebuffer);
 
         // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-        int cursor_x = rectArea.x + rectArea.width / 2 - (image_width + text_width + 20) / 2 + image_width + 20;
-        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2 - 2;
+        int textX = rectArea.x + rectArea.width / 2 - (imageWidth + textWidth + 20) / 2 + imageWidth + 20;
+        int textY = rectArea.y + rectArea.height / 2 + textHeight / 2 - 2;
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties
@@ -287,19 +287,19 @@ void epd_draw_button(
         }
 
         // Text
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(font, label, &text_width, &text_height);
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(font, label, &textWidth, &textHeight);
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-        int cursor_x = rectArea.x + rectArea.width / 2 - text_width / 2;
-        int cursor_y = rectArea.y + rectArea.height / 2 + text_height / 2 - 2;
+        int textX = rectArea.x + rectArea.width / 2 - textWidth / 2;
+        int textY = rectArea.y + rectArea.height / 2 + textHeight / 2 - 2;
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties

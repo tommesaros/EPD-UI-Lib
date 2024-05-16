@@ -76,13 +76,13 @@ void epd_draw_check_box(
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-        int cursor_x = x + squareArea.width + 10;
-        int cursor_y = y + squareArea.height / 2 + text_height / 2;
+        int textX = x + squareArea.width + 10;
+        int textY = y + squareArea.height / 2 + text_height / 2;
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties

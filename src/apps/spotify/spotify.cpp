@@ -163,17 +163,17 @@ void printCurrentlyPlaying() {
     }
 
     // Displaying the track information
-    int cursor_x = ICON_PADDING + spotify_icon_width;
-    int cursor_y = SCREEN_MIDDLE_WITH_STATUS_BAR - 20;
-    writeln((GFXfont *)&OpenSans20B, getTrackName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
+    int textX = ICON_PADDING + spotify_icon_width;
+    int textY = SCREEN_MIDDLE_WITH_STATUS_BAR - 20;
+    writeln((GFXfont *)&OpenSans20B, getTrackName(), &textX, &textY, spotifyFrameBuffer);
 
-    cursor_x = ICON_PADDING + spotify_icon_width;
-    cursor_y += LINE_HEIGHT;
-    writeln(TEXT_FONT_BOLD, getArtists(), &cursor_x, &cursor_y, spotifyFrameBuffer);
+    textX = ICON_PADDING + spotify_icon_width;
+    textY += LINE_HEIGHT;
+    writeln(TEXT_FONT_BOLD, getArtists(), &textX, &textY, spotifyFrameBuffer);
 
-    cursor_x = ICON_PADDING + spotify_icon_width;
-    cursor_y += LINE_HEIGHT;
-    writeln(TEXT_FONT, getAlbumName(), &cursor_x, &cursor_y, spotifyFrameBuffer);
+    textX = ICON_PADDING + spotify_icon_width;
+    textY += LINE_HEIGHT;
+    writeln(TEXT_FONT, getAlbumName(), &textX, &textY, spotifyFrameBuffer);
 
     epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
 }
@@ -281,33 +281,33 @@ void displaySpotify() {
 
     if (updateScreenSpotifyTaskHandle == NULL) {
         // Initial screen when the app is opened and not connected to Spotify yet
-        int cursor_x = ICON_PADDING + spotify_icon_width;
-        int cursor_y = SCREEN_MIDDLE_WITH_STATUS_BAR - 20;
+        int textX = ICON_PADDING + spotify_icon_width;
+        int textY = SCREEN_MIDDLE_WITH_STATUS_BAR - 20;
         writeln(
             (GFXfont *)&OpenSans20B, 
             "Connecting to Spotify...", 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             spotifyFrameBuffer
         );
 
-        cursor_x = ICON_PADDING + spotify_icon_width;
-        cursor_y += LINE_HEIGHT;
+        textX = ICON_PADDING + spotify_icon_width;
+        textY += LINE_HEIGHT;
         writeln(
             TEXT_FONT, 
             "Make sure you are playing Spotify music", 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             spotifyFrameBuffer
         );
 
-        cursor_x = ICON_PADDING + spotify_icon_width;
-        cursor_y += LINE_HEIGHT;
+        textX = ICON_PADDING + spotify_icon_width;
+        textY += LINE_HEIGHT;
         writeln(
             TEXT_FONT, 
             "on some other device connected to your account.", 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             spotifyFrameBuffer
         );
         epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);

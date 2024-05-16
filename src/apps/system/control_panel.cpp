@@ -24,6 +24,7 @@
 // ----------------------------
 #include "../../../image/black_bg/padlock_small_icon.h"
 #include "../../../image/white_bg/power_icon.h"
+#include "../../../image/white_bg/power_big_icon.h"
 
 // ----------------------------
 // Handlers
@@ -52,14 +53,38 @@ void toggle() {
 }
 
 void openPowerOffPopup() {
-    epd_trigger_notification(
-        // Here would be the function that opens the door
-        const_cast<uint8_t*>(padlock_small_icon_data),
-        padlock_small_icon_width,
-        padlock_small_icon_height,
-        "Door opened", 
-        "Hallway door is open for 30 seconds." 
+    uint8_t *mainFramebuffer = getMainFramebuffer(); //TODO POPUP FB
+    Rect_t popupArea = {
+        .x = CARD_PADDING * 3,
+        .y = STATUS_BAR_SAFE_ZONE + CARD_PADDING * 3,
+        .width = EPD_WIDTH - CARD_PADDING * 6,
+        .height = EPD_HEIGHT - STATUS_BAR_SAFE_ZONE - CARD_PADDING * 6
+    };
+
+    epd_clear_area(popupArea);
+
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), mainFramebuffer);
+
+    epd_draw_status_bar(dummyFunction);
+
+    epd_draw_multi_line_card(
+        (uint8_t*)power_big_icon_data,
+        power_big_icon_width,
+        power_big_icon_height,
+        "Power off the device?",
+        "Are you sure you want to power off the device?\nThis will close all running apps and turn off the\ndisplay. You can turn it back on by pressing the \nmost right button above the screen.",
+        TITLE_FONT,
+        TEXT_FONT,
+        popupArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        getMainFramebuffer(),
+        dummyFunction
     );
+
+    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 }
 
 void displayControlPanel() {

@@ -46,11 +46,20 @@ void epd_clear_popup(void *parameter) {
 }
 
 void epd_trigger_popup(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
-    const char * primaryLabel, 
-    const char * secondaryLabel) {
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
+    const char * title, 
+    const char * text, 
+    uint8_t *primaryButtonIconData,
+    int32_t primaryButtonIconWidth,
+    int32_t primaryButtonIconHeight,
+    const char * primaryButtonLabel, 
+    uint8_t *secondaryButtonIconData,
+    int32_t secondaryButtonIconWidth,
+    int32_t secondaryButtonIconHeight,
+    const char * secondaryButtonLabel, 
+    void (*function)()) {
         uint8_t *framebuffer = getNotificationFramebuffer();
         Rect_t notificationArea = {
             .x = 10,
@@ -60,68 +69,21 @@ void epd_trigger_popup(
         };
 
         cleanFramebufferAndEPD(framebuffer, notificationArea);
-
-        // Background
-        epd_fill_rounded_rect(
-            notificationArea.x, 
-            notificationArea.y, 
-            notificationArea.width, 
-            notificationArea.height, 
-            20, 
-            BLACK, 
-            framebuffer
-        );
-
-        // Icon
-        Rect_t notificationIconArea = {
-            .x = 30,
-            .y = 20,
-            .width = image_width,
-            .height = image_height
-        };
-        epd_copy_to_framebuffer(notificationIconArea, image_data, framebuffer);
-
-
-        FontProperties *properties = new FontProperties();
-        properties->fg_color = WHITE;
-        properties->bg_color = BLACK;
-
-        // Title
-        int x = 30 + image_width + 20;
-        int y = 45;
-        write_mode(
-            TITLE_FONT, 
-            primaryLabel, 
-            &x, 
-            &y, 
-            framebuffer, 
-            WHITE_ON_BLACK, 
-            properties
-        );
-
-        // Text
-        x += 20;
-        write_mode(
-            TEXT_FONT, 
-            secondaryLabel, 
-            &x, 
-            &y, 
-            framebuffer, 
-            WHITE_ON_BLACK,
-            properties
-        );
-        
-        epd_draw_grayscale_image(epd_full_screen(), framebuffer);
-
-        xTaskCreatePinnedToCore(
-            epd_clear_popup,     // Task function
-            "epd_clear_popup",   // Task name
-            5000,                       // Stack size (in words)
-            NULL,                       // Task parameter
-            1,                          // Task priority
-            NULL,                       // Task handle
-            tskNO_AFFINITY              // Core number (0 or 1)
-        );          
-
-        delete properties;
+/*
+        epd_draw_multi_line_card(
+        (uint8_t*)power_big_icon_data,
+        power_big_icon_width,
+        power_big_icon_height,
+        "Power off the device?",
+        "Are you sure you want to power off the device?\nThis will close all running apps and turn off the\ndisplay. You can turn it back on by pressing the \nmost right button above the screen.",
+        TITLE_FONT,
+        TEXT_FONT,
+        popupArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        getMainFramebuffer(),
+        dummyFunction
+    );*/
 }

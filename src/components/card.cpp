@@ -23,9 +23,9 @@
 #include "../include/handlers/framebuffer_handler.h"
 
 void epd_draw_horizontal_card(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     const char * primaryLabel, 
     const char * secondaryLabel, 
     const GFXfont *primaryFont,
@@ -76,40 +76,40 @@ void epd_draw_horizontal_card(
         // Icon
         Rect_t iconArea = {
             .x = rectArea.x + 20, // icon padding
-            .y = rectArea.y + rectArea.height / 2 - image_height / 2,
-            .width = image_width,
-            .height =  image_height
+            .y = rectArea.y + rectArea.height / 2 - imageHeight / 2,
+            .width = imageWidth,
+            .height =  imageHeight
         };
-        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) imageData, framebuffer);
 
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
 
         // Primary text
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(primaryFont, primaryLabel, &text_width, &text_height);
-        int cursor_x = rectArea.x + image_width + 40; // icon padding
-        int cursor_y = rectArea.y + rectArea.height / 2 - 5;
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(primaryFont, primaryLabel, &textWidth, &textHeight);
+        int textX = rectArea.x + imageWidth + 40; // icon padding
+        int textY = rectArea.y + rectArea.height / 2 - 5;
         write_mode(
             primaryFont, 
             primaryLabel, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties
         );
         
         // Secondary text
-        cursor_x = rectArea.x + image_width + 40; // icon padding
-        cursor_y = rectArea.y + rectArea.height / 2 + text_height + 5;
+        textX = rectArea.x + imageWidth + 40; // icon padding
+        textY = rectArea.y + rectArea.height / 2 + textHeight + 5;
         write_mode(
             secondaryFont, 
             secondaryLabel, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties
@@ -119,9 +119,9 @@ void epd_draw_horizontal_card(
 }
 
 void epd_draw_vertical_card(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     const char* label, 
     const GFXfont *font,
     Rect_t rectArea,
@@ -131,9 +131,9 @@ void epd_draw_vertical_card(
     DrawMode_t drawMode,
     uint8_t *framebuffer,
     void (*function)()) {
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(font, label, &text_width, &text_height);
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(font, label, &textWidth, &textHeight);
         addTouchPoint(rectArea, function);
 
         // Background with a border
@@ -172,24 +172,24 @@ void epd_draw_vertical_card(
 
         // Icon
         Rect_t iconArea = {
-            .x = rectArea.x + rectArea.width / 2 - image_width / 2,
-            .y = rectArea.y + rectArea.height / 2 - (image_height + text_height + 10) / 2,
-            .width = image_width,
-            .height =  image_height
+            .x = rectArea.x + rectArea.width / 2 - imageWidth / 2,
+            .y = rectArea.y + rectArea.height / 2 - (imageHeight + textHeight + 10) / 2,
+            .width = imageWidth,
+            .height =  imageHeight
         };
-        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) imageData, framebuffer);
 
         // Text
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-        int cursor_x = rectArea.x + rectArea.width / 2 - text_width / 2;
-        int cursor_y = rectArea.y + rectArea.height / 2 + (image_height + text_height + 10) / 2;
+        int textX = rectArea.x + rectArea.width / 2 - textWidth / 2;
+        int textY = rectArea.y + rectArea.height / 2 + (imageHeight + textHeight + 10) / 2;
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties
@@ -198,9 +198,9 @@ void epd_draw_vertical_card(
 }
 
 void epd_draw_multi_line_card(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     const char * primaryLabel, 
     const char * secondaryLabel, 
     const GFXfont *primaryFont,
@@ -218,7 +218,7 @@ void epd_draw_multi_line_card(
         // Needs to convert color from range 0-15 to 0-255
         // as epd_fill_rounded_rect takes different color range
         if (bgColor == WHITE) {
-            epd_draw_rounded_rect(
+            epd_fill_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
@@ -227,7 +227,7 @@ void epd_draw_multi_line_card(
                 epd_convert_font_color(BLACK), 
                 framebuffer
             );
-            epd_draw_rounded_rect(
+            epd_fill_rounded_rect(
                 rectArea.x - BORDER_WIDTH, 
                 rectArea.y - BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
@@ -252,42 +252,40 @@ void epd_draw_multi_line_card(
         Rect_t iconArea = {
             .x = rectArea.x + CARD_PADDING,
             .y = rectArea.y + CARD_PADDING,
-            .width = image_width,
-            .height =  image_height
+            .width = imageWidth,
+            .height =  imageHeight
         };
-        epd_copy_to_framebuffer(iconArea, (uint8_t *) image_data, framebuffer);
+        epd_copy_to_framebuffer(iconArea, (uint8_t *) imageData, framebuffer);
 
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
 
         // Primary text
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(primaryFont, primaryLabel, &text_width, &text_height);
-        int cursor_x = rectArea.x + image_width + 40; // icon padding
-        int cursor_y = rectArea.y + CARD_PADDING;
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(primaryFont, primaryLabel, &textWidth, &textHeight);
+        int textX = rectArea.x + imageWidth + CARD_PADDING * 2;
+        int textY = rectArea.y + CARD_PADDING + 30;
         write_mode(
             primaryFont, 
             primaryLabel, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties
         );
         
         // Secondary text
-        cursor_x = rectArea.x + image_width + 40; // icon padding
-        cursor_y = rectArea.y + CARD_PADDING + text_height + 5;
-        write_mode(
+        textX = rectArea.x + imageWidth + CARD_PADDING * 2;
+        textY = rectArea.y + CARD_PADDING + 30 + textHeight + 10;
+        write_string(
             secondaryFont, 
             secondaryLabel, 
-            &cursor_x, 
-            &cursor_y, 
-            framebuffer, 
-            drawMode,
-            properties
+            &textX, 
+            &textY, 
+            framebuffer
         );
         
         delete properties;

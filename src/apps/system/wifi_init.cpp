@@ -36,9 +36,9 @@ void displayWiFiInitMessage() {
     uint8_t *framebuffer = getPopupFramebuffer();
     cleanFramebufferAndEPD(framebuffer, epd_full_screen());
 
-    int32_t x = 100;
-    int32_t y = 240;
-    writeln(HEADLINE_FONT, "Connecting to WiFi...", &x, &y, framebuffer);
+    int32_t textX = 100;
+    int32_t textY = 240;
+    writeln(HEADLINE_FONT, "Connecting to WiFi...", &textX, &textY, framebuffer);
 
     char wifi_init_text[256];
     sprintf(
@@ -46,9 +46,9 @@ void displayWiFiInitMessage() {
         "Please make sure that %s\nnetwork is reachable and the password stored\nin src/constants/credentials is correct.", 
         WIFI_SSID
     );
-    x = 100;
-    y = 290;
-    write_string(TEXT_FONT, (char *)wifi_init_text, &x, &y, framebuffer);
+    textX = 100;
+    textY = 290;
+    write_string(TEXT_FONT, (char *)wifi_init_text, &textX, &textY, framebuffer);
 
     Rect_t iconArea = {
         .x = EPD_WIDTH - 100 - wifi_icon_width,

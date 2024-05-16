@@ -71,13 +71,13 @@ void epd_draw_radio_button(
         FontProperties *properties = new FontProperties();
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
-        int cursor_x = x + circleArea.width + 10;
-        int cursor_y = y + circleArea.height / 2 + text_height / 2;
+        int textX = x + circleArea.width + 10;
+        int textY = y + circleArea.height / 2 + text_height / 2;
         write_mode(
             font, 
             label, 
-            &cursor_x, 
-            &cursor_y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             drawMode,
             properties

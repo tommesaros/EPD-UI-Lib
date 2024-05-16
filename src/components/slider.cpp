@@ -67,16 +67,16 @@ void epd_draw_slider(
         sliderArea.height = SLIDER_HEIGHT / 2;
         addTouchPoint(sliderArea, upperFunction);
 
-        int text_width;
-        int text_height;
-        epd_get_text_dimensions(TITLE_FONT, SLIDER_UPPER_LABEL, &text_width, &text_height);
-        int text_x = sliderArea.x + sliderArea.width / 2 - text_width / 2;
-        int text_y = sliderArea.y + sliderArea.height / 2 + text_height / 2;
+        int textWidth;
+        int textHeight;
+        epd_get_text_dimensions(TITLE_FONT, SLIDER_UPPER_LABEL, &textWidth, &textHeight);
+        int textX = sliderArea.x + sliderArea.width / 2 - textWidth / 2;
+        int textY = sliderArea.y + sliderArea.height / 2 + textHeight / 2;
         writeln(
             TITLE_FONT,
             SLIDER_UPPER_LABEL,  
-            &text_x, 
-            &text_y, 
+            &textX, 
+            &textY, 
             framebuffer
         );
 
@@ -84,14 +84,14 @@ void epd_draw_slider(
         sliderArea.y = y + SLIDER_HEIGHT / 2;
         addTouchPoint(sliderArea, lowerFunction);
 
-        epd_get_text_dimensions(TITLE_FONT, SLIDER_LOWER_LABEL, &text_width, &text_height);
-        text_x = sliderArea.x + sliderArea.width / 2 - text_width / 2;
-        text_y = sliderArea.y + sliderArea.height / 2 + text_height / 2;
+        epd_get_text_dimensions(TITLE_FONT, SLIDER_LOWER_LABEL, &textWidth, &textHeight);
+        textX = sliderArea.x + sliderArea.width / 2 - textWidth / 2;
+        textY = sliderArea.y + sliderArea.height / 2 + textHeight / 2;
         writeln(
             TITLE_FONT,
             SLIDER_LOWER_LABEL, 
-            &text_x, 
-            &text_y, 
+            &textX, 
+            &textY, 
             framebuffer
         );
 }

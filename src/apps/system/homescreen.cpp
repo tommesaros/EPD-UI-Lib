@@ -91,7 +91,7 @@ void openBusDepartures() {
 void toggleLights() {
     uint8_t *mainFramebuffer = getMainFramebuffer();
     Rect_t toggleArea = {
-        EPD_WIDTH / 2 + SMALL_CARD_WIDTH * 1.5 + CARD_PADDING - 70 - TOGGLE_WIDTH, 
+        EPD_WIDTH / 2 + SMALL_CARD_WIDTH * 1.5 + CARD_PADDING - 40 - TOGGLE_WIDTH, 
         SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT + CARD_PADDING - TOGGLE_HEIGHT / 2, 
         TOGGLE_WIDTH, 
         TOGGLE_HEIGHT

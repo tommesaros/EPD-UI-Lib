@@ -39,9 +39,9 @@ void epd_clear_notification(void *parameter) {
 }
 
 void epd_trigger_notification(
-    uint8_t *image_data,
-    int32_t image_width,
-    int32_t image_height,
+    uint8_t *imageData,
+    int32_t imageWidth,
+    int32_t imageHeight,
     const char * primaryLabel, 
     const char * secondaryLabel) {
         uint8_t *framebuffer = getNotificationFramebuffer();
@@ -69,10 +69,10 @@ void epd_trigger_notification(
         Rect_t notificationIconArea = {
             .x = STATUS_BAR_PADDING * 3,
             .y = STATUS_BAR_PADDING * 2,
-            .width = image_width,
-            .height = image_height
+            .width = imageWidth,
+            .height = imageHeight
         };
-        epd_copy_to_framebuffer(notificationIconArea, image_data, framebuffer);
+        epd_copy_to_framebuffer(notificationIconArea, imageData, framebuffer);
 
 
         FontProperties *properties = new FontProperties();
@@ -80,25 +80,25 @@ void epd_trigger_notification(
         properties->bg_color = BLACK;
 
         // Title
-        int x = STATUS_BAR_PADDING * 3 + image_width + STATUS_BAR_PADDING * 2;
-        int y = STATUS_BAR_HEIGHT - 5;
+        int textX = STATUS_BAR_PADDING * 3 + imageWidth + STATUS_BAR_PADDING * 2;
+        int textY = STATUS_BAR_HEIGHT - 5;
         write_mode(
             TITLE_FONT, 
             primaryLabel, 
-            &x, 
-            &y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             WHITE_ON_BLACK, 
             properties
         );
 
         // Text
-        x += 20;
+        textX += 20;
         write_mode(
             TEXT_FONT, 
             secondaryLabel, 
-            &x, 
-            &y, 
+            &textX, 
+            &textY, 
             framebuffer, 
             WHITE_ON_BLACK,
             properties

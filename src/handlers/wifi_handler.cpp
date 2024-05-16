@@ -33,6 +33,7 @@ void wifiEvent(WiFiEvent_t event) {
     switch (event) {
         case ARDUINO_EVENT_WIFI_READY:
             Serial.println("WiFi interface ready");
+            // TODO NOTIFS
             /*
             wifi_cursor_x = line1Area.x;
             wifi_cursor_y = line1Area.y + OpenSans12.advance_y + OpenSans12.descender;
