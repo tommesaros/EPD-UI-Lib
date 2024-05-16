@@ -62,8 +62,18 @@ extern const int PROGRESS_BAR_HEIGHT;
 // Radio button
 extern const int RADIO_BUTTON_RADIUS;
 
+// Slider
+extern const int SLIDER_WIDTH;
+extern const int SLIDER_HEIGHT;
+extern const char *SLIDER_UPPER_LABEL;
+extern const char *SLIDER_LOWER_LABEL;
+
 // Status bar
 extern const int STATUS_BAR_HEIGHT;
 extern const int SCREEN_MIDDLE_WITH_STATUS_BAR;
+
+// Toggle
+extern const int TOGGLE_WIDTH;
+extern const int TOGGLE_HEIGHT;
 
 #endif // COMPONENTS_H

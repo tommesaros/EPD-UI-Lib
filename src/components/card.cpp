@@ -11,6 +11,7 @@
 // Internal libraries
 // ----------------------------
 #include "../include/fonts.h"
+#include "../include/colors.h"
 #include "../include/components.h"
 #include "../include/components/card.h"
 
@@ -39,14 +40,14 @@ void epd_draw_horizontal_card(
         addTouchPoint(rectArea, function);
 
         // Background
-        if (bgColor == 15) {
+        if (bgColor == WHITE) {
             epd_draw_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                0, 
+                BLACK, 
                 framebuffer
             );
         } else {
@@ -128,14 +129,14 @@ void epd_draw_vertical_card(
         addTouchPoint(rectArea, function);
 
         // Background
-        if (bgColor == 15) {
+        if (bgColor == WHITE) {
             epd_draw_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                0, 
+                BLACK, 
                 framebuffer
             );
         } else {
@@ -198,14 +199,14 @@ void epd_draw_multi_line_card(
         addTouchPoint(rectArea, function);
 
         // Background
-        if (bgColor == 15) {
+        if (bgColor == WHITE) {
             epd_draw_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                0, 
+                BLACK, 
                 framebuffer
             );
         } else {

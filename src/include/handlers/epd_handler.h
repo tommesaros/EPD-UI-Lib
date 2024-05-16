@@ -29,7 +29,8 @@ void epdSetup();
  * @param width The width of the rounded rectangle.
  * @param height The height of the rounded rectangle.
  * @param radius The radius of the rounded corners.
- * @param color The color to fill the rounded rectangle with.
+ * @param color The color to fill the rounded rectangle with. 
+ *              (range 0-255, needs to be converted from 0-15 with epd_convert_font_color)
  * @param framebuffer The framebuffer to draw on. (NULL for instant drawing)
  */
 void epd_fill_rounded_rect(int x, int y, int width, int height, int radius, int color, uint8_t *framebuffer);
@@ -43,6 +44,7 @@ void epd_fill_rounded_rect(int x, int y, int width, int height, int radius, int 
  * @param height The height of the rectangle.
  * @param radius The radius of the rounded corners.
  * @param color The color of the rectangle.
+ *              (range 0-255, needs to be converted from 0-15 with epd_convert_font_color)
  * @param framebuffer The framebuffer to draw on. (NULL for instant drawing)
  */
 void epd_draw_rounded_rect(int x, int y, int width, int height, int radius, int color, uint8_t *framebuffer);

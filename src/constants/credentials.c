@@ -8,9 +8,14 @@
 // ----------------------------
 // WiFi credentials
 // ----------------------------
-const char* WIFI_SSID       = "";
-const char* WIFI_PASSWORD   = "";
 
+const char* WIFI_SSID       = "nepapajchlebik";
+const char* WIFI_PASSWORD   = "28281948";
+
+/*
+const char* WIFI_SSID       = "UPCEF47F3B";
+const char* WIFI_PASSWORD   = "cC5phzkCzxsa";
+*/
 
 // ----------------------------
 // Spotify credentials
@@ -21,8 +26,8 @@ create a new application (name it whatever you want).
 Copy the "client ID" and "client secret" from Spotify Developer page and paste it below.
 In the Spotify Developer page, set your "redirect URI" to "http://localhost:8888/".
 */
-const char* SPOTIFY_CLIENT_ID       = "";
-const char* SPOTIFY_CLIENT_SECRET   = "";
+const char* SPOTIFY_CLIENT_ID       = "99d1a820455e4f1dba9108d6f6a62416";
+const char* SPOTIFY_CLIENT_SECRET   = "8928549e298a4214a8d308949d256324";
 
 // Country code, including this is advisable
 const char* SPOTIFY_MARKET          = "GB";
@@ -35,7 +40,7 @@ scope="playlist-modify-private" to
 scope="playlist-modify-private user-read-playback-state user-read-currently-playing user-read-playback-position user-modify-playback-state app-remote-control"
 Then copy the "refresh_token" from .cache file and paste it below.
 */
-const char* SPOTIFY_REFRESH_TOKEN   = "";
+const char* SPOTIFY_REFRESH_TOKEN   = "AQDb3JXMbFwm-2tNi-MuDkRxP38Fr5x5jdl8tt-77PA-vmiq__7yLi9YChoJblkjzdDxKA9jPMrhwx6H1HSB0bnryAs8gexF3ts0ixBff3rH9GtYflffBUq3ETxjvpDamNQ";
 
 
 // ----------------------------
@@ -51,7 +56,7 @@ https://openweathermap.org/price#onecall
 Optionally, set a call limit to avoid getting charged for overuse:
 https://home.openweathermap.org/subscriptions (set "Call per day" to 999)
 */ 
-const char* WEATHER_API_KEY = "";
+const char* WEATHER_API_KEY = "5ff19ad0768fe58a38137f82335a5b6f";
 
 /*
 To get the latitude and longitude, you can use Google Maps.
@@ -60,6 +65,6 @@ Just right-click on the location you want and copy the numbers.
 const char* WEATHER_LAT = "49.209895085987185";
 const char* WEATHER_LON = "16.599009032596893";
 
-const char* WEATHER_UNITS = "metric";  // or "imperial"
-const char* WEATHER_LANG = "en";   // see OpenWeather API notes
+const char* WEATHER_UNITS = "metric";           // or "imperial"
+const char* WEATHER_LANG = "en";                // see OpenWeather API notes
 const unsigned long WEATHER_TIME_OFFSET = 1UL * 3600UL; // UTC + 0 hour

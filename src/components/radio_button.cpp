@@ -11,6 +11,7 @@
 // Internal libraries
 // ----------------------------
 #include "../include/fonts.h"
+#include "../include/colors.h"
 #include "../include/components/radio_button.h"
 #include "../include/components.h"
 
@@ -44,14 +45,14 @@ void epd_draw_radio_button(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS, 
-            255, 
+            WHITE, 
             framebuffer
         );
         epd_draw_circle(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS, 
-            0, 
+            BLACK, 
             framebuffer
         );
 
@@ -61,7 +62,7 @@ void epd_draw_radio_button(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS - 5, 
-            0, 
+            BLACK, 
             framebuffer
         );
         }

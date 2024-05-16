@@ -11,6 +11,7 @@
 // Internal libraries
 // ----------------------------
 #include "../include/fonts.h"
+#include "../include/colors.h"
 #include "../include/components/check_box.h"
 #include "../include/components.h"
 
@@ -40,8 +41,8 @@ void epd_draw_check_box(
         addTouchPoint(touchArea, function);
 
         // Background
-        epd_fill_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 255, framebuffer);
-        epd_draw_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, 0, framebuffer);
+        epd_fill_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, WHITE, framebuffer);
+        epd_draw_rect(squareArea.x, squareArea.y, squareArea.width, squareArea.height, BLACK, framebuffer);
 
         // Check in the middle
         if (checked) {
@@ -50,7 +51,7 @@ void epd_draw_check_box(
                 squareArea.y + 5, 
                 squareArea.width - 10, 
                 squareArea.height - 10, 
-                0, 
+                BLACK, 
                 framebuffer
             );
         }

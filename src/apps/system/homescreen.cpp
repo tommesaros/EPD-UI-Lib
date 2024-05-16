@@ -29,6 +29,8 @@
 #include "../../../image/black_bg/bus_icon.h"
 #include "../../../image/black_bg/padlock_icon.h"
 #include "../../../image/black_bg/padlock_small_icon.h"
+#include "../../../image/black_bg/bulb_icon.h"
+#include "../../../image/black_bg/ac_icon.h"
 
 // ----------------------------
 // Handlers
@@ -49,6 +51,7 @@
 #include "../../include/apps/weather/weather.h"
 
 TaskHandle_t updateTimeHomeScreenHandle = NULL;
+bool lights = false; // just for demonstration
 
 void homeExit() {
     vTaskDelete(updateTimeHomeScreenHandle);
@@ -86,9 +89,35 @@ void openBusDepartures() {
 }
 
 void toggleLights() {
-    vTaskDelete(updateTimeHomeScreenHandle);
-    updateTimeHomeScreenHandle = NULL;
-    //TODO toggle button;
+    uint8_t *mainFramebuffer = getMainFramebuffer();
+    Rect_t toggleArea = {
+        EPD_WIDTH / 2 + SMALL_CARD_WIDTH * 1.5 + CARD_PADDING - 70 - TOGGLE_WIDTH, 
+        SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT + CARD_PADDING - TOGGLE_HEIGHT / 2, 
+        TOGGLE_WIDTH, 
+        TOGGLE_HEIGHT
+    };
+
+    epd_clear_area(toggleArea);
+    epd_fill_rect(
+        toggleArea.x, 
+        toggleArea.y, 
+        toggleArea.width, 
+        toggleArea.height, 
+        BLACK, 
+        mainFramebuffer
+    );
+
+    lights = !lights;
+
+    epd_draw_toggle(
+        toggleArea.x,
+        toggleArea.y,
+        lights,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
 }
 
 void triggerDoorLock() {
@@ -181,7 +210,7 @@ void displayHomeScreen() {
 
     // Alarm card
     Rect_t cardArea = {
-        EPD_WIDTH / 2 - SMALL_CARD_WIDTH / 2, 
+        EPD_WIDTH / 2 - SMALL_CARD_WIDTH / 2 - 70, 
         SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING, 
         SMALL_CARD_WIDTH, 
         SMALL_CARD_HEIGHT
@@ -247,7 +276,7 @@ void displayHomeScreen() {
     );
 
     // Bus departures card
-    cardArea.x = EPD_WIDTH / 2 + SMALL_CARD_WIDTH / 2 + CARD_PADDING;
+    cardArea.x = EPD_WIDTH / 2 + SMALL_CARD_WIDTH / 2 + CARD_PADDING - 70;
     cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING;
     cardArea.width = SMALL_CARD_HEIGHT;
     epd_draw_vertical_card(
@@ -267,7 +296,6 @@ void displayHomeScreen() {
 
     // Doorlock card
     cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2;
-    cardArea.width = SMALL_CARD_HEIGHT;
     epd_draw_vertical_card(
         const_cast<uint8_t *>(padlock_icon_data),
         padlock_icon_width,
@@ -281,6 +309,65 @@ void displayHomeScreen() {
         WHITE_ON_BLACK,
         mainFramebuffer,
         triggerDoorLock
+    );
+
+    // Cards can have unproportional sizes and other elements
+    // can be placed above the cards to "integrate" them into the card
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING;
+    cardArea.width = SMALL_CARD_HEIGHT * 3 + CARD_PADDING * 2;
+    cardArea.height = SMALL_CARD_HEIGHT;
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(bulb_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "Lights",
+        "Bedroom",
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        toggleLights
+    );
+
+    epd_draw_toggle(
+        cardArea.x + cardArea.width - TOGGLE_WIDTH - 10,
+        cardArea.y + SMALL_CARD_HEIGHT / 2 - TOGGLE_HEIGHT / 2,
+        lights,
+        mainFramebuffer,
+        dummyFunction //the toggle lights function is already bound to the card
+    );
+
+    cardArea.x = EPD_WIDTH / 2 + SMALL_CARD_WIDTH / 2 + SMALL_CARD_HEIGHT + CARD_PADDING * 2 - 70;
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING;
+    cardArea.width = SMALL_CARD_HEIGHT * 2 + CARD_PADDING;
+    cardArea.height = cardArea.width;
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(ac_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "",
+        "",
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    epd_draw_slider(
+        cardArea.x + cardArea.width - SLIDER_WIDTH - 10,
+        cardArea.y + cardArea.height / 2 - SLIDER_HEIGHT / 2,
+        mainFramebuffer,
+        dummyFunction,
+        dummyFunction
     );
 
     epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 
