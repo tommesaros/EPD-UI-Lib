@@ -114,15 +114,13 @@ void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)());
 
 /**
  * @brief Draws the specified framebuffer on the EPD display.
- *
+ * //TODO remake
  * This function takes a pointer to a framebuffer and 
  * draws its contents on the EPD display. Use this function instead of 
  * epd_draw_grayscale_image from epd_driver.h to prevent pararell drawing 
  * two distinct framebuffers in the same time which results in ghosting.
- *
- * @param framebuffer Pointer to the framebuffer containing the image data.
  */
-void epd_draw_framebuffer(uint8_t *framebuffer);
+void epd_draw_main_framebuffer();
 
 //TODO DESCRIPTION
 void epd_draw_overlay_framebuffer();

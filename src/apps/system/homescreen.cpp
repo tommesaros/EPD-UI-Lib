@@ -117,7 +117,7 @@ void toggleLights() {
         dummyFunction
     );
 
-    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+    epd_draw_main_framebuffer();
 }
 
 void triggerDoorLock() {
@@ -182,7 +182,7 @@ void updateTimeHomeScreen(void *parameter) {
             firstRun = false;
         } else {
             epd_clear_area_cycles(timeArea, 2, 50);
-            epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+            epd_draw_main_framebuffer();
         }
 
         vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
@@ -370,5 +370,5 @@ void displayHomeScreen() {
         dummyFunction
     );
 
-    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer); 
+    epd_draw_main_framebuffer();
 }

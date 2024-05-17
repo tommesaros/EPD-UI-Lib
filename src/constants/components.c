@@ -7,6 +7,7 @@ const int STATUS_BAR_SAFE_ZONE = 65;
 
 // Button
 const int UPPER_BUTTON_ROW_Y = STATUS_BAR_SAFE_ZONE + 20;
+const int BUTTON_HEIGHT = 65;
 
 // Card
 const int CARD_PADDING = 20;

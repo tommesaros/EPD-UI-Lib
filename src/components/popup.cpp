@@ -54,6 +54,7 @@ void epd_trigger_popup(
     const char *secondaryButtonLabel, 
     void (*secondaryFunction)()) {
         uint8_t *framebuffer = getOverlayFramebuffer();
+        //TODO Black bg
 
         // Background
         epd_draw_multi_line_card(
@@ -78,10 +79,10 @@ void epd_trigger_popup(
         int textHeight = 0;
         epd_get_text_dimensions(TEXT_FONT, primaryButtonLabel, &textWidth, &textHeight);
         Rect_t buttonArea = {
-            .x = POPUP_AREA.x + POPUP_AREA.width - CARD_PADDING * 3 - textWidth - primaryButtonIconWidth,
-            .y = POPUP_AREA.y + POPUP_AREA.height - CARD_PADDING - 50,
-            .width = textWidth + primaryButtonIconWidth + CARD_PADDING * 3,
-            .height = 60
+            .x = POPUP_AREA.x + POPUP_AREA.width - CARD_PADDING * 5 - textWidth - primaryButtonIconWidth, //TODO more padding
+            .y = POPUP_AREA.y + POPUP_AREA.height - CARD_PADDING - BUTTON_HEIGHT, // TODO buttonheight to dimensions
+            .width = textWidth + primaryButtonIconWidth + CARD_PADDING * 4,
+            .height = BUTTON_HEIGHT
         };
         epd_draw_button_icon(
             primaryButtonIconData, 
@@ -101,8 +102,8 @@ void epd_trigger_popup(
 
         // Secondary button
         epd_get_text_dimensions(TEXT_FONT, secondaryButtonLabel, &textWidth, &textHeight);
-        buttonArea.x -= textWidth + CARD_PADDING * 3 + secondaryButtonIconWidth;
-        buttonArea.width = textWidth + secondaryButtonIconWidth + CARD_PADDING * 3;
+        buttonArea.x -= textWidth + CARD_PADDING * 5 + secondaryButtonIconWidth;
+        buttonArea.width = textWidth + secondaryButtonIconWidth + CARD_PADDING * 4;
         epd_draw_button_icon(
             secondaryButtonIconData, 
             secondaryButtonIconWidth,

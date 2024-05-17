@@ -45,8 +45,7 @@
 #include "include/apps/system/homescreen.h"
 
 // This is all the code that is run during the startup process.
-void setup()
-{
+void setup() {
     Serial.begin(115200);
     wifiSetup();
     epdSetup();
@@ -67,8 +66,7 @@ void setup()
 // Has to be here because of the Arduino Core framework structure.
 // In an ideal case, there should be no code.
 // Can be used for testing.
-void loop()
-{
+void loop() {
     delay(1000);
 }
 

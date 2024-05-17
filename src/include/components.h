@@ -45,6 +45,7 @@ extern const int CORNER_RADIUS;
 
 // Button
 extern const int UPPER_BUTTON_ROW_Y;
+extern const int BUTTON_HEIGHT;
 
 // Card
 extern const int CARD_PADDING;

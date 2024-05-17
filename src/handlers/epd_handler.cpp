@@ -80,8 +80,14 @@ void epd_get_text_dimensions(const GFXfont *font,
     delete properties;
 }
 void epd_clear_area_quick(Rect_t area, bool white) {
+    while (epdCurrentlyRefreshing) {
+        vTaskDelay(pdMS_TO_TICKS(1000));
+    }
+    
+    epdCurrentlyRefreshing = true;
     epd_fill_rect(area.x, area.y, area.width, area.height, white ? 255 : 0, getMainFramebuffer());
     epd_push_pixels(area, 130, white ? 1 : 0);
+    epdCurrentlyRefreshing = false;
 }
 
 uint8_t epd_convert_font_color(uint8_t color) {
@@ -93,20 +99,23 @@ void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)()) {
     cleanFramebufferAndEPD(framebuffer, epd_full_screen());
     epd_draw_status_bar(exitFunction);
 }
-//TODO rename to draw mainfb
-void epd_draw_framebuffer(uint8_t *framebuffer) {
+
+//TODO rozdistribuovat toto vsade
+void epd_draw_main_framebuffer() {
+    if (overlayActive) {
+        return;
+    }
+
     while (epdCurrentlyRefreshing) {
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
+    
     epdCurrentlyRefreshing = true;
     epd_poweron();
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
     epd_poweroff();
     epdCurrentlyRefreshing = false;
-    //TODO if popup is open, dont draw /get popup status
-    //TODO make control panel a popup
     //TODO vTaskSuspend(updateTimeStatusBarHandle);, vTaskResume(updateTimeStatusBarHandle);
-    //TODO only if overlayActive == false;
 }
 
 void epd_draw_overlay_framebuffer() {

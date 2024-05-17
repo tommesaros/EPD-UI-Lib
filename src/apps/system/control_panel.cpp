@@ -23,8 +23,10 @@
 // Images
 // ----------------------------
 #include "../../../image/black_bg/padlock_small_icon.h"
-#include "../../../image/white_bg/power_icon.h"
+#include "../../../image/black_bg/power_bck_icon.h"
 #include "../../../image/white_bg/power_big_icon.h"
+#include "../../../image/white_bg/power_icon.h"
+#include "../../../image/white_bg/cancel_icon.h"
 
 // ----------------------------
 // Handlers
@@ -62,6 +64,7 @@ void openPowerOffPopup() {
     epd_clear();
     setOverlayActive(true);
     clearOverlayTouchPoints();
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), getOverlayFramebuffer());
 
     epd_trigger_popup(
         (uint8_t*)power_big_icon_data,
@@ -69,14 +72,14 @@ void openPowerOffPopup() {
         power_big_icon_height,
         "Power off the device?",
         "Are you sure you want to power off the device?\nThis will close all running apps and turn off the\ndisplay. You can turn it back on by pressing the \nmost right button above the screen.",
-        (uint8_t*)power_icon_data,
-        power_icon_width,
-        power_icon_height,
+        (uint8_t*)power_bck_icon_data,
+        power_bck_icon_width,
+        power_bck_icon_height,
         "Power off", 
         powerOff,
-        (uint8_t*)power_icon_data,
-        power_icon_width,
-        power_icon_height,
+        (uint8_t*)cancel_icon_data,
+        cancel_icon_width,
+        cancel_icon_height,
         "Cancel", 
         epd_clear_popup
     );
@@ -179,7 +182,7 @@ void displayControlPanel() {
         .x = EPD_WIDTH - 260,
         .y = EPD_HEIGHT - 90,
         .width = 230,
-        .height = 70
+        .height = BUTTON_HEIGHT
     };
 
     epd_draw_button_icon(

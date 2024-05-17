@@ -142,7 +142,7 @@ void updateTimeStatusBar(void *parameter) {
             WHITE_ON_BLACK, 
             properties
         );
-        epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+        epd_draw_main_framebuffer();
     }
 
     delete properties;

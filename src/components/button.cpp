@@ -182,7 +182,7 @@ void epd_draw_button_icon(
         // as epd_fill_circle takes different color range
         if (bgColor == WHITE) {
             // Drawing a border around the button
-            epd_draw_rounded_rect(
+            epd_fill_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
@@ -215,7 +215,7 @@ void epd_draw_button_icon(
         // Icon
         Rect_t iconArea = {
             .x = rectArea.x + rectArea.width / 2 - (imageWidth + textWidth + 20) / 2,
-            .y = rectArea.y + rectArea.height / 2 - imageHeight / 2 - 2,
+            .y = rectArea.y + rectArea.height / 2 - imageHeight / 2,
             .width = imageWidth,
             .height =  imageHeight
         };
@@ -226,7 +226,7 @@ void epd_draw_button_icon(
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
         int textX = rectArea.x + rectArea.width / 2 - (imageWidth + textWidth + 20) / 2 + imageWidth + 20;
-        int textY = rectArea.y + rectArea.height / 2 + textHeight / 2 - 2;
+        int textY = rectArea.y + rectArea.height / 2 + textHeight / 2;
         write_mode(
             font, 
             label, 
