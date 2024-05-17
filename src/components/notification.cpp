@@ -33,7 +33,7 @@ void epd_clear_notification(void *parameter) {
             .height = STATUS_BAR_HEIGHT
         };
     epd_clear_area_cycles(notificationArea, 2, 50);
-    epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
+    epd_draw_main_framebuffer();
     vTaskResume(updateTimeStatusBarHandle);
     vTaskDelete(NULL);
 }

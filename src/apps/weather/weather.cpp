@@ -164,7 +164,7 @@ void showHourlyWeather() {
         );
     }
 
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_draw_main_framebuffer();
 }
 
 void showDailyWeather() {
@@ -273,7 +273,7 @@ void showDailyWeather() {
         );
     }
 
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_draw_main_framebuffer();
 }
 
 void displayWeather() {
@@ -491,6 +491,6 @@ void displayWeather() {
         dummyFunction
     );
 
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_draw_main_framebuffer();
 }
 

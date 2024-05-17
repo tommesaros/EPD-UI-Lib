@@ -83,6 +83,10 @@ void updateTimeStatusBar(void *parameter) {
     while (true) {
         vTaskDelay(pdMS_TO_TICKS(60000)); // Delay for 1 minute
 
+        if (overlayActive) {
+            continue;
+        }
+
         // Do a full refresh every 20 minutes
         if (refreshCount == EPD_MAX_QUICK_REFRESHES) {
             epd_clear();

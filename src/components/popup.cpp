@@ -34,7 +34,7 @@ void epd_clear_popup() {
     setOverlayActive(false);
     clearOverlayTouchPoints();
     epd_clear();
-    epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
+    epd_draw_main_framebuffer();
 }
 
 void epd_trigger_popup(

@@ -115,7 +115,6 @@ void epd_draw_main_framebuffer() {
     epd_draw_grayscale_image(epd_full_screen(), getMainFramebuffer());
     epd_poweroff();
     epdCurrentlyRefreshing = false;
-    //TODO vTaskSuspend(updateTimeStatusBarHandle);, vTaskResume(updateTimeStatusBarHandle);
 }
 
 void epd_draw_overlay_framebuffer() {

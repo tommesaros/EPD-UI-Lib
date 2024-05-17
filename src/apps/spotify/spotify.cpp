@@ -80,7 +80,7 @@ void spotifyTogglePlay() {
         epd_copy_to_framebuffer(playIconArea, (uint8_t *) pause_icon_data, spotifyFrameBuffer);
     }
 
-    epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+    epd_draw_main_framebuffer();
 }
 
 void spotifyPrev() {
@@ -106,7 +106,7 @@ void spotifyToggleShuffle() {
         shuffle = false;
     } else {
         epd_fill_circle(EPD_WIDTH - 155, STATUS_BAR_SAFE_ZONE + 36, 5, BLACK, spotifyFrameBuffer);
-        epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+        epd_draw_main_framebuffer();
 
         spotifyAgent.toggleShuffle(true);
         shuffle = true;
@@ -128,7 +128,7 @@ void spotifyToggleRepeat() {
         repeat = false;
     } else {
         epd_fill_circle(EPD_WIDTH - 305, STATUS_BAR_SAFE_ZONE + 36, 5, BLACK, spotifyFrameBuffer);
-        epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+        epd_draw_main_framebuffer();
 
         spotifyAgent.setRepeatMode(repeat_track);
         repeat = true;
@@ -175,7 +175,7 @@ void printCurrentlyPlaying() {
     textY += LINE_HEIGHT;
     writeln(TEXT_FONT, getAlbumName(), &textX, &textY, spotifyFrameBuffer);
 
-    epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+    epd_draw_main_framebuffer();
 }
 
 void updateScreenSpotify(void *parameter) {
@@ -310,7 +310,7 @@ void displaySpotify() {
             &textY, 
             spotifyFrameBuffer
         );
-        epd_draw_grayscale_image(epd_full_screen(), spotifyFrameBuffer);
+        epd_draw_main_framebuffer();
 
         xTaskCreatePinnedToCore(
             updateScreenSpotify,                // Task function

@@ -26,6 +26,7 @@
 // Handlers
 // ----------------------------
 #include "../../include/handlers/framebuffer_handler.h"
+#include "../../include/handlers/epd_handler.h"
 
 // ----------------------------
 // Apps
@@ -58,5 +59,5 @@ void displayWiFiInitMessage() {
     };
     epd_copy_to_framebuffer(iconArea, (uint8_t *) wifi_icon_data, framebuffer);
 
-    epd_draw_grayscale_image(epd_full_screen(), framebuffer);
+    epd_draw_main_framebuffer();
 }

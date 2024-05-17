@@ -200,5 +200,5 @@ void displayControlPanel() {
         openPowerOffPopup
     );
 
-    epd_draw_grayscale_image(epd_full_screen(), mainFramebuffer);
+    epd_draw_main_framebuffer();
 }
