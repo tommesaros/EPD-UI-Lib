@@ -59,5 +59,5 @@ void displayWiFiInitMessage() {
     };
     epd_copy_to_framebuffer(iconArea, (uint8_t *) wifi_icon_data, framebuffer);
 
-    epd_draw_main_framebuffer();
+    epd_draw_overlay_framebuffer();
 }

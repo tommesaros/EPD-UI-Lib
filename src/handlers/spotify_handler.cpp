@@ -24,9 +24,11 @@
 #include <ArduinoJson.h>
 
 // ----------------------------
-// Handlers
+// Internal libraries
 // ----------------------------
 #include "../include/handlers/spotify_handler.h"
+#include "../../image/black_bg/error_icon.h"
+#include "../include/components/notification.h"
 
 // ----------------------------
 // Credentials
@@ -79,8 +81,13 @@ void updateCurrentlyPlaying(void *parameter) {
         }
         else{
             isPlaying = false;
-            //TODO cross icon and notification toast, int status to string
-            // writeln((GFXfont *)&OpenSans12, status, &cursor_x, &cursor_y, NULL);
+            epd_trigger_notification(
+                const_cast<uint8_t*>(error_icon_data),
+                error_icon_width,
+                error_icon_height,
+                "Spotify error", 
+                "Could not fetch currently playing track." 
+            );
         }
 
         if (strcmp(prevTrackUri, trackUri) != 0) {
@@ -103,8 +110,13 @@ void spotifySetup() {
 
      if (!spotify.refreshAccessToken())
     {
-        //TODO cross icon and notification toast
-        //writeln((GFXfont *)&OpenSans12, "Failed to get Spotify access tokens", &cursor_x, &cursor_y, NULL);
+        epd_trigger_notification(
+                const_cast<uint8_t*>(error_icon_data),
+                error_icon_width,
+                error_icon_height,
+                "Spotify error", 
+                "Could not refresh access token." 
+            );
     }
     
     xTaskCreatePinnedToCore(

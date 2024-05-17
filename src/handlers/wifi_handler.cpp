@@ -3,10 +3,24 @@
  * https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/tree/esp32s3/examples/wifi_sync
 *******************************************************************/
 
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <WiFi.h>
 
+// ----------------------------
+// Internal libraries
+// ----------------------------
 #include "../include/handlers/wifi_handler.h"
 #include "../include/credentials.h"
+
+// ----------------------------
+// Icons
+// ----------------------------
+#include "../../image/black_bg/error_icon.h"
+#include "../../image/black_bg/wifi_small_icon.h"
+#include "../include/components/notification.h"
+
 
 void wifiSetup() {
     WiFi.disconnect();
@@ -16,31 +30,11 @@ void wifiSetup() {
 }
 
 void wifiEvent(WiFiEvent_t event) {
-    /*
-    const Rect_t line1Area = {
-        .x = 0,
-        .y = 387,
-        .width = 960,
-        .height = 51,
-    };
-    */
-
-    int32_t wifi_cursor_x = 0;
-    int32_t wifi_cursor_y = 0;
-
     Serial.printf("[WiFi-event] event: %d\n", event);
 
     switch (event) {
         case ARDUINO_EVENT_WIFI_READY:
             Serial.println("WiFi interface ready");
-            // TODO NOTIFS
-            /*
-            wifi_cursor_x = line1Area.x;
-            wifi_cursor_y = line1Area.y + OpenSans12.advance_y + OpenSans12.descender;
-            epd_clear_area(line1Area);
-            writeln((GFXfont *)&OpenSans12, "Connecting to ", &wifi_cursor_x, &wifi_cursor_y, NULL);
-            writeln((GFXfont *)&OpenSans12, WIFI_SSID, &wifi_cursor_x, &wifi_cursor_y, NULL);
-            */
             break;
         case ARDUINO_EVENT_WIFI_SCAN_DONE:
             Serial.println("Completed scan for access points");
@@ -56,13 +50,13 @@ void wifiEvent(WiFiEvent_t event) {
             break;
         case ARDUINO_EVENT_WIFI_STA_DISCONNECTED:
             WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-            /*
-            Serial.println("Disconnected from WiFi access point");
-            wifi_cursor_x = line1Area.x;
-            wifi_cursor_y = line1Area.y + OpenSans12.advance_y + OpenSans12.descender;
-            epd_clear_area(line1Area);
-            writeln((GFXfont *)&OpenSans12, "WiFi Disconnected", &wifi_cursor_x, &wifi_cursor_y, NULL);
-            */
+            epd_trigger_notification(
+                const_cast<uint8_t*>(wifi_small_icon_data),
+                wifi_small_icon_width,
+                wifi_small_icon_height,
+                "WiFI disconnected", 
+                "Trying to reconnect..."
+            );
             break;
         case ARDUINO_EVENT_WIFI_STA_AUTHMODE_CHANGE:
             Serial.println("Authentication mode of access point has changed");
@@ -70,13 +64,6 @@ void wifiEvent(WiFiEvent_t event) {
         case ARDUINO_EVENT_WIFI_STA_GOT_IP:
             Serial.print("Obtained IP address: ");
             Serial.println(WiFi.localIP());
-            /*
-            wifi_cursor_x = line1Area.x;
-            wifi_cursor_y = line1Area.y + OpenSans12.advance_y + OpenSans12.descender;
-            epd_clear_area(line1Area);
-            writeln((GFXfont *)&OpenSans12, "WiFI Connected to ", &wifi_cursor_x, &wifi_cursor_y, NULL);
-            writeln((GFXfont *)&OpenSans12, WIFI_SSID, &wifi_cursor_x, &wifi_cursor_y, NULL);
-            */
             break;
         case ARDUINO_EVENT_WIFI_STA_LOST_IP:
             Serial.println("Lost IP address and IP address is reset to 0");

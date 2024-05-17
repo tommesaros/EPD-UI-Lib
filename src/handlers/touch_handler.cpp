@@ -3,6 +3,9 @@
  * https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/blob/esp32s3/examples/touch/touch.ino
 *******************************************************************/
 
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <Arduino.h>
 #include <esp_task_wdt.h>
 #include "freertos/FreeRTOS.h"
@@ -12,8 +15,10 @@
 #include <touch.h>
 #include "pins.h"
 
+// ----------------------------
+// Internal libraries
+// ----------------------------
 #include "../include/handlers/touch_handler.h"
-//TODO nicer include structure 
 
 TouchClass touch;
 

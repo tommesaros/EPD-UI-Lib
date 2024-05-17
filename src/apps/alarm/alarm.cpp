@@ -44,6 +44,10 @@
 
 //tertiary button to add new alarm, card for each alarm
 
+void displayAlarm() {
+    
+}
+
 /*
 epd_draw_circle_button(
         "ahoj", 

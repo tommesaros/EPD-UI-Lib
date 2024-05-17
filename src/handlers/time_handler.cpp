@@ -2,10 +2,16 @@
  *Code based on ESP32 example library: SimpleTime.ino
 *******************************************************************/
 
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <WiFi.h>
 #include "time.h"
 #include "sntp.h"
 
+// ----------------------------
+// Internal libraries
+// ----------------------------
 #include "../include/handlers/time_handler.h"
 
 

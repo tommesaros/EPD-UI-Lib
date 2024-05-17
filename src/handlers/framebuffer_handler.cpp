@@ -1,6 +1,12 @@
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <Arduino.h>
 #include "epd_driver.h"
 
+// ----------------------------
+// Internal libraries
+// ----------------------------
 #include "../include/handlers/framebuffer_handler.h"
 
 uint8_t *mainFramebuffer;

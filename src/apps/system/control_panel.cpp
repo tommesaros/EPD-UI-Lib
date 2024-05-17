@@ -27,6 +27,7 @@
 #include "../../../image/white_bg/power_big_icon.h"
 #include "../../../image/white_bg/power_icon.h"
 #include "../../../image/white_bg/cancel_icon.h"
+#include "../../../image/bg.h"
 
 // ----------------------------
 // Handlers
@@ -51,13 +52,14 @@ bool firstCheckBox = true;
 bool secondCheckBox = false;
 
 void toggle() {
-    //TODO draw opposite of what it is
+    // Here would be the logic for toggling the checkboxes and radio buttons
 }
 
 void powerOff() {
-    //TODO draw image and power off
-    //TODO power off popup and then show image 
-    // epd_sleep();
+    epd_clear();
+    epd_draw_grayscale_image(epd_full_screen(), (uint8_t *)bg_data);
+    delay(2000);
+    epd_sleep();
 }
 
 void openPowerOffPopup() {

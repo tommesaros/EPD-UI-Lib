@@ -54,6 +54,7 @@ void exitAppAndGoToAppMenu() {
     exitFunction();
     // Show screen with all apps when there are 
     // more apps than can fit on the homescreen
+    displayHomeScreen();
 }
 
 void exitAppAndGoToControlPanel() {
@@ -106,7 +107,7 @@ void updateTimeStatusBar(void *parameter) {
                 dateArea.x, 
                 dateArea.y + 1, // + 1 to avoid imperfections in the straight line of the status bar 
                 dateArea.width, 
-                dateArea.height - 1,  //TODO SB HEIGHT - 1
+                dateArea.height - 1,
                 epd_convert_font_color(BLACK), 
                 mainFramebuffer
             );
@@ -128,7 +129,7 @@ void updateTimeStatusBar(void *parameter) {
             timeArea.x, 
             timeArea.y + 1, // + 1 to avoid imperfections in the straight line of the status bar
             timeArea.width, 
-            timeArea.height - 1, //TODO SB HEIGHT - 1
+            timeArea.height - 1,
             epd_convert_font_color(BLACK), 
             mainFramebuffer
         );

@@ -49,9 +49,11 @@
 #include "../../include/apps/system/control_panel.h"
 #include "../../include/apps/spotify/spotify.h"
 #include "../../include/apps/weather/weather.h"
+#include "../../include/apps/bus_departures/bus_departures.h"
+#include "../../include/apps/alarm/alarm.h"
 
 TaskHandle_t updateTimeHomeScreenHandle = NULL;
-bool lights = false; // just for demonstration
+bool lights = false; // Just for demonstration
 
 void homeExit() {
     vTaskDelete(updateTimeHomeScreenHandle);
@@ -61,7 +63,7 @@ void homeExit() {
 void openAlarm() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    //TODO ScreenAlarm();
+    displayAlarm();
 }
 
 void openSpotify() {
@@ -85,7 +87,7 @@ void openControlPanel() {
 void openBusDepartures() {
     vTaskDelete(updateTimeHomeScreenHandle);
     updateTimeHomeScreenHandle = NULL;
-    //TODO ScreenBusDepartures();
+    displayBusDepartures();
 }
 
 void toggleLights() {
@@ -95,7 +97,7 @@ void toggleLights() {
         SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT + CARD_PADDING - TOGGLE_HEIGHT / 2, 
         TOGGLE_WIDTH, 
         TOGGLE_HEIGHT
-    }; //TODO CHANGE TOGGLE AREA
+    };
 
     epd_clear_area(toggleArea);
     epd_fill_rect(
@@ -121,8 +123,8 @@ void toggleLights() {
 }
 
 void triggerDoorLock() {
+    // Here would be the function that opens the door
     epd_trigger_notification(
-        // Here would be the function that opens the door
         const_cast<uint8_t*>(padlock_small_icon_data),
         padlock_small_icon_width,
         padlock_small_icon_height,

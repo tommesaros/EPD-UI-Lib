@@ -1,6 +1,12 @@
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <Arduino.h>
 #include "epd_driver.h"
 
+// ----------------------------
+// Internal libraries
+// ----------------------------
 #include "../include/handlers/epd_handler.h"
 #include "../include/handlers/framebuffer_handler.h"
 #include "../include/handlers/touch_handler.h"
@@ -100,7 +106,6 @@ void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)()) {
     epd_draw_status_bar(exitFunction);
 }
 
-//TODO rozdistribuovat toto vsade
 void epd_draw_main_framebuffer() {
     if (overlayActive) {
         return;

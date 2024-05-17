@@ -196,7 +196,7 @@ void epd_draw_button_icon(
                 rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
-                radius, 
+                radius - BORDER_WIDTH, 
                 epd_convert_font_color(WHITE), 
                 framebuffer
             );
