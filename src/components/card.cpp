@@ -75,7 +75,7 @@ void epd_draw_horizontal_card(
 
         // Icon
         Rect_t iconArea = {
-            .x = rectArea.x + 20, // icon padding
+            .x = rectArea.x + CARD_PADDING,
             .y = rectArea.y + rectArea.height / 2 - imageHeight / 2,
             .width = imageWidth,
             .height =  imageHeight
@@ -86,12 +86,22 @@ void epd_draw_horizontal_card(
         properties->fg_color = textColor;
         properties->bg_color = bgColor;
 
+        int primaryLabelWidth;
+        int primaryLabelHeight;
+        epd_get_text_dimensions(primaryFont, primaryLabel, &primaryLabelWidth, &primaryLabelHeight);
+        int secondaryLabelWidth;
+        int secondaryLabelHeight;
+        epd_get_text_dimensions(primaryFont, primaryLabel, &secondaryLabelWidth, &secondaryLabelHeight);
+
         // Primary text
-        int textWidth;
-        int textHeight;
-        epd_get_text_dimensions(primaryFont, primaryLabel, &textWidth, &textHeight);
-        int textX = rectArea.x + imageWidth + 40; // icon padding
-        int textY = rectArea.y + rectArea.height / 2 - 5;
+        int textX = rectArea.x + imageWidth + CARD_PADDING * 2;
+        int textY;
+        if (secondaryLabel == "") {
+            textY = rectArea.y + rectArea.height / 2 + primaryLabelHeight / 2;
+        } else {
+            textY = rectArea.y + rectArea.height / 2 - (primaryLabelHeight + secondaryLabelHeight + 10) / 2 + primaryLabelHeight;
+        }
+
         write_mode(
             primaryFont, 
             primaryLabel, 
@@ -103,8 +113,8 @@ void epd_draw_horizontal_card(
         );
         
         // Secondary text
-        textX = rectArea.x + imageWidth + 40; // icon padding
-        textY = rectArea.y + rectArea.height / 2 + textHeight + 5;
+        textX = rectArea.x + imageWidth + CARD_PADDING * 2;
+        textY = rectArea.y + rectArea.height / 2 + (primaryLabelHeight + secondaryLabelHeight + 10) / 2;
         write_mode(
             secondaryFont, 
             secondaryLabel, 

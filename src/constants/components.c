@@ -7,7 +7,10 @@ const int STATUS_BAR_SAFE_ZONE = 65;
 
 // Button
 const int UPPER_BUTTON_ROW_Y = STATUS_BAR_SAFE_ZONE + 20;
+const int LOWER_BUTTON_ROW_Y = EPD_HEIGHT - 70;
 const int BUTTON_HEIGHT = 65;
+const int SMALL_CIRCLE_BUTTON_RADIUS = 40;
+const int BIG_CIRCLE_BUTTON_RADIUS = 50;
 
 // Card
 const int CARD_PADDING = 20;

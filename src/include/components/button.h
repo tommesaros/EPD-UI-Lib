@@ -5,24 +5,24 @@
  * Draws a circular button with a label.
  * When bgColor = white, a black border is drawn around the button.
  * 
- * @param buttonText The text to be displayed on the button.
+ * @param label The text to be displayed on the button.
  * @param font The font to be used for the label.
  * @param x The x position of the center of the circle.
  * @param y The y position of the center of the circle.
  * @param radius The radius of the circle.
- * @param color The color of the circle (15 is white, 0 is black).
+ * @param bgcolor The color of the circle (15 is white, 0 is black).
  * @param textColor The color of the label (15 is white, 0 is black).
  * @param framebuffer The framebuffer to draw on.
  * @param function The function to be called when the button is pressed.
  */
 void epd_draw_circle_button(
-    const char* buttonText, 
+    const char* label, 
     const GFXfont *font,
-    int32_t x,
-    int32_t y,
-    int32_t radius,
-    uint8_t color,
-    uint8_t textColor,
+    int32_t x, 
+    int32_t y, 
+    int32_t radius, 
+    uint8_t bgColor, 
+    uint8_t textColor, 
     uint8_t *framebuffer,
     void (*function)()
 );

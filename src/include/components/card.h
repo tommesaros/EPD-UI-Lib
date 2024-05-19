@@ -8,7 +8,7 @@
  * @param image_width The width of the image.
  * @param image_height The height of the image.
  * @param primaryLabel The primary label text to be displayed on the card.
- * @param secondaryLabel The secondary label text to be displayed on the card.
+ * @param secondaryLabel The secondary label text to be displayed on the card. (leave empty if not needed)
  * @param primaryFont The font to be used for the primary label.
  * @param secondaryFont The font to be used for the secondary label.
  * @param rectArea The rectangular area where the card will be drawn.
@@ -74,7 +74,7 @@ void epd_draw_vertical_card(
  * @param image_width Width of the image in pixels.
  * @param image_height Height of the image in pixels.
  * @param primaryLabel The primary label to be displayed on the card.
- * @param secondaryLabel The secondary label to be displayed on the card.
+ * @param secondaryLabel The secondary label to be displayed on the card. (leave empty if not needed)
  * @param primaryFont Pointer to the primary font to be used for the labels.
  * @param secondaryFont Pointer to the secondary font to be used for the labels.
  * @param rectArea The rectangular area where the card will be drawn.

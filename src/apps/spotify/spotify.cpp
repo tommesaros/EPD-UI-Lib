@@ -190,10 +190,6 @@ void updateScreenSpotify(void *parameter) {
 }
 
 void displaySpotify() {
-    const int LOWER_BUTTON_ROW_Y = EPD_HEIGHT - 70;
-    const int SMALL_BUTTON_RADIUS = 40;
-    const int BIG_BUTTON_RADIUS = 50;
-
     spotifyFrameBuffer = getMainFramebuffer();
     clearTouchPoints();
     cleanFramebufferAndEPD(spotifyFrameBuffer, epd_full_screen());
@@ -247,7 +243,7 @@ void displaySpotify() {
         prev_icon_height,
         EPD_WIDTH - 260, 
         LOWER_BUTTON_ROW_Y, 
-        SMALL_BUTTON_RADIUS, 
+        SMALL_CIRCLE_BUTTON_RADIUS, 
         BLACK, 
         spotifyFrameBuffer,
         spotifyPrev
@@ -260,7 +256,7 @@ void displaySpotify() {
         pause_icon_height,
         EPD_WIDTH - 160, 
         LOWER_BUTTON_ROW_Y, 
-        BIG_BUTTON_RADIUS, 
+        BIG_CIRCLE_BUTTON_RADIUS, 
         BLACK, 
         spotifyFrameBuffer,
         spotifyTogglePlay
@@ -273,7 +269,7 @@ void displaySpotify() {
         next_icon_height,
         EPD_WIDTH - 60, 
         LOWER_BUTTON_ROW_Y, 
-        SMALL_BUTTON_RADIUS, 
+        SMALL_CIRCLE_BUTTON_RADIUS, 
         BLACK, 
         spotifyFrameBuffer,
         spotifyNext

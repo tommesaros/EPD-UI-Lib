@@ -2,4 +2,4 @@
 
 const int BLACK = 0;
 const int WHITE = 15;
-const int GRAY = 13;
+const int GRAY = 12;
