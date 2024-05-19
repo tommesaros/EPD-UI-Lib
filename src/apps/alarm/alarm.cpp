@@ -24,6 +24,7 @@
 // ----------------------------
 #include "../../../image/black_bg/alarm_icon.h"
 #include "../../../image/black_bg/edit_black_icon.h"
+#include "../../../image/black_bg/add_icon.h"
 #include "../../../image/gray_bg/alarm_gray_icon.h"
 #include "../../../image/gray_bg/edit_gray_icon.h"
 #include "../../../image/white_bg/up_icon.h"
@@ -47,6 +48,7 @@
 // Apps
 // ----------------------------
 #include "../../include/apps/alarm/alarm.h"
+#include "../../include/apps/alarm/new_alarm.h"
 
 //tertiary button to add new alarm, card for each alarm
 
@@ -216,16 +218,16 @@ void displayAlarm() {
     epd_copy_to_framebuffer(arrowIconArea, (uint8_t *) down_icon_data, mainFramebuffer);
 
     // Add new alarm button
-    epd_draw_circle_button(
-        "+",
-        HEADLINE_FONT,
+    epd_draw_circle_button_icon(
+        (uint8_t*)add_icon_data,
+        add_icon_width,
+        add_icon_height,
         EPD_WIDTH - 60,
         EPD_HEIGHT - 60,
         SMALL_CIRCLE_BUTTON_RADIUS, 
         BLACK,
-        WHITE,
         mainFramebuffer,
-        dummyFunction
+        openNewAlarmPopup
     ); 
 
     epd_draw_main_framebuffer();

@@ -53,8 +53,8 @@ void epd_draw_circle_button(
         int32_t width = 0;
         int32_t height = 0;
         epd_get_text_dimensions(font, label, &width, &height);
-        int textX = x - (width / 2);
-        int textY = y + (height / 2);
+        int textX = x - width / 2;
+        int textY = y + height / 2;
         write_mode(
             font, 
             label, 
