@@ -33,7 +33,7 @@ void epd_draw_slider(
         // Background
         // Needs to convert color from range 0-15 to 0-255
         // as epd_fill_rounded_rect takes different color range
-        epd_draw_rounded_rect(
+        epd_fill_rounded_rect(
             sliderArea.x, 
             sliderArea.y, 
             sliderArea.width, 

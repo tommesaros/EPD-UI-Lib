@@ -17,7 +17,7 @@
  */
 void epd_draw_radio_button(
     const char* label, 
-    GFXfont *font,
+    const GFXfont *font,
     int32_t x, 
     int32_t y, 
     uint8_t bgColor,

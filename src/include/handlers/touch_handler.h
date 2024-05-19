@@ -1,19 +1,19 @@
 #ifndef TOUCH_HANDLER_H
 #define TOUCH_HANDLER_H
 
+// ----------------------------
+// External libraries
+// ----------------------------
 #include <touch.h>
-//TODO rework description
+
 /**
  * @brief Indicates whether an overlay is currently active.
  * 
- * This variable is used to track whether an overlay is currently active or not.
  * An overlay is a graphical element that is displayed on top of the main UI.
- * When `overlayActive` is set to true, it means that an overlay is currently active.
- * When `overlayActive` is set to false, it means that no overlay is currently active.
- * 
- * @note This variable is typically used in conjunction with touch event handlers
+ * This variable is typically used in conjunction with touch event handlers
  * to determine whether touch events should be processed by the overlay or by the
- * main UI.
+ * main UI. When an overlay is active, automatic updates within main framebuffer
+ * should not be made.
  * 
  * @see SomeOtherRelatedFunction()
  */

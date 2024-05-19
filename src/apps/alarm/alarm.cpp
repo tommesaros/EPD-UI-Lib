@@ -17,11 +17,12 @@
 // ----------------------------
 #include "include/fonts.h"
 #include "include/components.h"
+#include "include/colors.h"
 
 // ----------------------------
 // Images
 // ----------------------------
-//TODO: Add images
+#include "../../../image/black_bg/alarm_icon.h"
 
 // ----------------------------
 // Handlers
@@ -45,32 +46,91 @@
 //tertiary button to add new alarm, card for each alarm
 
 void displayAlarm() {
-    
+    uint8_t *mainFramebuffer = getMainFramebuffer();
+    clearTouchPoints();
+    cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());
+    epd_draw_status_bar(dummyFunction);
+
+    Rect_t cardArea = {
+        EPD_WIDTH / 2 - SMALL_CARD_WIDTH / 2 - 70, 
+        SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT * 1.5 - CARD_PADDING, 
+        SMALL_CARD_WIDTH, 
+        SMALL_CARD_HEIGHT
+    };
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(alarm_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "Tomorrow 7:20",
+        "Once", // dummy data
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    CurrentWeather *current = getCurrentWeather();
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR - SMALL_CARD_HEIGHT / 2;
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(alarm_icon_data), //icon of current weather
+        alarm_icon_width,
+        alarm_icon_height,
+        "11:40",
+        "Off",
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        GRAY,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    cardArea.y = SCREEN_MIDDLE_WITH_STATUS_BAR + SMALL_CARD_HEIGHT / 2 + CARD_PADDING;
+    epd_draw_horizontal_card(
+        const_cast<uint8_t *>(alarm_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        "16:58",
+        "Every Monday",
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        BLACK,
+        WHITE,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    Rect_t arrowIconArea = {
+        .x = EPD_WIDTH - CARD_PADDING - alarm_icon_width,
+        .y = EPD_HEIGHT - 70 - alarm_icon_height / 2,
+        .width = alarm_icon_width,
+        .height =  alarm_icon_height
+    };
+    epd_copy_to_framebuffer(arrowIconArea, (uint8_t *) alarm_icon_data, mainFramebuffer);
+    epd_copy_to_framebuffer(arrowIconArea, (uint8_t *) alarm_icon_data, mainFramebuffer);
+
+    epd_draw_circle_button_icon(
+        const_cast<uint8_t *>(alarm_icon_data),
+        alarm_icon_width,
+        alarm_icon_height,
+        EPD_WIDTH - 70,
+        EPD_HEIGHT - 70,
+        50, 
+        BLACK,
+        mainFramebuffer,
+        dummyFunction
+    ); 
+
+    epd_draw_main_framebuffer();
 }
-
-/*
-epd_draw_circle_button(
-        "ahoj", 
-        (GFXfont *)&OpenSans10B,
-        100, 
-        450, 
-        40, 
-        0, 
-        15, 
-        mainFramebuffer,
-        openSpotify
-    );
-    
-    epd_draw_circle_button(
-        "9", 
-        (GFXfont *)&OpenSans16B,
-        230, 
-        450, 
-        40, 
-        15, 
-        0, 
-        mainFramebuffer,
-        openWeather
-    );
-
-*/

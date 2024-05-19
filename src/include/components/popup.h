@@ -7,8 +7,15 @@
 void epd_clear_popup();
 
 /**
- * Triggers the display of a popup with the specified parameters.
- * //TODO describe the work with popup framebuffer 
+ * @brief Triggers the display of a popup with the specified parameters.
+ * 
+ * Before calling this function, the EPD screen and overlay touch points
+ * should be cleared. Use theese functions:
+ * // epd_clear();
+ * // setOverlayActive(true);
+ * // clearOverlayTouchPoints();
+ * In a popup, there should be a button that will call epd_clear_popup() function
+ * to exit the popup.
  * 
  * @param imageData The image data to be displayed in the popup.
  * @param imageWidth The width of the image.

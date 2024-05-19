@@ -2,8 +2,10 @@
 #define CONTROL_PANEL_H
 
 /**
- * Displays the control panel with settings.
- * //TODO what does it demonstrate?
+ * @brief Displays the control panel with settings.
+ * It demonstrates the use of checkboxes, radio buttons, progress bars
+ * and popups. It also showcases possible use cases for various
+ * smart-home connected appliances.
  */
 void displayControlPanel();
 

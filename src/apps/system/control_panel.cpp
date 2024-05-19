@@ -24,9 +24,16 @@
 // ----------------------------
 #include "../../../image/black_bg/padlock_small_icon.h"
 #include "../../../image/black_bg/power_bck_icon.h"
+#include "../../../image/black_bg/coffee_icon.h"
 #include "../../../image/white_bg/power_big_icon.h"
 #include "../../../image/white_bg/power_icon.h"
 #include "../../../image/white_bg/cancel_icon.h"
+#include "../../../image/white_bg/bulb_icon.h"
+#include "../../../image/white_bg/volume_icon.h"
+#include "../../../image/white_bg/cup_icon.h"
+#include "../../../image/white_bg/info_icon.h"
+#include "../../../image/white_bg/blinds_icon.h"
+#include "../../../image/white_bg/white_coffee_icon.h"
 #include "../../../image/bg.h"
 
 // ----------------------------
@@ -47,9 +54,6 @@
 // Apps
 // ----------------------------
 #include "../../include/apps/system/control_panel.h"
-
-bool firstCheckBox = true;
-bool secondCheckBox = false;
 
 void toggle() {
     // Here would be the logic for toggling the checkboxes and radio buttons
@@ -89,100 +93,253 @@ void openPowerOffPopup() {
     epd_draw_overlay_framebuffer();
 }
 
+void makeCoffee() {
+    // Here would be the function that communicates with the coffee machine
+    epd_trigger_notification(
+        const_cast<uint8_t*>(coffee_icon_data),
+        coffee_icon_width,
+        coffee_icon_height,
+        "Kitchen coffee machine", 
+        "Preparing latte macchiato." 
+    );
+}
+
 void displayControlPanel() {
-    //TODO white cards 
-    //TODO slider for volume
-    //TODO wireless toggle
-    //TODO window blinds radion buttons
-    //TODO ?? checkboxes
     uint8_t *mainFramebuffer = getMainFramebuffer();
     clearTouchPoints();
     cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());
-    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, BLACK, mainFramebuffer);
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), mainFramebuffer);
     epd_draw_status_bar(dummyFunction);
 
-    //TODO Logic for control panel
+    // Lights card with checkboxes
+    Rect_t cardArea = {
+        .x = CARD_PADDING,
+        .y = STATUS_BAR_SAFE_ZONE + CARD_PADDING,
+        .width = SQUARE_CARD_SIZE * 1.5,
+        .height = SQUARE_CARD_SIZE
+    };
+
+    epd_draw_multi_line_card(
+        (uint8_t*)bulb_icon_data,
+        bulb_icon_width,
+        bulb_icon_height,
+        "Lights",
+        "",
+        TITLE_FONT,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        dummyFunction
+    );
+
     epd_draw_check_box(
-        "Ahoj", 
-        (GFXfont *)&OpenSans12B,
-        20, 
-        100, 
-        0,
-        15, 
-        firstCheckBox,
+        "Bedroom", 
+        TEXT_FONT_BOLD,
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        STATUS_BAR_SAFE_ZONE + CARD_PADDING * 2 + 50 * 1, 
+        WHITE,
+        BLACK, 
+        true,
         BLACK_ON_WHITE,
         mainFramebuffer,
         toggle
     );
 
     epd_draw_check_box(
-        "Caaau", 
-        (GFXfont *)&OpenSans12B,
-        20, 
-        150, 
-        0,
-        15, 
-        secondCheckBox,
+        "Living room", 
+        TEXT_FONT,
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        STATUS_BAR_SAFE_ZONE + CARD_PADDING * 2 + 50 * 2, 
+        WHITE,
+        BLACK, 
+        false,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        toggle
+    );
+    
+    epd_draw_check_box(
+        "Kitchen", 
+        TEXT_FONT_BOLD,
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        STATUS_BAR_SAFE_ZONE + CARD_PADDING * 2 + 50 * 3, 
+        WHITE,
+        BLACK, 
+        true,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        toggle
+    );
+
+    // Window blinds card with radio buttons 
+    cardArea.x += cardArea.width + CARD_PADDING;
+
+    epd_draw_multi_line_card(
+        (uint8_t*)blinds_icon_data,
+        blinds_icon_width,
+        blinds_icon_height,
+        "Window blinds",
+        "",
+        TITLE_FONT,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    epd_draw_radio_button(
+        "Up", 
+        TEXT_FONT,
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        STATUS_BAR_SAFE_ZONE + CARD_PADDING * 2 + 50 * 1, 
+        WHITE,
+        BLACK, 
+        false,
         BLACK_ON_WHITE,
         mainFramebuffer,
         toggle
     );
 
     epd_draw_radio_button(
-        "Ahoj", 
-        (GFXfont *)&OpenSans12B,
-        20, 
-        200, 
-        0,
-        15, 
-        firstCheckBox,
+        "Middle", 
+        TEXT_FONT,
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        STATUS_BAR_SAFE_ZONE + CARD_PADDING * 2 + 50 * 2, 
+        WHITE,
+        BLACK, 
+        false,
         BLACK_ON_WHITE,
         mainFramebuffer,
         toggle
     );
 
     epd_draw_radio_button(
-        "Caaau", 
-        (GFXfont *)&OpenSans12B,
-        20, 
-        250, 
-        0,
-        15, 
-        secondCheckBox,
+        "Down", 
+        TEXT_FONT_BOLD,
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        STATUS_BAR_SAFE_ZONE + CARD_PADDING * 2 + 50 * 3, 
+        WHITE,
+        BLACK, 
+        true,
         BLACK_ON_WHITE,
         mainFramebuffer,
         toggle
     );
 
-    // TODO Remaining coffee machine water?
+    // Volume card with slider
+    cardArea.x += cardArea.width + CARD_PADDING;
+    cardArea.width = EPD_WIDTH - cardArea.x - CARD_PADDING;
+
+    epd_draw_horizontal_card(
+        (uint8_t*)volume_icon_data,
+        volume_icon_width,
+        volume_icon_height,
+        "",
+        "",
+        TEXT_FONT_BOLD,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        WHITE_ON_BLACK,
+        mainFramebuffer,
+        dummyFunction
+    );
+
+    epd_draw_slider(
+        cardArea.x + cardArea.width - SLIDER_WIDTH - 10,
+        cardArea.y + cardArea.height / 2 - SLIDER_HEIGHT / 2,
+        mainFramebuffer,
+        dummyFunction,
+        dummyFunction
+    );
+
+    // Coffee machine card with progress bar
+    cardArea.x = CARD_PADDING,
+    cardArea.y += SQUARE_CARD_SIZE + CARD_PADDING,
+    cardArea.width = EPD_WIDTH / 2 - CARD_PADDING * 1.5;
+    cardArea.height = EPD_HEIGHT - cardArea.y - CARD_PADDING / 2;
+
+    epd_draw_multi_line_card(
+        (uint8_t*)cup_icon_data,
+        cup_icon_width,
+        cup_icon_height,
+        "Coffee machine water",
+        "",
+        TITLE_FONT,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        dummyFunction
+    );
+
     epd_draw_progress_bar(
-        20, 
-        300, 
-        300, 
-        15, 
+        cardArea.x + CARD_PADDING * 2 + bulb_icon_width, 
+        cardArea.y + CARD_PADDING * 2 + 20,  
+        EPD_WIDTH / 2 - cardArea.x - CARD_PADDING * 4 - bulb_icon_width, 
+        35, 
         GRAY, 
         BLACK, 
         mainFramebuffer
     );
-    // TODO Make cofee button
 
-    //TODO Power off button -> popup dialog/card
+    Rect_t coffeeButtonArea = {
+        .x = EPD_WIDTH / 2 - CARD_PADDING - 260,
+        .y = EPD_HEIGHT - CARD_PADDING - BUTTON_HEIGHT,
+        .width = 260,
+        .height = BUTTON_HEIGHT
+    };
 
-    epd_fill_rounded_rect(20, 380, 100, 20, 5,100, mainFramebuffer);
-    epd_fill_rounded_rect(20, 400, 100, 20, 5,200, mainFramebuffer);
-    epd_fill_rounded_rect(20, 420, 100, 20, 5,220, mainFramebuffer);
-    epd_fill_rounded_rect(20, 440, 100, 20, 5,240, mainFramebuffer);
-    epd_fill_rounded_rect(20, 440, 100, 20, 5,150, mainFramebuffer);
-5,
-    epd_fill_rounded_rect(120, 380, 100, 20,5, epd_convert_font_color(10), mainFramebuffer);
-    epd_fill_rounded_rect(120, 400, 100, 20,5, epd_convert_font_color(11), mainFramebuffer);
-    epd_fill_rounded_rect(120, 420, 100, 20,5, epd_convert_font_color(12), mainFramebuffer);
-    epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(13), mainFramebuffer);
-    epd_fill_rounded_rect(120, 440, 100, 20,5, epd_convert_font_color(14), mainFramebuffer);
+    epd_draw_button_icon(
+        const_cast<uint8_t*>(white_coffee_icon_data),
+        white_coffee_icon_width,
+        white_coffee_icon_height,
+        "Make coffee",
+        TEXT_FONT,
+        coffeeButtonArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        makeCoffee
+    );
+
+    // UI info card
+    cardArea.x = EPD_WIDTH / 2 + CARD_PADDING / 2,
+    epd_draw_multi_line_card(
+        (uint8_t*)info_icon_data,
+        info_icon_width,
+        info_icon_height,
+        "EPD-UI-Lib",
+        "github.com/tommesaros",
+        TITLE_FONT,
+        TEXT_FONT,
+        cardArea,
+        CORNER_RADIUS,
+        WHITE,
+        BLACK,
+        BLACK_ON_WHITE,
+        mainFramebuffer,
+        dummyFunction
+    );
 
     Rect_t powerOffButtonArea = {
-        .x = EPD_WIDTH - 260,
-        .y = EPD_HEIGHT - 90,
+        .x = EPD_WIDTH - CARD_PADDING * 1.5 - 230,
+        .y = EPD_HEIGHT - CARD_PADDING - BUTTON_HEIGHT,
         .width = 230,
         .height = BUTTON_HEIGHT
     };

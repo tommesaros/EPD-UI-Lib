@@ -113,16 +113,23 @@ uint8_t epd_convert_font_color(uint8_t color);
 void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)());
 
 /**
- * @brief Draws the specified framebuffer on the EPD display.
- * //TODO remake
- * This function takes a pointer to a framebuffer and 
- * draws its contents on the EPD display. Use this function instead of 
- * epd_draw_grayscale_image from epd_driver.h to prevent pararell drawing 
- * two distinct framebuffers in the same time which results in ghosting.
+ * @brief Draws the main framebuffer on the EPD display.
+ * 
+ * This function draws contents of the main framebuffer on the EPD display. 
+ * Use this function instead of epd_draw_grayscale_image from epd_driver.h 
+ * to prevent pararell drawing two distinct framebuffers in the same time 
+ * which results in ghosting.
  */
 void epd_draw_main_framebuffer();
 
-//TODO DESCRIPTION
+/**
+ * @brief Draws the overlay framebuffer on the EPD display.
+ * 
+ * This function draws contents of the overlay framebuffer on the EPD display. 
+ * Use this function instead of epd_draw_grayscale_image from epd_driver.h 
+ * to prevent pararell drawing two distinct framebuffers in the same time 
+ * which results in ghosting.
+ */
 void epd_draw_overlay_framebuffer();
 
 #endif // EPD_HANDLER_H

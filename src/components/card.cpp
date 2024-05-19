@@ -43,7 +43,7 @@ void epd_draw_horizontal_card(
         // Needs to convert color from range 0-15 to 0-255
         // as epd_fill_rounded_rect takes different color range
         if (bgColor == WHITE) {
-            epd_draw_rounded_rect(
+            epd_fill_rounded_rect(
                 rectArea.x, 
                 rectArea.y, 
                 rectArea.width, 
@@ -52,7 +52,7 @@ void epd_draw_horizontal_card(
                 epd_convert_font_color(BLACK), 
                 framebuffer
             );
-            epd_draw_rounded_rect(
+            epd_fill_rounded_rect(
                 rectArea.x + BORDER_WIDTH, 
                 rectArea.y + BORDER_WIDTH, 
                 rectArea.width - BORDER_WIDTH * 2, 

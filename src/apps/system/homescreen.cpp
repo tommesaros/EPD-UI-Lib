@@ -1,7 +1,12 @@
 /*******************************************************************
-    //TODO Description
-    //Here you can place all your app shortcuts and widgets in 
-    //form of interactive cards that show current information
+ * On the home screen, the user can see the current time, current 
+ * weather, and real-time information about the currently playing
+ * track on Spotify. As a demonstration, the user can also see the
+ * next alarm, control the lights, AC, and lock the door. The user
+ * can also access all the other app contained within this library.
+ * 
+ * It serves as an inspiration for other developers to create their
+ * own home screen with the desired features and apps.
 *******************************************************************/
 
 // ----------------------------
