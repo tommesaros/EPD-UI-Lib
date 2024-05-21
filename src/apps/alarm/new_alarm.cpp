@@ -51,7 +51,7 @@ void openNewAlarmPopup() {
     setOverlayActive(true);
     clearOverlayTouchPoints();
     uint8_t *framebuffer = getOverlayFramebuffer();
-    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), framebuffer);
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_color_range(BLACK), framebuffer);
 
     // Background
     Rect_t bgArea = {

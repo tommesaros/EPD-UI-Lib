@@ -40,10 +40,10 @@ void epd_draw_circle_button(
         // as epd_fill_circle takes different color range
         if (bgColor == WHITE) {
             // Drawing a border around the button
-            epd_draw_circle(x, y, radius, epd_convert_font_color(BLACK), framebuffer);
-            epd_draw_circle(x, y, radius - BORDER_WIDTH, epd_convert_font_color(WHITE), framebuffer);
+            epd_draw_circle(x, y, radius, epd_convert_color_range(BLACK), framebuffer);
+            epd_draw_circle(x, y, radius - BORDER_WIDTH, epd_convert_color_range(WHITE), framebuffer);
         } else {
-            epd_fill_circle(x, y, radius, epd_convert_font_color(bgColor), framebuffer);
+            epd_fill_circle(x, y, radius, epd_convert_color_range(bgColor), framebuffer);
         }
 
         // Text
@@ -85,10 +85,10 @@ void epd_draw_circle_button_icon(
         // as epd_fill_circle takes different color range
         if (bgColor == WHITE) {
             // Drawing a border around the button
-            epd_draw_circle(x, y, radius, epd_convert_font_color(BLACK), framebuffer);
-            epd_draw_circle(x, y, radius - BORDER_WIDTH, epd_convert_font_color(WHITE), framebuffer);
+            epd_draw_circle(x, y, radius, epd_convert_color_range(BLACK), framebuffer);
+            epd_draw_circle(x, y, radius - BORDER_WIDTH, epd_convert_color_range(WHITE), framebuffer);
         } else {
-            epd_fill_circle(x, y, radius, epd_convert_font_color(bgColor), framebuffer);
+            epd_fill_circle(x, y, radius, epd_convert_color_range(bgColor), framebuffer);
         }
 
         // Icon
@@ -128,7 +128,7 @@ void epd_draw_tertiary_button_icon(
             area.y, 
             area.width, 
             area.height, 
-            epd_convert_font_color(bgColor), 
+            epd_convert_color_range(bgColor), 
             framebuffer
         );
 
@@ -188,7 +188,7 @@ void epd_draw_button_icon(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 framebuffer
             );
             epd_fill_rounded_rect(
@@ -197,7 +197,7 @@ void epd_draw_button_icon(
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius - BORDER_WIDTH, 
-                epd_convert_font_color(WHITE), 
+                epd_convert_color_range(WHITE), 
                 framebuffer
             );
         } else {
@@ -207,7 +207,7 @@ void epd_draw_button_icon(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(bgColor), 
+                epd_convert_color_range(bgColor), 
                 framebuffer
             );
         }
@@ -262,7 +262,7 @@ void epd_draw_button(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 framebuffer
             );
             epd_fill_rounded_rect(
@@ -271,7 +271,7 @@ void epd_draw_button(
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
-                epd_convert_font_color(WHITE), 
+                epd_convert_color_range(WHITE), 
                 framebuffer
             );
         } else {
@@ -281,7 +281,7 @@ void epd_draw_button(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(bgColor), 
+                epd_convert_color_range(bgColor), 
                 framebuffer
             );
         }

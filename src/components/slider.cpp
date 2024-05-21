@@ -39,7 +39,7 @@ void epd_draw_slider(
             sliderArea.width, 
             sliderArea.height, 
             CORNER_RADIUS, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         // Make the progress rectangle a bit smaller so the background rectangle creates a border
@@ -49,7 +49,7 @@ void epd_draw_slider(
             sliderArea.width - BORDER_WIDTH * 2, 
             sliderArea.height - BORDER_WIDTH * 2, 
             CORNER_RADIUS, 
-            epd_convert_font_color(WHITE), 
+            epd_convert_color_range(WHITE), 
             framebuffer
         );
 
@@ -59,7 +59,7 @@ void epd_draw_slider(
             sliderArea.y + sliderArea.height / 2, 
             sliderArea.x + sliderArea.width, 
             sliderArea.y + sliderArea.height / 2, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
 

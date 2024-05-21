@@ -48,7 +48,7 @@ void epd_draw_check_box(
             squareArea.y, 
             squareArea.width, 
             squareArea.height, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         epd_fill_rect(
@@ -56,7 +56,7 @@ void epd_draw_check_box(
             squareArea.y + BORDER_WIDTH, 
             squareArea.width - BORDER_WIDTH * 2, 
             squareArea.height - BORDER_WIDTH * 2, 
-            epd_convert_font_color(WHITE), 
+            epd_convert_color_range(WHITE), 
             framebuffer
         );
 
@@ -67,7 +67,7 @@ void epd_draw_check_box(
                 squareArea.y + CHECK_BOX_INNER_PADDING, 
                 squareArea.width - CHECK_BOX_INNER_PADDING * 2, 
                 squareArea.height - CHECK_BOX_INNER_PADDING * 2, 
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 framebuffer
             );
         }

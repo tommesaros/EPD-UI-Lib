@@ -37,3 +37,29 @@ GFXfont* getFont(int size, bool bold) {
             return (GFXfont *)&OpenSans12;
     }
 }
+
+void epd_get_text_dimensions(const GFXfont *font,
+                             const char *string,
+                             int32_t *p_width,
+                             int32_t *p_height) {
+    int32_t x1 = 0; 
+    int32_t y1 = 0; 
+    int32_t x2 = 0; 
+    int32_t y2 = 0; 
+
+    FontProperties *properties = new FontProperties();
+    properties->fg_color = 15;
+    properties->bg_color = 0;
+
+    get_text_bounds(font,
+                    string,
+                    &x1,
+                    &y1,
+                    &x2,
+                    &y2,
+                    p_width,
+                    p_height,
+                    properties);
+
+    delete properties;
+}

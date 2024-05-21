@@ -57,7 +57,7 @@ void timeSetup() {
     configTzTime(time_zone, ntpServer1, ntpServer2);
 }
 
-int timeGetHour() {
+int getHour() {
     while(!getLocalTime(&timeinfo)){
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -65,7 +65,7 @@ int timeGetHour() {
     return timeinfo.tm_hour;
 }
 
-int timeGetMinute() {
+int getMinute() {
     while(!getLocalTime(&timeinfo)){
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
@@ -73,7 +73,7 @@ int timeGetMinute() {
     return timeinfo.tm_min;
 }
 
-char* getTimeDate() {
+char* getDate() {
     while(!getLocalTime(&timeinfo)){
         vTaskDelay(pdMS_TO_TICKS(1000));
     }

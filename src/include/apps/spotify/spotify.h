@@ -27,7 +27,8 @@ void spotifyToggleShuffle();
 void spotifyToggleRepeat();
 
 /**
- * Displays the Spotify UI on the screen.
+ * Displays the Spotify UI with information about currently playing track
+ * and playback controls on the screen.
  */
 void displaySpotify();
 

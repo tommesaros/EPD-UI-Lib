@@ -45,14 +45,14 @@ void epd_draw_radio_button(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         epd_fill_circle(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS - BORDER_WIDTH, 
-            epd_convert_font_color(WHITE), 
+            epd_convert_color_range(WHITE), 
             framebuffer
         );
 
@@ -62,7 +62,7 @@ void epd_draw_radio_button(
             circleArea.x + RADIO_BUTTON_RADIUS, 
             circleArea.y + RADIO_BUTTON_RADIUS, 
             RADIO_BUTTON_RADIUS - CHECK_BOX_INNER_PADDING, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         }

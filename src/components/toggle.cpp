@@ -38,7 +38,7 @@ void epd_draw_toggle(
             toggleArea.width,
             toggleArea.height,
             15,
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         // Make the progress rectangle a bit smaller so the background rectangle creates a border
@@ -48,7 +48,7 @@ void epd_draw_toggle(
             toggleArea.width - BORDER_WIDTH * 2,
             toggleArea.height - BORDER_WIDTH * 2,
             15,
-            epd_convert_font_color(WHITE), 
+            epd_convert_color_range(WHITE), 
             framebuffer
         );
         
@@ -59,7 +59,7 @@ void epd_draw_toggle(
             toggleArea.x + toggleArea.width - RADIO_BUTTON_RADIUS, 
             toggleArea.y + toggleArea.height / 2, 
             RADIO_BUTTON_RADIUS - 5, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         } else {
@@ -67,7 +67,7 @@ void epd_draw_toggle(
             toggleArea.x + RADIO_BUTTON_RADIUS, 
             toggleArea.y + toggleArea.height / 2, 
             RADIO_BUTTON_RADIUS - 5, 
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             framebuffer
         );
         }

@@ -4,8 +4,8 @@
 /*******************************************************************
  * How to use components?
  * Components present building blocks for creating the UI of an application. 
- * The components is drawn by calling the draw function of the component.
- * Attributs of such functions consist mainly of coordinates, colors, font, 
+ * The components are drawn by calling the draw function of the component.
+ * Attributes of such functions consist mainly of coordinates, colors, fonts, 
  * text content, the callback function for button interaction, 
  * and the designated framebuffer in which the component should be stored.
  * 

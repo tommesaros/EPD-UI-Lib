@@ -14,20 +14,20 @@ void timeSetup();
  * 
  * @return The current hour as an integer.
  */
-int timeGetHour();
+int getHour();
 
 /**
  * Gets the current minute.
  * 
  * @return The current minute as an integer.
  */
-int timeGetMinute();
+int getMinute();
 
 /**
  * Gets the current time and date formatted as "DD.MM.RRRR"
  * 
  * @return A pointer to a character array containing the current time and date.
  */
-char* getTimeDate();
+char* getDate();
 
 #endif // TIME_HANDLER_H

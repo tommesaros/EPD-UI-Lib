@@ -61,20 +61,6 @@ void epd_draw_rounded_rect(int x, int y, int width, int height, int radius, int 
 void epd_sleep();
 
 /**
- * Calculates the dimensions of the given text string when rendered using the specified font.
- *
- * @param font The font used to render the text.
- * @param string The text string to measure.
- * @param width A pointer to an integer where the width of the text will be stored.
- * @param height A pointer to an integer where the height of the text will be stored.
- */
-void epd_get_text_dimensions(
-    const GFXfont *font,
-    const char *string,
-    int32_t *p_width,
-    int32_t *p_height);
-
-/**
  * @brief Clears the specified area on the EPD display quickly.
  *
  * This function clears the specified area on the EPD by setting all pixels within 
@@ -89,16 +75,6 @@ void epd_get_text_dimensions(
  * @param white If `true`, the pixels will be set to white, false = black.
  */
 void epd_clear_area_quick(Rect_t area, bool white);
-
-/**
- * This function takes a font color (range 0-15) as input and converts it 
- * to a format for epd_draw_* and epd_fill_* functions (range 0-255).
- *
- * @param color The font color to be converted (range 0 as black, 15 as white).
- * @return The converted font color (range 0 as black, 255 as white).
- */
-uint8_t epd_convert_font_color(uint8_t color);
-
 
 /**
  * @brief Creates a new screen on the EPD display.

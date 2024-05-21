@@ -70,7 +70,7 @@ void openPowerOffPopup() {
     epd_clear();
     setOverlayActive(true);
     clearOverlayTouchPoints();
-    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), getOverlayFramebuffer());
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_color_range(BLACK), getOverlayFramebuffer());
 
     epd_trigger_popup(
         (uint8_t*)power_big_icon_data,
@@ -108,7 +108,7 @@ void displayControlPanel() {
     uint8_t *mainFramebuffer = getMainFramebuffer();
     clearTouchPoints();
     cleanFramebufferAndEPD(mainFramebuffer, epd_full_screen());
-    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_font_color(BLACK), mainFramebuffer);
+    epd_fill_rect(0, 0, EPD_WIDTH, EPD_HEIGHT, epd_convert_color_range(BLACK), mainFramebuffer);
     epd_draw_status_bar(dummyFunction);
 
     // Lights card with checkboxes

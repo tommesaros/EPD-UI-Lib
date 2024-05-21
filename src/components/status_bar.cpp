@@ -97,8 +97,8 @@ void updateTimeStatusBar(void *parameter) {
             refreshCount++;
         }
         
-        hour = timeGetHour();
-        minute = timeGetMinute();
+        hour = getHour();
+        minute = getMinute();
 
         // Update date at midnight
         if (hour == 0 && minute == 0) {
@@ -108,14 +108,14 @@ void updateTimeStatusBar(void *parameter) {
                 dateArea.y + 1, // + 1 to avoid imperfections in the straight line of the status bar 
                 dateArea.width, 
                 dateArea.height - 1,
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 mainFramebuffer
             );
 
             x = 150;
             write_mode(
                 TEXT_FONT_BOLD, 
-                getTimeDate(), 
+                getDate(), 
                 &x, 
                 &y, 
                 mainFramebuffer, 
@@ -130,12 +130,12 @@ void updateTimeStatusBar(void *parameter) {
             timeArea.y + 1, // + 1 to avoid imperfections in the straight line of the status bar
             timeArea.width, 
             timeArea.height - 1,
-            epd_convert_font_color(BLACK), 
+            epd_convert_color_range(BLACK), 
             mainFramebuffer
         );
         
         // Updated time
-        sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
+        sprintf(time, "%02d:%02d", getHour(), getMinute());
         epd_get_text_dimensions(TITLE_FONT, time, &width, &height);
         x = EPD_WIDTH / 2 - width / 2;
         write_mode(
@@ -164,7 +164,7 @@ void epd_draw_status_bar(void (*function)()) {
         EPD_WIDTH - STATUS_BAR_PADDING * 2, 
         STATUS_BAR_HEIGHT, 
         20, 
-        epd_convert_font_color(BLACK), 
+        epd_convert_color_range(BLACK), 
         mainFramebuffer
     );
 
@@ -191,7 +191,7 @@ void epd_draw_status_bar(void (*function)()) {
     int y = STATUS_BAR_HEIGHT - 5;
     write_mode(
         TEXT_FONT_BOLD, 
-        getTimeDate(), 
+        getDate(), 
         &x, 
         &y, 
         mainFramebuffer, 
@@ -203,7 +203,7 @@ void epd_draw_status_bar(void (*function)()) {
     int32_t width;
     int32_t height;
     char time[6];
-    sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
+    sprintf(time, "%02d:%02d", getHour(), getMinute());
     epd_get_text_dimensions(TITLE_FONT, time, &width, &height);
     x = EPD_WIDTH / 2 - width / 2;
     write_mode(

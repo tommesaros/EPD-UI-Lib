@@ -49,7 +49,7 @@ void epd_draw_horizontal_card(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 framebuffer
             );
             epd_fill_rounded_rect(
@@ -58,7 +58,7 @@ void epd_draw_horizontal_card(
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
-                epd_convert_font_color(WHITE), 
+                epd_convert_color_range(WHITE), 
                 framebuffer
             );
         } else {;
@@ -68,7 +68,7 @@ void epd_draw_horizontal_card(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(bgColor), 
+                epd_convert_color_range(bgColor), 
                 framebuffer
             );
         }
@@ -156,7 +156,7 @@ void epd_draw_vertical_card(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 framebuffer
             );
             epd_draw_rounded_rect(
@@ -165,7 +165,7 @@ void epd_draw_vertical_card(
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
-                epd_convert_font_color(WHITE), 
+                epd_convert_color_range(WHITE), 
                 framebuffer
             );
         } else {
@@ -175,7 +175,7 @@ void epd_draw_vertical_card(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(bgColor), 
+                epd_convert_color_range(bgColor), 
                 framebuffer
             );
         }
@@ -234,7 +234,7 @@ void epd_draw_multi_line_card(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(BLACK), 
+                epd_convert_color_range(BLACK), 
                 framebuffer
             );
             epd_fill_rounded_rect(
@@ -243,7 +243,7 @@ void epd_draw_multi_line_card(
                 rectArea.width - BORDER_WIDTH * 2, 
                 rectArea.height - BORDER_WIDTH * 2, 
                 radius, 
-                epd_convert_font_color(WHITE), 
+                epd_convert_color_range(WHITE), 
                 framebuffer
             );
         } else {
@@ -253,7 +253,7 @@ void epd_draw_multi_line_card(
                 rectArea.width, 
                 rectArea.height, 
                 radius, 
-                epd_convert_font_color(bgColor), 
+                epd_convert_color_range(bgColor), 
                 framebuffer
             );
         }

@@ -60,31 +60,6 @@ void epd_sleep() {
     esp_deep_sleep_start();
 }
 
-void epd_get_text_dimensions(const GFXfont *font,
-                             const char *string,
-                             int32_t *p_width,
-                             int32_t *p_height) {
-    int32_t x1 = 0; 
-    int32_t y1 = 0; 
-    int32_t x2 = 0; 
-    int32_t y2 = 0; 
-
-    FontProperties *properties = new FontProperties();
-    properties->fg_color = 15;
-    properties->bg_color = 0;
-
-    get_text_bounds(font,
-                    string,
-                    &x1,
-                    &y1,
-                    &x2,
-                    &y2,
-                    p_width,
-                    p_height,
-                    properties);
-
-    delete properties;
-}
 void epd_clear_area_quick(Rect_t area, bool white) {
     while (epdCurrentlyRefreshing) {
         vTaskDelay(pdMS_TO_TICKS(1000));
@@ -94,10 +69,6 @@ void epd_clear_area_quick(Rect_t area, bool white) {
     epd_fill_rect(area.x, area.y, area.width, area.height, white ? 255 : 0, getMainFramebuffer());
     epd_push_pixels(area, 130, white ? 1 : 0);
     epdCurrentlyRefreshing = false;
-}
-
-uint8_t epd_convert_font_color(uint8_t color) {
-    return map(color, 0, 15, 0, 255);
 }
 
 void epd_new_screen(uint8_t *framebuffer, void (*exitFunction)()) {

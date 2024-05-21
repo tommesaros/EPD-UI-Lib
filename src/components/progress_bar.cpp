@@ -36,7 +36,7 @@ void epd_draw_progress_bar(
             width, 
             PROGRESS_BAR_HEIGHT, 
             15, 
-            epd_convert_font_color(bgColor), 
+            epd_convert_color_range(bgColor), 
             framebuffer
         );
 
@@ -48,7 +48,7 @@ void epd_draw_progress_bar(
             progressWidth - BORDER_WIDTH * 2, 
             PROGRESS_BAR_HEIGHT - BORDER_WIDTH * 2, 
             12, 
-            epd_convert_font_color(progressColor), 
+            epd_convert_color_range(progressColor), 
             framebuffer
         );
 }

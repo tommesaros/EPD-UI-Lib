@@ -164,13 +164,13 @@ void updateTimeHomeScreen(void *parameter) {
             SCREEN_MIDDLE_WITH_STATUS_BAR - 50, 
             EPD_WIDTH / 4, 
             100, 
-            epd_convert_font_color(WHITE),
+            epd_convert_color_range(WHITE),
             mainFramebuffer
         );
 
-        hour = timeGetHour();
-        minute = timeGetMinute();
-        sprintf(time, "%02d:%02d", timeGetHour(), timeGetMinute());
+        hour = getHour();
+        minute = getMinute();
+        sprintf(time, "%02d:%02d", getHour(), getMinute());
 
         epd_get_text_dimensions(HEADLINE_FONT, time, &width, &height);
         x = EPD_WIDTH / 8 - width / 2;
