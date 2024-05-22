@@ -2,7 +2,7 @@
 
 This project provides a library of User Interface (UI) components designed for rendering on E-Paper Displays (EPDs). These components facilitate the development of simple, touch-controlled applications. The library is built upon EPDiy and is primarily coded for the Lilygo T5 4.7" v2.3, which features an Espressif ESP32-S3 microcontroller and a touchscreen layer. Link to a YouTube video showcasing all of the components: https://youtu.be/0oKPSs4F_3k
 
-## Preresiquites
+## 1. Preresiquites
 
 * [Lilygo T5 4,7 EPD](https://www.lilygo.cc/products/t5-4-7-inch-e-paper-v2-3) or any other [EPDiy](https://github.com/vroland/epdiy) supported display
 * [Touchscreen layer](https://www.lilygo.cc/products/t5-4-7-inch-e-paper-1?variant=42450586140853) for Lilygo T5
@@ -16,7 +16,7 @@ This project provides a library of User Interface (UI) components designed for r
   * [OpenWeather](https://github.com/Bodmer/OpenWeather)
   * [EPDiy](https://github.com/vroland/epdiy}{github.com/vroland/epdiy)
 
-## How to install
+## 2. How to install
 
 1. Open **VSCode** and access the **PlatformIO** extension.
 2. Navigate to the *Platforms* tab.
@@ -27,13 +27,13 @@ This project provides a library of User Interface (UI) components designed for r
 7. After the initial PlatformIO setup completes, connect your EPD to your computer via USB.
 8. Proceed to build the application.
 
-## How to use
+## 3. How to use
 
 The main.ino file serves as the foundational code for initializing the microcontroller. It includes all of the essential libraries, extensions, handlers, applications and graphical assets such as icons, fonts and UI components. This file executes the setup functions for all handlers, starts necessary tasks, and establishes a Wi-Fi connection. It also synchronizes the current time, initiates connections to the Electronic Paper Display (EPD) and the touch layer, interfaces with external services via Application Programming Interfaces (APIs), generates framebuffers, and finally renders the user interface (UI) of the home screen. Ideally, the loop function should remain empty, to keep the code clean.
 
 The UI is constructed using a modular system of components, including interactive buttons, checkboxes, cards, and many more. These elements are integrated into a framebuffer, which is essentially a memory-stored representation of the screen’s next state. The framebuffer is structured as a two-dimensional array, mirroring the display’s resolution, where each pixel corresponds to a specific shade of gray designated for display at particular coordinates. It accumulates all changes within a single frame, such as the rendering of multiple labels and buttons, and subsequently, the display updates the entire screen with all buffered components at once. This method shortens the time needed for a refresh and reduces the frequency of screen refreshes, minimizing display wear. Interactive elements’ coordinates are stored within a touch handler, which maps the coordinates to their respective components and associated functions. These functions can interact with external APIs, control connected devices, or modify the displayed UI. The touch handler continuously monitors for touch input to facilitate user interaction.
 
-## Components
+## 4. Components
 
 During the implementation of the user app, components are rendered on the display by calling their respective draw functions. They present essential building blocks needed for the development of a wide array of complex applications. The attributes necessary for the draw functions are provided by the user, consisting of coordinates for component placement, color specifications, typeface, text content, text color, the callback function for button interaction, and the designated framebuffer in which the component should be stored. Typeface selection is specified by the desired size and a boolean value for boldness.
 
@@ -51,145 +51,101 @@ You can find all components and the design of the example apps in the [Figma EPD
 
 ### Label
 
-Labels are provided by the EPDiy library. The user can use "writeln" function for writing a simple line of black text,
-"write_mode" for more advanced font properties and colors, or "write_string" for writing a simple multiple lines of a long string.<br/>
+The text drawing on EPDs is facilitated by EPDiy driver. The "writeln" function allows writing a simple line of black text. For advanced typographic attributes and coloration, the "write_mode" function is used. The "write_string" function allows for extensive strings in the composition of multiple lines.
 
 ### Button
-There are several buttons: rectangular one which can be used as primary when its backgorund color is black, or secondary, when its color is white - in that case there is a black border around the white button. These buttons are used primarily for approving on cancelling. Tertiary buttons have no border or outline and are used for additional, non-essential functions. Circle buttons can be used with icon or with a label.  
-
-
-<br/>
+Interactive elements within the interface include a variety of buttons. The rectangular button serves as the primary interactive element, often rendered with a black background. On the other hand, a white background with a black border designates the button as secondary. These buttons are utilized primarily for approve on cancel actions. Tertiary buttons, without any borders or outlines, are used for non-essential functions. Circular buttons are versatile, supporting both icons and textual labels.
 
 ### Card
-The card is used to provide an information. It is bigger than a button and provides more lines of text. The user can integrate other components into the card by drawing them atop of the card. The components can overlap themselves so the user can draw icons, labels or toggles atop of the card in order to integrate them into the card and create his own app-specific elements. In order to visually "integrate" them into the card, the user just needs to call epd_draw_card first and then other functions that will draw other components atop of the card. In this way, the user can create his own app-specific elements.
-
-<br/>
+The card is a component larger than a button, designed for extended textual content. It allows to integrate additional elements, such as icons, labels, or toggles, by overlapping them above the card. This layering enables the creation of application-specific elements. The user need to call "epd_draw_card" first, then call functions that render the additional components.
 
 ### Slider
-
-The user can change the value by clicking on the plus or minus symbol inside a vertical component.  The slider is used in the AC controller app for setting the desired temperature.
-
-<br/>
+Sliders offer an interactive means to adjust values, typically through the plus or minus symbols within a vertical component. The slider is used in the Homescreen for setting the desired temperature of an air conditioning.
 
 ### Toggle
-
-Serves as an on/off switch. The user can change the state of the toggle by clicking on it. 
-
-<br/>
+The toggle component functions as a binary switch, enabling users to alter its state by clicking on it. 
 
 ### Checkbox
-
-Provides a multi-choice selection interface as the user can select multiple checkboxes at once. Should be integrated into a card with all other connected checkboxes. 
-
-<br/>
+Checkboxes present a multi-selection interface, allowing users to select several options at once. It is recommended to integrate related checkboxes within a card for better differentiation.
 
 ### Notification
-Provides an current information about status or error with an icon and label. For 5 seconds shows at the top of the screan instead of a Status bar.
+Notifications serve to inform users of current statuses or errors, accompanied by icons and labels. These alerts appear at the top of the screen, temporarily replacing the status bar for a duration of five seconds.
 
-<br/>
-
-### Radiobutton
-
-Provides a single-choice selection interface. Should be integrated into a card with all other connected radio buttons.
-
-<br/>
+### Radio button
+Radio buttons provide a single-selection interface, ensuring that only one option within a group is active at any given time. Similarly to checkboxes, it is advised to integrate radio buttons within a single card.
 
 ### Progressbar
+The progress bar visually represents the percentage of a process. It is used in Control panel, where it indicates the water level in coffee machine.
 
-Serves as an indicator of a percentage of a process in a line. It is used in COntrol panel for displaying the Coffee machine water level.
-
-### Popup
-This is a multiline card spanned across the center of the screen with two buttons. It is used for additional information or for a confirmation of an action. It is used for example in the Alarm app when the user wants to add a new alarm or in the Control panel when the user wants to turn off the device.
-<br/>
+### Pop-up
+Pop-up dialogues are multi-line cards that spans across the screen center, featuring a pair of buttons. They are providing additional information user and are used for confirmation of user actions. They are featured as dialogues for new alarm creation or device shutdown confirmation.
 
 ### Status bar
-
-Status bar has a self-refreshing time and date and provides a way to get back to the Homescreen or  a quick way to get to the Control Panel. It is always at the top of the screen. 
+The status bar consistently displays the current time and date, refreshing autonomously. It provides navigational shortcuts, allowing users to return to the home screen or access the control panel. It has fixed position at the top of the screen.
 
 ### Icons and Images
 
 The icons and images work the same as typefaces. The conversion of these images into a usable format is done by a utility provided by [Lilygo](https://https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/blob/esp32s3/scripts/imgconvert.py). Post-conversion, the icons are stored within an \verb|image| directory. Icons may be included on an individual basis by using the epd_copy_to_framebuffer function or through the icons.h file. It is crucial that the resolution of the converted icons is the same as the desired resolution in which they will be rendered on the display. Typically, icons are rendered at a standard size of approximately 32x32 pixels, whereas icons intended for cards are sized at 64x64 pixels. Transparency in images is not supported; areas intended to be transparent will appear black upon rendering. The icons incorporated into this project are sourced from [Flaticon](https://www.flaticon.com/).
 
-## Example apps
-
-Each app is firstly completely stored to the framebuffer and then drawn on the display at once. Each app has an Status bar with a Control panel at the top of the screen so the user can get back to the Homescreen and has basic information in front of his eyes at all times. Every app consists only from components from this library and then from labels from font.h and basic objects such as lines and rectangles from EPDiy driver. Every app has its own touch layer. Icons are from Flaticon.
+## 5. Example apps
+Applications are initially stored to the framebuffer before being rendered on the display with all components at once. Each application features a status bar at the top, providing essential information about time and date, and shortcuts to the Homescreen and Control panel. Applications are bulit of library components, supplemented by labels and basic shapes such as lines and rectangles from the EPDiy driver. Each application has assigned distinct touch points.
 
 ### Alarm
-
-The alarm app demonstrates the possibility to combine premade cards with other components by overlaping. Above the cards there are icons, labels and toggles. In order to visually "integrate" them into the card, the user just needs to call epd_draw_card first and then other functions that will draw other components atop of the card. In this way, the user can create his own app-specific elements.
-
-After clicking the plus button, a popup overlay opens. In the same way it uses the overlay that consists of a card expanded to the whole screen and overlapped with various additional radio buttons, checkboxes and a numeric keyboard.
+The alarm application showcases the potential to combine pre-fabricated cards with other components by overlapping them. By invoking "epd_draw_card" prior to adding icons, labels, and toggles, an integration within the card is achieved, creating unique, application-specific elements.
 
 ### Bus departures
-
-Simple app showing nearest departures of public transport from user defined stops. Showcases "write string" function in which it handles computing of a height of the line all by itself so the next line is nicely below without ovelaping.
+This application displays nearest public transport departures from user-defined stops, showing the "write_string" function’s capability to calculate line heights, ensuring separation between distinct lines.
 
 ### Control panel
-
-In the control panel there are multiple choices on how to operate the connected smart home appliances like coffee machine, window blinds, lights and speakers. This is showcased by the usage of radiobuttons, checkboxes, progressbar and again, an overlay popup that asks the user wheter they want to turn off the device. After that, there will be displayed a fullscreen image that will be persistent on the display even when powered off and unplugged from the grid (thanks to EPD technology).
+The control panel offers a selection of operations for connected smart home devices, such as coffee machines, window blinds, lights, and speakers. This functionality is demonstrated through the use of radio buttons, checkboxes, progress bars, and pop-up overlays. After the user powers off the device, a persistent fullscreen image is displayed, showing that EPD display remains visible even when the device is disconnected from the grid.
 
 ### Homescreen
-
-Here, the user can create shortcuts to the most used utilities. For example AC controller (slider component), lights switch (toggle component) or door lock (triggers a notification). Shortcuts to apps provide a quick glance to current info. For example Spotify card shows the name of the current playing song and Weather card shows the current outside temperature. It is also displaying big self-refreshing clock.
+The home screen allows users to create shortcuts to frequently used utilities, such as air conditioning controller (slider component), light switch (toggle component), or door lock (triggering notification). Application shortcuts provide a quick glance of current information, such as the currently playing song on Spotify or the outdoor temperature on a Weather card. At the lesft side, self-refreshing clock is also displayed.
 
 ### Spotify
-
-Via Spotify API controls the playback using circle and tertiary buttons, and shows information about currently playing track. The track information is being updated by a updateCurrentlyPlaying function in the spotify_handler.cpp. This function is regularly called by a background RTOS task created during the spotifySetup.
+The Spotify application interfaces with the Spotify API to control playback using circular and tertiary buttons, and displaying information about the currently playing track. Track information updates are managed by the "updateCurrentlyPlaying" function within spotify_handler.cpp, which is routinely invoked by a background RTOS task initiated during the Spotify setup.
 
 ### Weather
+This application illustrates multiple screens within a single app, navigable via tertiary buttons beneath the status bar. The primary screen presents current weather information within nine cards, with icons reflecting current weather conditions. Additional screens provide forecasts for the upcoming three hours and three days, with data sourced from the OpenWeather OneCall 3.0 API.
 
-This app demonstrates several screens within one app between which the user can switch by tertiary buttons below the status bar. The first screen shows information about the currents whether inside of 9 cards with icons changing based on the current weather status. Other two screens are showing information about forecast for nearest 3 hours and 3 days. The information is pulled from OpenWeather OneCall 3.0 API.
+## 6. Handlers
 
-## Handlers
-
-All detailed information can be found in the appropiate header files in the source code.
+Detailed information regarding handlers is accessible within the appropriate header files in the source code.
 
 ### EPD handler
-
-This handler extends the scope of the EPDiy driver functions. Additionaly to the EPDiy driver, it supports rounded rectangles. While EPDriver provides basic functions to store various objects (rectangles, lines, circles, images, text) to the framebuffer and later to draw on the screen, and clearing the display, this EPD handler builds upon that. It provides functions for setting up the display, setting the display into sleep mode, drawing rectangles with rounded corners, settig up the display for displaying a new screen and drawing framebuffers sequentially in order to avoid display artefacts creation when drawing simuntaneously on two distinct places.
+The EPD handler extends the scope of the EPDiy driver functions. While the EPDiy driver lays the foundation with basic functions for storing various objects to the framebuffer and subsequent display rendering, the EPD handler builds upon this, offering functions for display initialisation, sleep mode activation, rounded rectangle drawing, display preparation for showing a new screen, and sequential framebuffer rendering to prevent artifact formation during simultaneous drawing on two distinct screen regions.
 
 ### Framebuffer handler
-
-Provides functions for setting up the framebuffers, clearing them and it also provides getter functions for all three framebuffers - main, notification and overlay.
+The framebuffer handler is designed to initialize framebuffers, facilitate their clearance, and provide getter functions for three distinct framebuffers: the main, notification, and overlay buffer.
 
 ### Spotify handler
-
-Its role is to create an instance of a Spotify Agent and setup the connection with Spotify servers via their developer API. This process is by a code from Brian Lough (link footnote). It creates a task that repeatedly updates the information about the currently played track, saves the information into the local data structure and sets a trigger that a new track information was fetched. Provides an access to the track information and to the Spotify agent though which the user can access the playback control functions.
+The Spotify handler’s function is to instantiate a Spotify Agent and establish connectivity with Spotify’s servers through their developer API. It initiates a task that periodically refreshes the data regarding the currently playing track, stores this information in a local data structure, and sets a trigger that a new track information was fetched. This handler provides access to track details and the Spotify agent, enabling playback control.
 
 ### Time handler
-
-Provides functions to set up the DHCP connection to the NTP server, from which the current time and dite is then fetched and parsed into a getter functions.
+The time handler is responsible for configuring the DHCP connection to the NTP server, which is then utilized to obtain and parse the current time and date into getter functions.
 
 ### Touch handler
-
-Provides functions to innitialize the touch layer, create a structure to store all of the touch point coordinate and their corresponding function callbacks. It also manages the switching from touch points in main framebuffer and touchpoints in the overlay framebuffer. Provides also a dummyFunction that does nothing and can be passed as an argument to the buttons or cards without any function.
+The touch handler’s role is to initialize the touch interface, create a structure for touch point coordinates and their associated function callbacks, and manage the transition between touch points in the main and overlay framebuffers. Additionally, it provides a dummyFunction, which serves as a placeholder for buttons or cards without assigned functions.
 
 ### Weather hanlder
-
-This handler sets up the communication with the OpenWeather Onecal 3.0 API, fetches the current weather and forecast for next three hours and three days. This service requires a subscription (however 1000 calls per day are free). All of this information it stores to the structure and provides getter functions.
+This handler establishes communication with the OpenWeather OneCall 3.0 API, retrieves current weather conditions, and forecasts for the next three hours and three days. Although the service necessitates a subscription, 1 000 free calls are available daily. The fetched data is stored in a structured format with getter functions.
 
 ### WiFi handler
+The Wi-Fi handler enables the device to connect to a Wi-Fi network using credentials specified in the credentials.h file.
 
-It allows the device to connect to a WiFi with user-defined credentials stored in the credentials.h.
-
-## Constants
-
-Best to include all four at the start of the project. All of these headers files provide easier way to access commonly used constants in which there are stored various dimensions, all of the fonts, colors and access tokens to WiFi and connected services. Thanks to constants, not only the code is much more readable and easier to understand, but the main thing is that by change of the constant the user can change design and sizes of the all of the instances of the components at once, which is nice, for example, when using the library on a display with a different resolution or adapting the design to newer design languages.
+## 7. Constants
+Incorporating all constants at the project’s start is recommended. These header files provide simle access to frequently used constants, such as dimensions, fonts, colors, and access tokens for Wi-Fi and associated services. Constants enhance code readability and comprehension, allowing for easy size and design adjustments across all component instances at once, which is particularly beneficial when adapting to different display resolutions or evolving the design language.
 
 ### Colors
-
-In Colors there are only 3 colors because in the UI for grayscale EPD there is no need to use more shades of gray. However it is easily extensible by other colors when using color display for example. Specificaly when using EPDiy functions such as epd_draw_rect or epd_draw_circle, you need to convert the color range from 0-15 as used with library components or drawing text but to range 0-255 which is used by the EPDiy library. For this the user can use simple conversion function epd_convert_color_range. The black color is used for main interactive elements, primarily for buttons and cards with binded functions. White color is used for backgrounds, un-interactive cards that only serves as information provider and for secondary and tertiary buttons. The gray color is used only for inactive elements or elements that are switched off.
+The color header defines a palette of three colors, as there is no need to use more shades of gray in EPD interfaces. However, it is designed to be easily extensible to support color displays. When employing EPDiy functions like "epd_draw_rect" or "epd_draw_circle", a color range conversion through "epd_convert_color_range" function from 0-15 (used by library components and text) to 0-255 (used by EPDiy draw and fill functions) is necessary. Black indicates primary interactive elements, white is used for backgrounds and secondary elements, and gray signifies inactive or deactivated components.
 
 ### Components
-
-There are included all components and all standardised dimensions for them. The user can of course, change them to make the components bigger or smaller, or add new set of dimensions for the existing elements (somtehing like big button or small button).
+The components header includes all components and their standardized dimensions. Users have the flexibility to modify these dimensions or introduce new forms for existing elements, such as varying button sizes.
 
 ### Credentials
-
-There are stored local information about the user, such as passwords, tokens and location of the device. These needs to be stored only localy and cannot be commited to any public repository, otherwise the users credential can be vulnerable and stolen. In credentials.c file there is detailed information on how to get the tokens for Spotify and OpenWeather API.
+The credentials header stores sensitive user information, including passwords and tokens. This information must remain confidential and cannot be committed to public repositories to prevent unauthorized access. Detailed guidance on acquiring tokens for Spotify and OpenWeather API is provided within the "credentials.c" file.
 
 ### Fonts
-
-There are all imported OpenSans fonts in various sizes and even in bold variants. There is a function that return the GFXfont object of the requested font size. There is also a function to get the dimensions of the text the user might want to draw on the display. For buttons it is recommended to use TEXT_FONT, for circle button TITLE_FONT, for cards xxpx and for other elements xxpx.
+The fonts header includes a variety of OpenSans fonts in multiple sizes and weights. Functions are available to retrieve the GFXfont object for a desired font size and the dimensions of text intended for drawing. Recommended font usage varies by component, with specific fonts designated for buttons ("TEXT_FONT_BOLD"), circle buttons ("HEADLINE_FONT"), cards ("TITLE_FONT"), and other elements.
 
 If the user wants to use other fonts then the included OpenSans one, they must be converted to a fonts.h format. The conversion is done by a utility tool available on [Lilygo's GitHub repository](https://github.com/Xinyuan-LilyGO/LilyGo-EPD47/blob/esp32s3/scripts/fontconvert.py). This representation supports the entire basic ASCII character set, including a set of emojis.
